@@ -1,0 +1,453 @@
+---
+import type { Lang } from "../../data/i18n";
+import { navItems, socials } from "../../data/site";
+import { localePath, useUi } from "../../lib/i18n";
+import sidusRaw from "../../assets/@sidus.svg?raw";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = useUi(lang);
+const pathname = Astro.url.pathname.replace(/\/$/, "");
+const isActive = (path: string) => pathname === localePath(lang, path);
+const sidusPath = sidusRaw.match(/<path d="([^"]+)" fill="#000"/)?.[1] ?? "";
+const [, sidusW, sidusH] = sidusRaw.match(/width="([\d.]+)" height="([\d.]+)"/) ?? [];
+const sidusBox = { width: Number(sidusW), height: Number(sidusH) };
+const sidusRatio = sidusBox.width / sidusBox.height;
+const maskSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${sidusBox.width} ${sidusBox.height}"><path d="${sidusPath}"/></svg>`;
+const maskUrl = `url("data:image/svg+xml,${encodeURIComponent(maskSvg)}")`;
+const entries = navItems.map((item, index) => ({ ...item, index }));
+---
+
+<aside id="menu" class="menu" data-open="false" data-dragging="false" aria-label={ui.menuLabel}>
+  <div class="menu__clip">
+    <div class="menu__sheet" inert>
+      <div class="menu__giant" aria-hidden="true" style={`--mask:${maskUrl};--ratio:${sidusRatio}`}>
+        <div class="menu__giant-glass"></div>
+        <svg viewBox={`0 0 ${sidusBox.width} ${sidusBox.height}`}>
+          <path d={sidusPath} fill="rgb(255 255 255 / 0.18)"></path>
+        </svg>
+      </div>
+      <div class="menu__zoom" aria-hidden="true"><span></span></div>
+      <nav class="menu__nav menu__nav--top" aria-label={ui.menuLabel}>
+        <ul>
+          {
+            entries.map((item) => (
+              <li>
+                <a href={localePath(lang, item.path)} aria-current={isActive(item.path) ? "page" : undefined}>
+                  <sup>{String(item.index + 1).padStart(2, "0")}</sup>
+                  <span class="menu__label">{ui.nav[item.key]}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <div class="menu__bottom">
+        <ul class="menu__socials">
+          {
+            socials.map((social) => (
+              <li>
+                <a href={social.href} target={social.id === "email" ? undefined : "_blank"} rel="noopener noreferrer" data-zoom-label={social.id === "email" ? "email" : social.label}>
+                  {social.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</aside>
+  <button
+    type="button"
+    class="menu__handle"
+    data-menu-handle
+    role="slider"
+    aria-label={ui.menuLabel}
+    aria-orientation="vertical"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="0"
+  >
+    <span class="menu__pull">Pull me</span>
+  </button>
+
+<style>
+  :global(:root) {
+    --h: 0px;
+  }
+
+  .menu {
+    --sheet-h: min(100vh, max(88vh, 26rem));
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 60;
+    height: var(--h);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--color-grey-light) 58%, transparent), color-mix(in srgb, var(--color-grey-light) 44%, transparent) 45%, color-mix(in srgb, var(--color-grey-light) 58%, transparent));
+    box-shadow: 0 12px 40px -18px rgb(0 0 0 / 0.35);
+    transition: height 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .menu::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    -webkit-backdrop-filter: blur(20px) saturate(1.8) brightness(1.08);
+    backdrop-filter: blur(20px) saturate(1.8) brightness(1.08);
+    pointer-events: none;
+  }
+
+  .menu::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow:
+      inset 0 -1px 0 rgb(255 255 255 / 0.7),
+      inset 1px 0 0 rgb(255 255 255 / 0.5),
+      inset -1px 0 0 rgb(255 255 255 / 0.5),
+      inset 0 -14px 28px -14px rgb(255 255 255 / 0.6),
+      inset 0 0 50px rgb(255 255 255 / 0.12);
+    pointer-events: none;
+  }
+
+  .menu[data-dragging="true"] {
+    transition: none;
+  }
+
+  .menu[data-open="false"] {
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .menu[data-open="false"]::before,
+  .menu[data-open="false"]::after {
+    display: none;
+  }
+
+  .menu__clip {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .menu__clip::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(70% 120% at 0% 0%, rgb(255 255 255 / 0.5), transparent 60%),
+      radial-gradient(60% 100% at 100% 100%, rgb(255 255 255 / 0.3), transparent 65%),
+      linear-gradient(105deg, transparent 28%, rgb(255 255 255 / 0.28) 40%, transparent 54%, rgb(255 255 255 / 0.12) 70%, transparent 82%);
+    background-size: 100% 100%, 100% 100%, 260% 100%;
+    background-position: 0 0, 0 0, 0% 0;
+    animation: menu-sheen 9s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+
+  @keyframes menu-sheen {
+    to {
+      background-position: 0 0, 0 0, 100% 0;
+    }
+  }
+
+  .menu__sheet {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: var(--sheet-h);
+    transform: translateY(min(0px, calc(var(--h) - var(--sheet-h))));
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .menu[data-dragging="true"] .menu__sheet {
+    transition: none;
+  }
+
+  .menu__giant {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(92vw, calc((var(--sheet-h) - 12rem) * var(--ratio)));
+    aspect-ratio: var(--ratio);
+    transform: translate(-50%, -50%);
+    user-select: none;
+    transition: opacity 0.35s;
+  }
+
+  .menu[data-zoom="true"] .menu__giant {
+    opacity: 0;
+  }
+
+  .menu__zoom {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    transform: scale(0.08);
+    transform-origin: var(--ox, 50%) var(--oy, 50%);
+    transition: opacity 0.3s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+
+  .menu__zoom span {
+    font-weight: var(--font-weight-bold);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-black);
+  }
+
+  .menu[data-zoom="true"] .menu__zoom {
+    opacity: 1;
+    transform: none;
+  }
+
+  .menu__giant-glass {
+    position: absolute;
+    inset: 0;
+    background: rgb(255 255 255 / 0.42);
+    -webkit-backdrop-filter: blur(38px) saturate(2.2) brightness(1.25);
+    backdrop-filter: blur(38px) saturate(2.2) brightness(1.25);
+    -webkit-mask: var(--mask) center / 100% 100% no-repeat;
+    mask: var(--mask) center / 100% 100% no-repeat;
+  }
+
+  .menu__giant svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .menu__nav--top {
+    position: absolute;
+    top: 4.5rem;
+    inset-inline: 2rem;
+  }
+
+  .menu__bottom {
+    position: absolute;
+    inset-inline: 2rem;
+    bottom: 2.5rem;
+  }
+
+  .menu__nav ul {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .menu__nav a {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.35rem;
+    font-size: var(--text-small);
+    font-weight: var(--font-weight-regular);
+    line-height: 1;
+    color: var(--color-black);
+    white-space: nowrap;
+    transition: opacity 0.25s;
+  }
+
+  .menu__nav a sup {
+    margin-top: -0.2em;
+    font-size: 0.75em;
+    opacity: 0.55;
+  }
+
+  .menu__nav ul:hover a:not(:hover) {
+    opacity: 0.35;
+  }
+
+  .menu__nav a[aria-current="page"] .menu__label {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .menu__socials {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    font-size: var(--text-small);
+    font-weight: var(--font-weight-regular);
+    line-height: 1;
+  }
+
+  .menu__socials a:hover {
+    text-decoration: underline;
+  }
+
+  .menu__handle {
+    position: fixed;
+    top: var(--h);
+    left: 50%;
+    z-index: 65;
+    margin-top: 1.5rem;
+    padding: 0.6rem 1rem;
+    color: var(--color-white);
+    font-size: var(--text-small);
+    line-height: 1;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+    cursor: grab;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: top 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s;
+  }
+
+  @media (min-width: 768px) {
+    .menu__handle {
+      margin-top: 2rem;
+    }
+  }
+
+  .menu[data-dragging="true"] ~ .menu__handle {
+    cursor: grabbing;
+    transition: none;
+  }
+
+  .menu__handle:hover,
+  .menu__handle:focus-visible {
+    opacity: 0.6;
+    outline: none;
+  }
+
+  .menu__pull {
+    display: block;
+    font-weight: var(--font-weight-regular);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  const menu = document.getElementById("menu");
+  const sheet = menu?.querySelector<HTMLElement>(".menu__sheet");
+  const handle = document.querySelector<HTMLElement>("[data-menu-handle]");
+
+  if (menu && sheet && handle) {
+    const maxHeight = () => Math.min(window.innerHeight, Math.max(window.innerHeight * 0.88, 416));
+    const openHeight = () => maxHeight();
+    let height = 0;
+    let dragStart = 0;
+    let heightStart = 0;
+    let moved = false;
+
+    const render = (next: number) => {
+      if (next <= 8) menu.dataset.zoom = "false";
+      height = Math.max(0, Math.min(maxHeight(), next));
+      const open = height > 8;
+      document.documentElement.style.setProperty("--h", `${height}px`);
+      menu.dataset.open = String(open);
+      menu.setAttribute("aria-expanded", String(open));
+      handle.setAttribute("aria-valuenow", String(Math.round((height / maxHeight()) * 100)));
+      sheet.toggleAttribute("inert", !open);
+    };
+
+    const toggle = () => render(height > 8 ? 0 : openHeight());
+
+    handle.addEventListener("pointerdown", (event) => {
+      handle.setPointerCapture(event.pointerId);
+      menu.dataset.dragging = "true";
+      dragStart = event.clientY;
+      heightStart = height;
+      moved = false;
+    });
+
+    handle.addEventListener("pointermove", (event) => {
+      if (menu.dataset.dragging !== "true") return;
+      const delta = event.clientY - dragStart;
+      if (Math.abs(delta) > 4) moved = true;
+      render(heightStart + delta);
+    });
+
+    const release = (event: PointerEvent) => {
+      if (menu.dataset.dragging !== "true") return;
+      menu.dataset.dragging = "false";
+      if (handle.hasPointerCapture(event.pointerId)) handle.releasePointerCapture(event.pointerId);
+      if (!moved) toggle();
+      else if (height <= 48) render(0);
+    };
+
+    handle.addEventListener("pointerup", release);
+    handle.addEventListener("pointercancel", release);
+
+    handle.addEventListener("keydown", (event) => {
+      const step = 40;
+      if (event.key === "ArrowDown") render(height + step);
+      else if (event.key === "ArrowUp") render(height - step);
+      else if (event.key === "Home") render(0);
+      else if (event.key === "End") render(maxHeight());
+      else if (event.key === "Enter" || event.key === " ") toggle();
+      else return;
+      event.preventDefault();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") render(0);
+    });
+
+    menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => render(0)));
+
+    const zoom = menu.querySelector<HTMLElement>(".menu__zoom");
+    const zoomText = zoom?.querySelector<HTMLElement>("span");
+    let leaveTimer = 0;
+
+    const zoomLinks = Array.from(menu.querySelectorAll<HTMLElement>(".menu__nav a, .menu__socials a"));
+    const labelOf = (link: HTMLElement) =>
+      link.dataset.zoomLabel ?? link.querySelector(".menu__label")?.textContent?.trim() ?? link.textContent?.trim() ?? "";
+    let zoomSize = 0;
+
+    const measureZoom = () => {
+      if (!zoom || !zoomText) return 0;
+      zoomText.style.fontSize = "100px";
+      let widest = 1;
+      let tallest = 1;
+      new Set(zoomLinks.map(labelOf)).forEach((label) => {
+        zoomText.textContent = label;
+        widest = Math.max(widest, zoomText.offsetWidth);
+        tallest = Math.max(tallest, zoomText.offsetHeight);
+      });
+      return 100 * Math.min((zoom.clientWidth - 64) / widest, (zoom.clientHeight - 224) / tallest);
+    };
+
+    const showZoom = (link: HTMLElement) => {
+      if (!zoom || !zoomText) return;
+      window.clearTimeout(leaveTimer);
+      if (!zoomSize) zoomSize = measureZoom();
+      zoomText.textContent = labelOf(link);
+      zoomText.style.fontSize = `${zoomSize}px`;
+      const linkBox = link.getBoundingClientRect();
+      const sheetBox = sheet.getBoundingClientRect();
+      zoom.style.setProperty("--ox", `${linkBox.left + linkBox.width / 2 - sheetBox.left}px`);
+      zoom.style.setProperty("--oy", `${linkBox.top + linkBox.height / 2 - sheetBox.top}px`);
+      menu.dataset.zoom = "true";
+    };
+
+    const hideZoom = () => {
+      window.clearTimeout(leaveTimer);
+      leaveTimer = window.setTimeout(() => {
+        menu.dataset.zoom = "false";
+      }, 60);
+    };
+
+    window.addEventListener("resize", () => {
+      zoomSize = 0;
+    });
+
+    zoomLinks.forEach((link) => {
+      link.addEventListener("pointerenter", () => showZoom(link));
+      link.addEventListener("pointerleave", hideZoom);
+      link.addEventListener("focus", () => showZoom(link));
+      link.addEventListener("blur", hideZoom);
+    });
+    window.addEventListener("resize", () => render(Math.min(height, maxHeight())));
+  }
+</script>

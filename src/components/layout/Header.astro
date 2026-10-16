@@ -1,0 +1,25 @@
+---
+import type { Lang } from "../../data/i18n";
+import { localePath, useUi } from "../../lib/i18n";
+import LangSwitch from "./LangSwitch.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = useUi(lang);
+---
+
+<header class="pointer-events-none fixed inset-x-0 top-0 z-50 text-white mix-blend-difference flex items-start justify-between px-5 py-4 md:px-7 md:py-6">
+  <a
+    href={localePath(lang)}
+    class="pointer-events-auto text-small font-normal transition-opacity hover:opacity-60"
+  >
+    <span data-scramble>{ui.handle}</span>
+  </a>
+  <div class="pointer-events-auto flex items-center gap-6">
+    <slot />
+    <LangSwitch lang={lang} />
+  </div>
+</header>

@@ -1,0 +1,11 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getLang, staticLangPaths } from "../../lib/i18n";
+
+export const getStaticPaths = staticLangPaths;
+
+const lang = getLang(Astro.params.lang);
+---
+
+<Layout lang={lang}>
+</Layout>

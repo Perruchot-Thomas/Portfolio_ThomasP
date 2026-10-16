@@ -1,0 +1,218 @@
+---
+import type { Lang } from "../../data/i18n";
+import { localePath, useUi } from "../../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = useUi(lang);
+
+const modules = import.meta.glob<{ src: string; width: number; height: number }>("../../assets/projets/*.{jpg,jpeg,png,webp,avif}", {
+  eager: true,
+  import: "default"
+});
+const images = Object.entries(modules)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([, image]) => image);
+
+const hasImages = images.length > 0;
+const count = hasImages ? Math.min(images.length, 12) : 8;
+const base = 11;
+const items = Array.from({ length: count }, (_, index) => {
+  const image = images[index];
+  const ratio = image ? image.width / image.height : 392 / 553;
+  return { index, image, ratio, width: base * Math.sqrt(ratio) };
+});
+---
+
+<section class="projects" data-projects>
+  <div class="projects__panel" data-panel>
+    <h2 class="projects__word projects__word--top">{ui.nav.projects}</h2>
+    <a class="projects__word projects__word--bottom" href={localePath(lang, "/projects")}>{ui.nav.projects}</a>
+
+    <div class="projects__clip">
+      <div class="projects__lens" data-lens aria-hidden="true">
+        {
+          items.map((item) => (
+            <div class:list={["projects__frame", !hasImages && "projects__frame--ph"]} data-frame={item.index} data-ratio={item.ratio}>
+              {hasImages ? (
+                <img src={item.image.src} width={item.image.width} height={item.image.height} alt="" draggable="false" loading="eager" />
+              ) : (
+                <span>{String(item.index + 1).padStart(2, "0")}</span>
+              )}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects {
+    position: relative;
+    height: 100svh;
+    overflow: hidden;
+    background: var(--color-sky);
+    color: var(--color-black);
+  }
+
+  .projects__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 10.6%;
+    background: var(--color-orange);
+  }
+
+  .projects__clip {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .projects__word {
+    position: absolute;
+    left: -0.0825em;
+    z-index: 1;
+    font-size: var(--title-size);
+    line-height: 0.76;
+    font-weight: var(--font-weight-regular);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .projects__word--top {
+    top: 0.03em;
+  }
+
+  .projects__word--bottom {
+    bottom: 0;
+  }
+
+  .projects__lens {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background: var(--color-black);
+    opacity: 0;
+    will-change: transform;
+  }
+
+  .projects__frame {
+    position: absolute;
+    inset: 0;
+  }
+
+  .projects__frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .projects__frame--ph {
+    display: grid;
+    place-items: center;
+    background: var(--color-white);
+  }
+
+  .projects__frame--ph span {
+    font-size: 3vw;
+    line-height: 1;
+    font-weight: var(--font-weight-regular);
+    color: var(--color-black);
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  const root = document.querySelector<HTMLElement>("[data-projects]");
+  const panel = root?.querySelector<HTMLElement>("[data-panel]");
+  const lens = root?.querySelector<HTMLElement>("[data-lens]");
+  const frames = lens ? Array.from(lens.querySelectorAll<HTMLElement>("[data-frame]")) : [];
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  if (root && panel && lens && frames.length) {
+    const ratios = frames.map((frame) => Number(frame.dataset.ratio));
+    const unit = () => window.innerWidth * 0.12;
+    const dims = (ratio: number) => ({ width: unit() * Math.sqrt(ratio), height: unit() / Math.sqrt(ratio) });
+    let current = 0;
+    let layer = 1;
+
+    gsap.set(lens, { xPercent: -50, yPercent: -50, scale: 0.6, ...dims(ratios[0]) });
+    gsap.set(frames, { clipPath: "inset(100% 0% 0% 0%)" });
+    gsap.set(frames[0], { clipPath: "inset(0% 0% 0% 0%)", zIndex: layer });
+
+    const show = (index: number) => {
+      const frame = frames[index];
+      layer += 1;
+      gsap.set(frame, { zIndex: layer, clipPath: "inset(0% 0% 0% 0%)" });
+      gsap.set(lens, dims(ratios[index]));
+      current = index;
+    };
+
+    const next = () => show((current + 1) % frames.length);
+
+    if (reduced) {
+      gsap.set(lens, { opacity: 1, scale: 1, x: panel.clientWidth * 0.5, y: panel.clientHeight * 0.5 });
+    } else if (fine) {
+      const moveX = gsap.quickTo(lens, "x", { duration: 0.18, ease: "power3.out" });
+      const moveY = gsap.quickTo(lens, "y", { duration: 0.18, ease: "power3.out" });
+      const interval = 0.28;
+      let inside = false;
+      let timer: gsap.core.Tween | undefined;
+
+      const run = () => {
+        timer = gsap.delayedCall(interval, () => {
+          next();
+          run();
+        });
+      };
+
+      panel.addEventListener("pointermove", (event) => {
+        const box = panel.getBoundingClientRect();
+        const x = event.clientX - box.left;
+        const y = event.clientY - box.top;
+
+        if (!inside) {
+          inside = true;
+          gsap.set(lens, { x, y });
+          document.documentElement.classList.add("cursor-off");
+          gsap.to(lens, { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out", overwrite: "auto" });
+          run();
+        }
+
+        moveX(x);
+        moveY(y);
+      });
+
+      panel.addEventListener("pointerleave", () => {
+        inside = false;
+        timer?.kill();
+        document.documentElement.classList.remove("cursor-off");
+        gsap.to(lens, { opacity: 0, scale: 0.6, duration: 0.3, ease: "power2.in", overwrite: "auto" });
+      });
+    } else {
+      gsap.set(lens, { opacity: 1, scale: 1 });
+      gsap.ticker.add((time) => {
+        gsap.set(lens, {
+          x: panel.clientWidth * (0.5 + 0.3 * Math.sin(time * 0.8)),
+          y: panel.clientHeight * (0.5 + 0.26 * Math.sin(time * 1.1 + 1))
+        });
+      });
+      gsap.delayedCall(0.28, function tick() {
+        next();
+        gsap.delayedCall(0.28, tick);
+      });
+    }
+  }
+</script>

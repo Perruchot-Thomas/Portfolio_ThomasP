@@ -1,0 +1,57 @@
+---
+import "../styles/global.css";
+import type { Lang } from "../data/i18n";
+import Header from "../components/layout/Header.astro";
+import MenuOverlay from "../components/layout/MenuOverlay.astro";
+import Intro from "../components/layout/Intro.astro";
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  theme?: "white" | "blue" | "orange";
+}
+
+const { lang, title = "sidus - Thomas Perruchot", description = "Portfolio de Thomas Perruchot, graphiste et étudiant MMI.", theme = "white" } = Astro.props;
+const titleStyle =
+  lang === "fr" ? "--title-fit:21.61vw;--title-cap:18.7svh;--about-length:4.748" : "--title-fit:18.76vw;--title-cap:65svh;--about-length:3.2085";
+---
+
+<!doctype html>
+<html lang={lang} style={titleStyle}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+    <script is:inline>
+      (function () {
+        if (!sessionStorage.getItem("intro-seen") && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.setAttribute("data-intro", "");
+      })();
+    </script>
+  </head>
+  <body id="top" data-theme={theme} class="relative min-h-screen overflow-x-hidden">
+    <div class="cursor" data-cursor aria-hidden="true">
+      <svg viewBox="-16 -16 32 32" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="butt">
+        <path d="M0 -12V12M-10.4 -6L10.4 6M-10.4 6L10.4 -6" />
+      </svg>
+    </div>
+    <Intro lang={lang} />
+    <Header lang={lang}>
+      <slot name="header-extra" />
+    </Header>
+    <MenuOverlay lang={lang} />
+    <main>
+      <slot />
+    </main>
+    <script>
+      import { initScroll } from "../lib/scroll";
+      import { initScramble } from "../lib/scramble";
+      import { initCursor } from "../lib/cursor";
+      initScroll();
+      initScramble();
+      initCursor();
+    </script>
+  </body>
+</html>

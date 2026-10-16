@@ -1,0 +1,325 @@
+---
+import type { Lang } from "../../data/i18n";
+import texture1 from "../../assets/textures/texture-1.jpg";
+import texture2 from "../../assets/textures/texture-2.jpg";
+import texture3 from "../../assets/textures/texture-3.jpg";
+import texture4 from "../../assets/textures/texture-4.jpg";
+import texture5 from "../../assets/textures/texture-5.jpg";
+import photo1 from "../../assets/photos/photo-1.jpg";
+import photo2 from "../../assets/photos/photo-2.jpg";
+import photo5 from "../../assets/photos/photo-5.jpg";
+import photo6 from "../../assets/photos/photo-6.jpg";
+import photo7 from "../../assets/photos/photo-7.jpg";
+import { heroLettering } from "../../data/hero-lettering";
+import { useUi } from "../../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = useUi(lang);
+
+const stage = { width: 1280, height: 760 };
+
+const textures = [
+  { image: texture1, x: -30, y: 294, width: 199, ratio: "3 / 2", depth: 0.3 },
+  { image: photo2, x: -56, y: 238, width: 149, ratio: "16 / 9", depth: 0.38 },
+  { image: texture3, x: 393, y: 45, width: 229, ratio: "3 / 2", depth: 0.46 },
+  { image: photo5, x: 732, y: 151, width: 161, ratio: "3 / 2", depth: 0.54 },
+  { image: texture2, x: 809, y: 260, width: 249, ratio: "16 / 9", depth: 0.62 },
+  { image: photo1, x: 1102, y: 81, width: 125, ratio: "4 / 5", depth: 0.7 },
+  { image: texture4, x: 657, y: 506, width: 220, ratio: "3 / 2", depth: 0.78 },
+  { image: photo6, x: 941, y: 616, width: 165, ratio: "16 / 9", depth: 0.85 },
+  { image: texture5, x: 1079, y: 505, width: 229, ratio: "3 / 2", depth: 0.92 },
+  { image: photo7, x: 165, y: 526, width: 189, ratio: "3 / 2", depth: 1.0 }
+];
+
+const frames = [
+  [79, 277, 757, 101],
+  [79, 211, 154, 128],
+  [304, 250, 351, 128],
+  [423, 228, 84, 150],
+  [752, 211, 84, 167],
+  [407, 377, 122, 153],
+  [407, 419, 284, 111],
+  [590, 409, 101, 121],
+  [688, 409, 258, 121],
+  [774, 374, 100, 156],
+  [1023, 374, 142, 156],
+  [921, 389, 141, 141]
+];
+
+---
+
+<section class="hero" data-hero>
+  <div class="hero__stage" style={`aspect-ratio:${stage.width} / ${stage.height}`}>
+    <svg class="hero__art" viewBox={`0 0 ${stage.width} ${stage.height}`} aria-hidden="true">
+      <g class="hero__ghost">
+        <g>
+          <path d={heroLettering.textural} transform="translate(-118 -80)" />
+        </g>
+      </g>
+      <g class="hero__ghost">
+        <g>
+          <path d={heroLettering.identity} transform="translate(118 80)" />
+        </g>
+      </g>
+      <g class="hero__line">
+        {frames.slice(0, 5).map(([x, y, width, height]) => <rect x={x} y={y} width={width} height={height} />)}
+        <path d={heroLettering.textural} />
+      </g>
+      <g class="hero__line">
+        {frames.slice(5).map(([x, y, width, height]) => <rect x={x} y={y} width={width} height={height} />)}
+        <path d={heroLettering.identity} />
+      </g>
+      <g class="hero__amp">
+        <path d={heroLettering.amp} />
+      </g>
+    </svg>
+
+    {
+      textures.map((texture, index) => {
+        const box = `left:${(texture.x / stage.width) * 100}%;top:${(texture.y / stage.height) * 100}%;width:${(texture.width / stage.width) * 100}%;aspect-ratio:${texture.ratio}`;
+        return (
+          <>
+            <div class="hero__tex" data-tex={index} data-depth={texture.depth} style={box}>
+              <img src={texture.image.src} width={texture.image.width} height={texture.image.height} alt="" draggable="false" />
+            </div>
+            <p class="hero__label" data-label={index} data-depth={texture.depth} style={box}>
+              {ui.hero.labels[index % ui.hero.labels.length]}
+            </p>
+          </>
+        );
+      })
+    }
+
+    <h1 class="sr-only">{ui.hero.title.join(" ")} &amp; {ui.hero.titleRight.join(" ")}</h1>
+
+    <p class="hero__text" style={`left:${(407 / stage.width) * 100}%;top:${(544 / stage.height) * 100}%`}>{ui.hero.role}</p>
+    <p
+      class="hero__text hero__text--end"
+      style={`right:${((stage.width - 1165) / stage.width) * 100}%;top:${(545 / stage.height) * 100}%`}
+    >
+      {ui.hero.art}
+    </p>
+  </div>
+
+  <div class="hero__foot">
+    <p>{ui.handle}</p>
+    <p>{ui.hero.scroll}</p>
+  </div>
+</section>
+
+<style>
+  .hero {
+    container-type: inline-size;
+    position: relative;
+    display: grid;
+    background: var(--color-white);
+    place-items: start center;
+    min-height: 100svh;
+    padding-block: 3rem 3.5rem;
+    overflow: hidden;
+    color: var(--color-black);
+  }
+
+  .hero__stage {
+    position: relative;
+    width: min(94%, calc((100svh - 6.5rem) * 1280 / 760));
+  }
+
+  .hero__art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .hero__art rect {
+    transform-box: fill-box;
+  }
+
+  .hero__ghost path {
+    fill: none;
+    stroke: var(--color-black);
+    stroke-width: 1px;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hero__line rect {
+    fill: var(--color-black);
+  }
+
+  .hero__line path {
+    fill: var(--color-white);
+  }
+
+  .hero__amp path {
+    fill: var(--color-black);
+  }
+
+  .hero__tex {
+    position: absolute;
+    z-index: 1;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    mix-blend-mode: difference;
+  }
+
+  .hero__label {
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.5rem 0.6rem;
+    color: var(--color-white);
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    font-weight: var(--font-weight-regular);
+    pointer-events: none;
+  }
+
+  .hero__tex:active {
+    cursor: grabbing;
+  }
+
+  .hero__tex img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    filter: sepia(0.25) saturate(1.1) contrast(1.1) brightness(0.97) invert(1);
+  }
+
+  .hero__text {
+    position: absolute;
+    z-index: 2;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    font-weight: var(--font-weight-regular);
+    white-space: nowrap;
+  }
+
+  .hero__text--end {
+    text-align: right;
+  }
+
+  .hero__foot {
+    position: absolute;
+    inset-inline: 1.25rem;
+    bottom: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (min-width: 768px) {
+    .hero__foot {
+      inset-inline: 1.75rem;
+      bottom: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { Draggable } from "gsap/Draggable";
+  import { InertiaPlugin } from "gsap/InertiaPlugin";
+
+  gsap.registerPlugin(Draggable, InertiaPlugin);
+
+  const root = document.querySelector<HTMLElement>("[data-hero]");
+
+  if (root) {
+    const textures = Array.from(root.querySelectorAll<HTMLElement>("[data-tex]"));
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    if (!reduced) {
+      const layers = textures.map((texture) => {
+        const label = root.querySelector<HTMLElement>(`[data-label="${texture.dataset.tex}"]`);
+        const depth = Number(texture.dataset.depth ?? 0.5);
+        const targets = [texture, label].filter((item): item is HTMLElement => Boolean(item));
+        const moves = targets.map((target) => ({
+          x: gsap.quickTo(target, "marginLeft", { duration: 1, ease: "power3.out" }),
+          y: gsap.quickTo(target, "marginTop", { duration: 1, ease: "power3.out" })
+        }));
+        return { depth, moves };
+      });
+
+      const pointer = { x: 0, y: 0 };
+      const update = () => {
+        const scroll = window.scrollY;
+        layers.forEach(({ depth, moves }) => {
+          const ox = pointer.x * depth * 44;
+          const oy = pointer.y * depth * 30 + scroll * (depth - 0.5) * 0.3;
+          moves.forEach((move) => {
+            move.x(ox);
+            move.y(oy);
+          });
+        });
+      };
+
+      if (fine) {
+        root.addEventListener("pointermove", (event) => {
+          const box = root.getBoundingClientRect();
+          pointer.x = (event.clientX - box.left) / box.width - 0.5;
+          pointer.y = (event.clientY - box.top) / box.height - 0.5;
+          update();
+        });
+        root.addEventListener("pointerleave", () => {
+          pointer.x = 0;
+          pointer.y = 0;
+          update();
+        });
+      }
+
+      window.addEventListener("scroll", update, { passive: true });
+    }
+
+    textures.forEach((texture) => {
+      const label = root.querySelector<HTMLElement>(`[data-label="${texture.dataset.tex}"]`);
+      const sync = (x: number, y: number) => {
+        if (label) gsap.set(label, { x, y });
+      };
+
+      Draggable.create(texture, {
+        type: "x,y",
+        bounds: root,
+        inertia: true,
+        throwResistance: 3000,
+        onPress() {
+          gsap.set(texture, { zIndex: 5 });
+          if (label) gsap.set(label, { zIndex: 6 });
+        },
+        onDrag() {
+          sync(this.x, this.y);
+        },
+        onThrowUpdate() {
+          sync(this.x, this.y);
+        }
+      });
+
+      texture.addEventListener("dblclick", () => {
+        gsap.to(texture, { x: 0, y: 0, duration: 1, ease: "elastic.out(1, 0.6)", onUpdate: () => sync(Number(gsap.getProperty(texture, "x")), Number(gsap.getProperty(texture, "y"))) });
+      });
+    });
+  }
+</script>
