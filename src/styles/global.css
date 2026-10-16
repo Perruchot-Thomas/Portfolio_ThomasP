@@ -11,6 +11,8 @@
   --color-blue-soft: #6085d6;
   --color-sky: #3d8aeb;
   --color-orange: #ff6a13;
+  --color-red: #ff0000;
+  --color-coral: #eb6c3a;
 
   --font-sans: "Roboto Variable", ui-sans-serif, system-ui, sans-serif;
   --font-weight-thin: 100;
@@ -18,8 +20,10 @@
   --font-weight-bold: 700;
   --font-weight-black: 900;
 
-  --text-small: 0.8rem;
+  --text-small: 1.25rem;
   --text-small--line-height: 1.25;
+  --text-copy: 1.25rem;
+  --text-copy--line-height: 1.1;
   --text-body: clamp(0.95rem, 0.4rem + 1vw, 1.2rem);
   --text-body--line-height: 1.2;
   --text-statement: clamp(2rem, 6.2vw, 6.5rem);

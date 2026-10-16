@@ -35,6 +35,9 @@ const en = {
     ],
     tools: ["Affinity", "Figma", "Photoshop", "Cavalery"]
   },
+  projects: {
+    blurb: "how i build my projects, from first sketch to final texture and beyond."
+  },
   strip: {
     title: "ALL MY PROJECTS",
     more: "MORE PROJECTS",
@@ -139,6 +142,9 @@ const fr: typeof en = {
       "ET LA TYPOGRAPHIE AUDACIEUSE."
     ],
     tools: ["Affinity", "Figma", "Photoshop", "Cavalery"]
+  },
+  projects: {
+    blurb: "comment je construis mes projets, du premier croquis à la texture finale, et au-delà."
   },
   strip: {
     title: "TOUS MES PROJETS",

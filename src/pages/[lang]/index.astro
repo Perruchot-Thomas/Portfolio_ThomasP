@@ -1,8 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Hero from "../../components/home/Hero.astro";
-import AboutIntro from "../../components/home/AboutIntro.astro";
-import ProjectsPreview from "../../components/home/ProjectsPreview.astro";
+import AboutProjects from "../../components/home/AboutProjects.astro";
 import { getLang, staticLangPaths } from "../../lib/i18n";
 
 export const getStaticPaths = staticLangPaths;
@@ -12,6 +11,5 @@ const lang = getLang(Astro.params.lang);
 
 <Layout lang={lang}>
   <Hero lang={lang} />
-  <AboutIntro lang={lang} />
-  <ProjectsPreview lang={lang} />
+  <AboutProjects lang={lang} />
 </Layout>
