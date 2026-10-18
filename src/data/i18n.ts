@@ -18,7 +18,8 @@ const en = {
     titleRight: ["RESEARCH", "& SHAPED"],
     subtitleRight: "research & shaped",
     role: "Graphic designer",
-    art: "Art Direction",
+    art: "Art direction",
+    edition: "(portfolio — 2026)",
     roleLeft: "Graphic Designer - (",
     roleRight: ") -  Art Direction",
     scroll: "scroll"
@@ -170,6 +171,7 @@ const fr: typeof en = {
     subtitleRight: "recherche & forme",
     role: "Graphiste",
     art: "Direction artistique",
+    edition: "(portfolio — 2026)",
     roleLeft: "Graphiste - (",
     roleRight: ") -  Direction artistique",
     scroll: "défiler"

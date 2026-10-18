@@ -85,10 +85,11 @@ const frames = [
           <>
             <div class="hero__tex" data-tex={index} data-depth={texture.depth} style={box}>
               <img src={texture.image.src} width={texture.image.width} height={texture.image.height} alt="" draggable="false" />
+              <p class="hero__label">
+                <span class="hero__num">{String(index + 1).padStart(2, "0")}</span>
+                <span>{ui.hero.labels[index % ui.hero.labels.length]}</span>
+              </p>
             </div>
-            <p class="hero__label" data-label={index} data-depth={texture.depth} style={box}>
-              {ui.hero.labels[index % ui.hero.labels.length]}
-            </p>
           </>
         );
       })
@@ -96,18 +97,18 @@ const frames = [
 
     <h1 class="sr-only">{ui.hero.title.join(" ")} &amp; {ui.hero.titleRight.join(" ")}</h1>
 
-    <p class="hero__text" style={`left:${(407 / stage.width) * 100}%;top:${(544 / stage.height) * 100}%`}>{ui.hero.role}</p>
+    <p class="hero__text" style={`left:${(407 / stage.width) * 100}%;top:${(544 / stage.height) * 100}%`}>({ui.hero.role})</p>
     <p
       class="hero__text hero__text--end"
       style={`right:${((stage.width - 1165) / stage.width) * 100}%;top:${(545 / stage.height) * 100}%`}
     >
-      {ui.hero.art}
+      ({ui.hero.art})
     </p>
   </div>
 
   <div class="hero__foot">
-    <p>{ui.handle}</p>
-    <p>{ui.hero.scroll}</p>
+    <p>{ui.hero.edition}</p>
+    <p>[ {ui.hero.scroll} ↓ ]</p>
   </div>
 </section>
 
@@ -173,15 +174,26 @@ const frames = [
 
   .hero__label {
     position: absolute;
-    z-index: 1;
+    inset: 0;
+    margin: 0;
     display: flex;
-    align-items: flex-end;
-    padding: 0.5rem 0.6rem;
-    color: var(--color-white);
+    align-items: baseline;
+    gap: 0.25em;
+    overflow: hidden;
+    padding: 0.45rem 0.55rem;
+    color: var(--color-black);
+    white-space: nowrap;
     font-size: var(--text-small);
     line-height: var(--text-small--line-height);
     font-weight: var(--font-weight-regular);
     pointer-events: none;
+  }
+
+  .hero__num {
+    position: relative;
+    top: -0.45em;
+    font-size: 0.6em;
+    opacity: 0.55;
   }
 
   .hero__tex:active {
@@ -212,7 +224,7 @@ const frames = [
 
   .hero__foot {
     position: absolute;
-    inset-inline: 1.25rem;
+    inset-inline: var(--gutter);
     bottom: 1.25rem;
     display: flex;
     justify-content: space-between;
@@ -232,7 +244,6 @@ const frames = [
 
   @media (min-width: 768px) {
     .hero__foot {
-      inset-inline: 1.75rem;
       bottom: 1.5rem;
     }
   }
