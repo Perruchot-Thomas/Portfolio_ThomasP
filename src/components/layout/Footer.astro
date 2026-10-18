@@ -1,7 +1,6 @@
 ---
 import type { Lang } from "../../data/i18n";
-import footerRaw from "../../assets/footer.svg?raw";
-import { navItems } from "../../data/site";
+import { navItems, socials } from "../../data/site";
 import { localePath, useUi } from "../../lib/i18n";
 import LangSwitch from "./LangSwitch.astro";
 
@@ -11,132 +10,170 @@ interface Props {
 
 const { lang } = Astro.props;
 const ui = useUi(lang);
-const footerPath = footerRaw.match(/<path d="([^"]+)"/)?.[1] ?? "";
-const crop = { x: 694, y: 0, width: 1317, height: 660 };
+const copy = ui.footer;
+const email = socials.find((social) => social.id === "email");
+const networks = socials.filter((social) => social.id !== "email");
 ---
 
 <footer class="footer">
-  <div class="footer__stage" style={`--ratio:${crop.width / crop.height}`}>
-    <svg
-      class="footer__shape"
-      viewBox={`${crop.x} ${crop.y} ${crop.width} ${crop.height}`}
-      preserveAspectRatio="xMidYMax slice"
-      aria-hidden="true"
-    >
-      <path d={footerPath} fill="currentColor"></path>
-    </svg>
-    <nav class="footer__nav" aria-label={ui.menuLabel}>
-      {navItems.map((item) => <a href={localePath(lang, item.path)}>{ui.nav[item.key]}</a>)}
-      <a class="footer__top" href="#top">{ui.footer.top}</a>
-    </nav>
-    <div class="footer__bottom">
-      <p class="footer__credit">{ui.footer.credit}</p>
-      <p class="footer__thanks">{ui.footer.thanks}</p>
-      <LangSwitch lang={lang} />
+  <p class="footer__giant">{copy.giant}</p>
+
+  <div class="footer__grid">
+    <div class="footer__cell">
+      <p class="footer__head">{copy.info}</p>
+      <p class="footer__small">Thomas Perruchot<br />{copy.role}</p>
     </div>
+
+    <div class="footer__cell">
+      <p class="footer__head">{ui.cta.emailLabel}</p>
+      {email && <a class="footer__small footer__link" href={email.href}>{email.label}</a>}
+      <p class="footer__head footer__head--gap">{ui.cta.socialLabel}</p>
+      <ul class="footer__small footer__list">
+        {
+          networks.map((social) => (
+            <li>
+              <a class="footer__link" href={social.href} target="_blank" rel="noopener noreferrer">
+                {social.label} ↗
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="footer__cell">
+      <p class="footer__head">{copy.navigate}</p>
+      <ul class="footer__small footer__list">
+        {
+          navItems.map((item) => (
+            <li>
+              <a class="footer__link" href={localePath(lang, item.path)}>{ui.nav[item.key]}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="footer__cell footer__cell--end">
+      <p class="footer__head">{copy.language}</p>
+      <div class="footer__small footer__lang">
+        <LangSwitch lang={lang} />
+      </div>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <p class="footer__small">{copy.rights}</p>
+    <p class="footer__small footer__tagline">{copy.tagline}</p>
+    <a class="footer__small footer__link footer__top" href="#top">[ {copy.back} ]</a>
   </div>
 </footer>
 
 <style>
   .footer {
-    position: relative;
-    overflow: hidden;
-    margin-top: 6rem;
-    color: var(--color-black);
-  }
-
-  .footer__stage {
-    position: relative;
-    width: 100%;
-    min-height: 32rem;
-    aspect-ratio: var(--ratio);
+    display: flex;
+    flex-direction: column;
+    gap: 5svh;
+    padding: 6svh var(--gutter) 2.5svh;
+    background: var(--color-black);
     color: var(--color-white);
   }
 
-  .footer__shape {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    color: var(--color-black);
-  }
-
-  .footer__nav {
-    position: absolute;
-    inset-inline: 1.5rem;
-    top: 57%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem 2.5rem;
-    transform: translateY(-50%);
-    font-size: var(--text-small);
-    font-weight: var(--font-weight-regular);
-    line-height: var(--text-small--line-height);
-  }
-
-  .footer__nav a:hover {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
-  }
-
-  .footer__top {
-    padding: 0.9rem;
-    background: var(--color-white);
-    color: var(--color-black);
-  }
-
-  .footer__top:hover {
-    text-decoration: none;
-  }
-
-  .footer__bottom {
-    position: absolute;
-    inset-inline: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0 1.25rem 0.75rem;
-    font-size: var(--text-small);
-    font-weight: var(--font-weight-regular);
-    line-height: var(--text-small--line-height);
-  }
-
-  .footer__credit {
-    white-space: nowrap;
-  }
-
-  .footer__thanks {
-    order: -1;
-    padding: 0 0.3em;
-    background: var(--color-white);
-    color: var(--color-black);
-    font-size: var(--text-display);
-    line-height: 0.95;
+  .footer__giant {
+    margin: 0;
+    align-self: flex-end;
+    font-size: var(--text-giant);
+    line-height: var(--text-giant--line-height);
     letter-spacing: -0.02em;
+    font-weight: var(--font-weight-regular);
     text-transform: uppercase;
     white-space: nowrap;
   }
 
-  @media (min-width: 768px) {
-    .footer__nav {
-      inset-inline: 13.6% 15.6%;
-      justify-content: space-between;
+  .footer__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2vw;
+    padding-top: 1.2em;
+    border-top: 1px solid var(--color-grey);
+  }
+
+  .footer__cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer__cell--end {
+    align-items: flex-end;
+  }
+
+  .footer__head {
+    margin: 0 0 0.5em;
+    color: var(--color-grey);
+    font-size: var(--text-copy);
+    line-height: var(--text-copy--line-height);
+  }
+
+  .footer__head--gap {
+    margin-top: 1.6em;
+  }
+
+  .footer__small {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-copy);
+    line-height: var(--text-copy--line-height);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .footer__link {
+    color: inherit;
+    transition: opacity 0.25s ease;
+  }
+
+  .footer__link:hover {
+    opacity: 0.55;
+  }
+
+  .footer__lang :global(nav) {
+    font-size: var(--text-copy);
+  }
+
+  .footer__bottom {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
+    gap: 2vw;
+    margin-top: 8svh;
+  }
+
+  .footer__tagline {
+    max-width: 24em;
+    text-align: center;
+  }
+
+  .footer__top {
+    justify-self: end;
+  }
+
+  @media (max-width: 767px) {
+    .footer__grid {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 4svh;
     }
 
     .footer__bottom {
-      flex-direction: row;
-      align-items: flex-end;
-      justify-content: space-between;
-      padding: 0 1rem 0.75rem;
+      grid-template-columns: 1fr;
     }
 
-    .footer__thanks {
-      order: 0;
-      margin-bottom: -0.75rem;
+    .footer__tagline {
+      text-align: left;
+    }
+
+    .footer__top {
+      justify-self: start;
     }
   }
 </style>

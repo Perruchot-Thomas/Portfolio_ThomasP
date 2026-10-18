@@ -63,7 +63,10 @@ const en = {
     emailLabel: "Email",
     socialLabel: "Elsewhere",
     first: "THOMAS",
-    last: "PERRUCHOT"
+    last: "PERRUCHOT",
+    lines: ["LET’S TALK", "WITH ME"],
+    kicker: "(contact)",
+    city: "Paris"
   },
   loader: {
     name: "Thomas Perruchot",
@@ -74,7 +77,15 @@ const en = {
   footer: {
     top: "top",
     thanks: "THANKS FOR SCROLLING",
-    credit: "@sidus / Thomas Perruchot / 2026"
+    credit: "@sidus / Thomas Perruchot / 2026",
+    giant: "©SIDUS—2026",
+    role: "Graphic designer & MMI student",
+    navigate: "Navigate",
+    language: "Language",
+    tagline: "Textural identity, art direction & bold typography",
+    rights: "© 2026 Thomas Perruchot",
+    back: "back to top ↑",
+    info: "(info)"
   },
   projectsPage: {
     covers: "Covers",
@@ -203,7 +214,10 @@ const fr: typeof en = {
     emailLabel: "Email",
     socialLabel: "Ailleurs",
     first: "THOMAS",
-    last: "PERRUCHOT"
+    last: "PERRUCHOT",
+    lines: ["PARLONS", "ENSEMBLE"],
+    kicker: "(contact)",
+    city: "Paris"
   },
   loader: {
     name: "Thomas Perruchot",
@@ -214,7 +228,15 @@ const fr: typeof en = {
   footer: {
     top: "haut",
     thanks: "MERCI D'AVOIR DÉFILÉ",
-    credit: "@sidus / Thomas Perruchot / 2026"
+    credit: "@sidus / Thomas Perruchot / 2026",
+    giant: "©SIDUS—2026",
+    role: "Graphiste & étudiant en MMI",
+    navigate: "Naviguer",
+    language: "Langue",
+    tagline: "Identité texturale, direction artistique & typographie affirmée",
+    rights: "© 2026 Thomas Perruchot",
+    back: "retour en haut ↑",
+    info: "(infos)"
   },
   projectsPage: {
     covers: "Covers",

@@ -22,9 +22,13 @@
   --font-weight-black: 900;
 
   --text-small: 1.25rem;
-  --text-small--line-height: 1.25;
-  --text-copy: 1.25rem;
-  --text-copy--line-height: 1.1;
+  --text-small--line-height: 1.15;
+  --text-copy: var(--text-small);
+  --text-copy--line-height: var(--text-small--line-height);
+  --text-giant: 11vw;
+  --text-giant--line-height: 0.8;
+  --gutter: 1.75rem;
+  --text-mid: min(4.4vw, 6.4svh);
   --text-body: clamp(0.95rem, 0.4rem + 1vw, 1.2rem);
   --text-body--line-height: 1.2;
   --text-statement: clamp(2rem, 6.2vw, 6.5rem);

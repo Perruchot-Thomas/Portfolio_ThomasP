@@ -58,19 +58,19 @@ const ring = Object.entries(modules)
 
   <p class="flow__empty">
     <span>EMPTY</span>
-    <a href={projectsHref}><span>{copy.go}</span><span aria-hidden="true">→</span></a>
+    <a href={projectsHref}><span>[ {copy.go}</span><span aria-hidden="true">↗ ]</span></a>
   </p>
 
   <div class="flow__screen" data-screen>
 
     <div class="flow__left">
-      <a class="flow__note flow__archives" href={projectsHref}>{copy.archives}</a>
+      <a class="flow__note flow__archives" href={projectsHref}>[ {copy.archives} ]</a>
       <p class="flow__note flow__method flow__method--a">{copy.methodA}</p>
       <a class="flow__arrow" href={projectsHref} aria-label={ui.nav.projects}>
-      <svg viewBox="0 0 209.028 223.667" aria-hidden="true">
-        <path d="M11.0284 15H194.028V213.5M194.028 15L11.0284 213.5" />
-      </svg>
-    </a>
+        <span aria-hidden="true">[</span>
+        <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M22 78 L78 22 M34 22 H78 V66" /></svg>
+        <span aria-hidden="true">]</span>
+      </a>
       <p class="flow__note flow__method flow__method--b">{copy.methodB}</p>
     </div>
 
@@ -137,12 +137,12 @@ const ring = Object.entries(modules)
     width: 18.4vw;
     color: var(--color-black);
     font-size: var(--text-copy);
-    line-height: 1;
+    line-height: var(--text-copy--line-height);
     font-weight: var(--font-weight-regular);
   }
 
   .flow__col--1 {
-    left: 0.94vw;
+    left: var(--gutter);
   }
 
   .flow__col--1 a {
@@ -159,7 +159,7 @@ const ring = Object.entries(modules)
   }
 
   .flow__col--4 {
-    right: 3.36vw;
+    right: var(--gutter);
     text-align: right;
   }
 
@@ -182,7 +182,7 @@ const ring = Object.entries(modules)
     margin: 0;
     color: var(--color-black);
     font-size: var(--text-copy);
-    line-height: 0.8;
+    line-height: var(--text-copy--line-height);
     font-weight: var(--font-weight-regular);
   }
 
@@ -209,7 +209,7 @@ const ring = Object.entries(modules)
     position: absolute;
     top: 13svh;
     bottom: 7svh;
-    left: 2vw;
+    left: var(--gutter);
     z-index: 4;
     display: flex;
     flex-direction: column;
@@ -236,7 +236,7 @@ const ring = Object.entries(modules)
   .flow__examples {
     position: absolute;
     top: 13svh;
-    right: 2vw;
+    right: var(--gutter);
     z-index: 20;
     margin: 0;
     color: var(--color-white);
@@ -255,7 +255,7 @@ const ring = Object.entries(modules)
     list-style: none;
     transform: translateY(-50%);
     font-size: var(--text-copy);
-    line-height: 1.25;
+    line-height: var(--text-copy--line-height);
     font-weight: var(--font-weight-regular);
   }
 
@@ -304,21 +304,28 @@ const ring = Object.entries(modules)
   }
 
   .flow__arrow {
-    display: block;
+    display: flex;
     flex: none;
-    width: 15vw;
-    height: 16.05vw;
+    align-items: center;
+    gap: 0.05em;
+    margin-left: -0.06em;
+    color: var(--color-white);
+    font-size: 13vw;
+    line-height: 1;
+    font-weight: var(--font-weight-regular);
   }
 
   .flow__arrow svg {
-    display: block;
-    width: 100%;
-    height: 100%;
+    width: 0.62em;
+    height: 0.62em;
     fill: none;
-    stroke: var(--color-white);
-    stroke-width: 30;
-    stroke-linecap: butt;
-    stroke-linejoin: miter;
+    stroke: currentColor;
+    stroke-width: 9;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .flow__arrow:hover svg {
+    transform: translate(0.06em, -0.06em);
   }
 </style>
 

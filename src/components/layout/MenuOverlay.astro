@@ -195,8 +195,8 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
 
   .menu__zoom span {
     font-weight: var(--font-weight-bold);
-    line-height: 0.85;
-    letter-spacing: -0.05em;
+    line-height: 0.8;
+    letter-spacing: -0.02em;
     text-align: center;
     text-transform: uppercase;
     white-space: nowrap;
@@ -250,7 +250,7 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
     gap: 0.35rem;
     font-size: var(--text-small);
     font-weight: var(--font-weight-regular);
-    line-height: 1;
+    line-height: var(--text-small--line-height);
     color: var(--color-black);
     white-space: nowrap;
     transition: opacity 0.25s;
@@ -258,7 +258,7 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
 
   .menu__nav a sup {
     margin-top: -0.2em;
-    font-size: 0.75em;
+    font-size: 0.6em;
     opacity: 0.55;
   }
 
@@ -277,7 +277,7 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
     gap: 1.5rem;
     font-size: var(--text-small);
     font-weight: var(--font-weight-regular);
-    line-height: 1;
+    line-height: var(--text-small--line-height);
   }
 
   .menu__socials a:hover {
@@ -293,7 +293,7 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
     padding: 0.6rem 1rem;
     color: var(--color-white);
     font-size: var(--text-small);
-    line-height: 1;
+    line-height: var(--text-small--line-height);
     mix-blend-mode: difference;
     transform: translate(-50%, -50%);
     cursor: grab;

@@ -5,15 +5,17 @@ import Header from "../components/layout/Header.astro";
 import MenuOverlay from "../components/layout/MenuOverlay.astro";
 import Intro from "../components/layout/Intro.astro";
 import Footer from "../components/layout/Footer.astro";
+import ContactCta from "../components/home/ContactCta.astro";
 
 interface Props {
   lang: Lang;
   title?: string;
   description?: string;
   theme?: "white" | "blue" | "orange";
+  cta?: boolean;
 }
 
-const { lang, title = "sidus - Thomas Perruchot", description = "Portfolio de Thomas Perruchot, graphiste et étudiant MMI.", theme = "white" } = Astro.props;
+const { lang, title = "sidus - Thomas Perruchot", description = "Portfolio de Thomas Perruchot, graphiste et étudiant MMI.", theme = "white", cta = true } = Astro.props;
 const titleStyle =
   lang === "fr" ? "--title-fit:21.61vw;--title-cap:18.7svh;--about-length:4.748;--proj-length:4.1274" : "--title-fit:18.76vw;--title-cap:65svh;--about-length:3.2085;--proj-length:4.7544";
 ---
@@ -46,6 +48,7 @@ const titleStyle =
     <main>
       <slot />
     </main>
+    {cta && <ContactCta lang={lang} />}
     <Footer lang={lang} />
     <script>
       import { initScroll } from "../lib/scroll";
