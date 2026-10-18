@@ -36,7 +36,16 @@ const en = {
     tools: ["Affinity", "Figma", "Photoshop", "Cavalery"]
   },
   projects: {
-    blurb: "how i build my projects, from first sketch to final texture and beyond."
+    blurb: "how i build my projects, from first sketch to final texture and beyond.",
+    name: "Thomas Perruchot",
+    role: ", Graphic Designer and MMI student",
+    focus: "My work focuses on art direction, textural identity, visual experimentation and bold typography.",
+    tools: ["Affinity", "Photoshop", "Cavalery", "Figma"],
+    open: "I'm open for internships and collaborations.",
+    go: "go to my page",
+    archives: "Archives",
+    methodA: "Each project begins with research,",
+    methodB: "then takes shape through textural identity, visual experimentation and bold typography, always guided by art direction."
   },
   strip: {
     title: "ALL MY PROJECTS",
@@ -144,7 +153,16 @@ const fr: typeof en = {
     tools: ["Affinity", "Figma", "Photoshop", "Cavalery"]
   },
   projects: {
-    blurb: "comment je construis mes projets, du premier croquis à la texture finale, et au-delà."
+    blurb: "comment je construis mes projets, du premier croquis à la texture finale, et au-delà.",
+    name: "Thomas Perruchot",
+    role: ", graphiste et étudiant en MMI",
+    focus: "Mon travail se concentre sur la direction artistique, l'identité texturale, l'expérimentation visuelle et la typographie affirmée.",
+    tools: ["Affinity", "Photoshop", "Cavalery", "Figma"],
+    open: "Je suis ouvert aux stages et aux collaborations.",
+    go: "voir ma page",
+    archives: "Archives",
+    methodA: "Chaque projet commence par la recherche,",
+    methodB: "puis prend forme à travers l'identité texturale, l'expérimentation visuelle et la typographie affirmée, toujours guidée par la direction artistique."
   },
   strip: {
     title: "TOUS MES PROJETS",

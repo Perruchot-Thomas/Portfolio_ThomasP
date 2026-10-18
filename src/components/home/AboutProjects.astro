@@ -1,10 +1,6 @@
 ---
 import type { Lang } from "../../data/i18n";
-import meA from "../../assets/photos/IMG_9852.jpeg";
-import meB from "../../assets/photos/IMG_9852 2.jpeg";
-import meC from "../../assets/photos/imagemoi copie.avif";
-import laptop from "../../assets/photos/MacBook_Pro.png";
-import divisionRaw from "../../assets/svg/division.svg?raw";
+import unionRaw from "../../assets/svg/union.svg?raw";
 import { localePath, useUi } from "../../lib/i18n";
 
 interface Props {
@@ -13,526 +9,343 @@ interface Props {
 
 const { lang } = Astro.props;
 const ui = useUi(lang);
-const portraits = [meA, meB, meC];
-const slots = Array.from({ length: 9 }, (_, index) => portraits[index % portraits.length].src);
-const word = ui.nav.projects.toUpperCase();
-const hole = word.indexOf("O");
-const wordBefore = word.slice(0, hole);
-const wordAfter = word.slice(hole + 1);
-const paragraphs = ui.about.bio.split(/(?<=\.)\s+/);
+const copy = ui.projects;
 const aboutHref = localePath(lang, "/about");
 const projectsHref = localePath(lang, "/projects");
-const projectsPhrase = lang === "fr" ? "mes projets" : "my projects";
-const split = (text: string, phrase: string) => {
-  const at = text.indexOf(phrase);
-  return at < 0 ? [text, "", ""] : [text.slice(0, at), phrase, text.slice(at + phrase.length)];
-};
-const blurb = split(ui.projects.blurb, projectsPhrase);
-const tearPath = divisionRaw.match(/ d="([^"]+)"/)?.[1] ?? "";
+const shapePath = unionRaw.match(/ d="([^"]+)"/)?.[1] ?? "";
 
 const modules = import.meta.glob<{ src: string; width: number; height: number }>("../../assets/projets/*.{jpg,jpeg,png,webp,avif}", {
   eager: true,
   import: "default"
 });
-const images = Object.entries(modules)
+const linked = ["acab", "desurbanisation", "crane"];
+const ring = Object.entries(modules)
   .sort(([a], [b]) => a.localeCompare(b))
-  .map(([, image]) => image);
-
-const hasImages = images.length > 0;
-const count = hasImages ? Math.min(images.length, 12) : 8;
-const items = Array.from({ length: count }, (_, index) => {
-  const image = images[index];
-  const ratio = image ? image.width / image.height : 392 / 553;
-  return { index, image, ratio };
-});
+  .map(([path, image]) => {
+    const name = path.split("/").pop()?.replace(/^\d+-/, "").replace(/\.\w+$/, "") ?? "";
+    const ratio = image.width / image.height;
+    return { name, image, link: linked.includes(name), style: `width:${Math.sqrt(123 * ratio).toFixed(2)}vw;aspect-ratio:${image.width} / ${image.height}` };
+  });
 ---
 
 <div class="flow" data-flow>
-  <div class="flow__head" data-head>
-  <div class="flow__top" data-about>
-    <div class="flow__bio">
-      {
-        paragraphs.map((paragraph) => {
-          const [before, name, after] = split(paragraph, "Thomas Perruchot");
-          return (
-            <p>
-              {before}
-              {name && <a href={aboutHref}>{name}</a>}
-              {after}
-            </p>
-          );
-        })
-      }
-    </div>
+  <svg class="flow__shape" viewBox="0 0 2682.8 1003.22" preserveAspectRatio="none" aria-hidden="true">
+    <path d={shapePath} />
+  </svg>
 
-    <ul class="flow__tools">
-      {ui.intro.tools.map((tool) => <li>{tool}</li>)}
-    </ul>
+  <p class="flow__col flow__col--1"><a href={aboutHref}>{copy.name}</a>{copy.role}</p>
+  <p class="flow__col flow__col--2">{copy.focus}</p>
+  <ul class="flow__col flow__col--3">
+    {copy.tools.map((tool) => <li>{tool}</li>)}
+  </ul>
+  <p class="flow__col flow__col--4">{copy.open}</p>
 
-    <div class="flow__photos">
-      <div class="flow__strip" data-strip>
-        {slots.map((src) => <canvas class="flow__tile" data-tile data-src={src} aria-hidden="true" />)}
-      </div>
-    </div>
+  <div class="flow__marks" aria-hidden="true">*(        )</div>
+
+  <p class="flow__empty">
+    <span>EMPTY</span>
+    <a href={projectsHref}><span>{copy.go}</span><span aria-hidden="true">→</span></a>
+  </p>
+
+  <a class="flow__note flow__archives" href={projectsHref}>{copy.archives}</a>
+  <p class="flow__note flow__method flow__method--a">{copy.methodA}</p>
+  <p class="flow__note flow__method flow__method--b">{copy.methodB}</p>
+
+  <div class="flow__ring" data-ring>
+    {
+      ring.map((photo) =>
+        photo.link ? (
+          <a class="flow__photo" data-photo href={projectsHref} style={photo.style} aria-label={photo.name}>
+            <img src={photo.image.src} width={photo.image.width} height={photo.image.height} alt="" draggable="false" loading="lazy" />
+          </a>
+        ) : (
+          <div class="flow__photo" data-photo style={photo.style}>
+            <img src={photo.image.src} width={photo.image.width} height={photo.image.height} alt="" draggable="false" loading="lazy" />
+          </div>
+        )
+      )
+    }
   </div>
-  </div>
 
-  <div class="flow__low" data-low>
-    <svg class="flow__tear" viewBox="0 0 2883 1289" preserveAspectRatio="none" aria-hidden="true">
-      <path d={tearPath} fill-rule="evenodd" />
+  <a class="flow__arrow" href={projectsHref} aria-label={ui.nav.projects}>
+    <svg viewBox="0 0 209.028 223.667" aria-hidden="true">
+      <path d="M11.0284 15H194.028V213.5M194.028 15L11.0284 213.5" />
     </svg>
-
-    <img class="flow__laptop" src={laptop.src} width={laptop.width} height={laptop.height} alt="" draggable="false" />
-
-    <h2 class="flow__word" aria-label={word}>
-      <span aria-hidden="true">{wordBefore}</span><a class="flow__hole" href={projectsHref} aria-label={ui.nav.projects}>
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <path d="M6 94 L94 6 M22 6 H94 V78" />
-        </svg>
-      </a><span aria-hidden="true">{wordAfter}</span>
-    </h2>
-
-    <p class="flow__blurb">
-      {blurb[0]}<a href={projectsHref}>{blurb[1]}</a>{blurb[2]}
-    </p>
-
-    <div class="flow__zone" data-panel>
-      <div class="flow__lens" data-lens aria-hidden="true">
-        {
-          items.map((item) => (
-            <div class:list={["flow__frame", !hasImages && "flow__frame--ph"]} data-frame={item.index} data-ratio={item.ratio}>
-              {hasImages ? (
-                <img src={item.image.src} width={item.image.width} height={item.image.height} alt="" draggable="false" loading="eager" />
-              ) : (
-                <span>{String(item.index + 1).padStart(2, "0")}</span>
-              )}
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </div>
+  </a>
 </div>
 
 <style>
   .flow {
     position: relative;
+    height: 134vw;
     overflow-x: clip;
-    overflow-y: visible;
-    padding-bottom: 100svh;
     background: var(--color-white);
     color: var(--color-black);
   }
 
-  .flow__head {
-    position: relative;
-    z-index: 2;
-  }
-
-  .flow__top {
-    position: relative;
-    height: 69.2vw;
-    background: var(--color-white);
-  }
-
-  .flow__low {
-    position: relative;
-    z-index: 1;
-    height: 100.7vw;
-    margin-top: -100svh;
+  .flow__shape {
+    position: absolute;
+    top: 52.73vw;
+    left: 50%;
+    width: 209.6vw;
+    height: 78.38vw;
+    transform: translateX(-50%);
+    fill: var(--color-black);
     pointer-events: none;
   }
 
-  .flow__bio,
-  .flow__tools,
-  .flow__blurb {
+  .flow__col,
+  .flow__note {
     position: absolute;
     margin: 0;
     padding: 0;
     list-style: none;
+    width: 18.4vw;
     font-size: var(--text-copy);
-    line-height: var(--text-copy--line-height);
+    line-height: 1;
     font-weight: var(--font-weight-regular);
   }
 
-  .flow__bio {
-    top: 9.4vw;
-    left: 1.1vw;
-    width: 27.2vw;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6em;
+  .flow__col {
+    top: 5.39vw;
+    color: var(--color-black);
   }
 
-  .flow__bio p {
-    margin: 0;
+  .flow__col--1 {
+    left: 0.94vw;
   }
 
-  .flow__tools {
-    top: 7.97vw;
-    right: 1.64vw;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
+  .flow__col--1 a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  .flow__col--2 {
+    left: 30vw;
+  }
+
+  .flow__col--3 {
+    left: 58.98vw;
+  }
+
+  .flow__col--4 {
+    right: 3.36vw;
     text-align: right;
   }
 
-  .flow__bio a,
-  .flow__blurb a {
-    color: inherit;
-    text-decoration: underline;
-    text-decoration-thickness: 0.03em;
-    text-underline-offset: 0.08em;
-  }
-
-  .flow__photos {
+  .flow__marks {
     position: absolute;
-    top: 23.9vw;
-    left: 0;
-    width: 100%;
-    height: 37.42vw;
-  }
-
-  .flow__strip {
-    position: absolute;
-    top: 0;
-    left: -16.09vw;
-    display: flex;
-    gap: 4.84vw;
-    will-change: transform;
-  }
-
-  .flow__tile {
-    display: block;
-    flex: none;
-    width: 27.58vw;
-    height: 37.42vw;
-    image-rendering: pixelated;
-    background: var(--color-black);
-  }
-
-  .flow__tear {
-    position: absolute;
-    top: 0;
-    left: -68.44vw;
-    width: 225.2vw;
-    height: 100.7vw;
-    fill: var(--color-black);
-  }
-
-  .flow__laptop {
-    position: absolute;
-    top: 22.81vw;
-    left: -3.52vw;
-    width: 72.34vw;
-    height: auto;
-    user-select: none;
-  }
-
-  .flow__word {
-    position: absolute;
-    z-index: 3;
-    top: calc(33.67vw - 0.03em);
-    left: calc(16.8vw - 0.0825em);
-    margin: 0;
-    color: var(--color-white);
-    font-size: calc(80.5vw / var(--proj-length));
+    top: 24.38vw;
+    left: 8.52vw;
+    font-size: 23.44vw;
     line-height: 0.8;
     font-weight: var(--font-weight-regular);
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .flow__hole {
-    position: relative;
-    display: inline-block;
-    width: 0.672em;
-    height: 0.744em;
-    margin: 0 0.009em;
-    vertical-align: 0.016em;
-    border-radius: 50%;
-    background: var(--color-white);
-    box-shadow: inset 0 0 0 0.048em var(--color-black);
-    color: var(--color-black);
-    pointer-events: auto;
-  }
-
-  .flow__hole svg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0.35em;
-    height: 0.35em;
-    transform: translate(-50%, -50%);
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 9;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .flow__blurb {
-    z-index: 3;
-    top: 49.14vw;
-    left: 57.89vw;
-    width: 36.95vw;
-    color: var(--color-white);
-  }
-
-  .flow__blurb a {
-    pointer-events: auto;
-  }
-
-  .flow__zone {
-    position: absolute;
-    top: 14vw;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 2;
-    overflow: hidden;
-    pointer-events: auto;
-  }
-
-  .flow__lens {
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    opacity: 0;
+    white-space: pre;
     pointer-events: none;
   }
 
-  .flow__frame {
+  .flow__empty {
     position: absolute;
-    inset: 0;
+    top: 34.45vw;
+    left: 33.59vw;
+    width: 33.28vw;
+    margin: 0;
+    color: var(--color-black);
+    font-size: var(--text-copy);
+    line-height: 0.8;
+    font-weight: var(--font-weight-regular);
   }
 
-  .flow__frame img {
+  .flow__empty a {
+    position: absolute;
+    top: 0;
+    left: 11.33vw;
+    display: flex;
+    justify-content: space-between;
+    width: 21.95vw;
+    color: inherit;
+  }
+
+  .flow__note {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 18.4vw;
+    font-size: var(--text-copy);
+    line-height: 1;
+    font-weight: var(--font-weight-regular);
+  }
+
+  .flow__col {
+    top: 5.39vw;
+    color: var(--color-black);
+  }
+
+  .flow__col--1 {
+    left: 0.94vw;
+  }
+
+  .flow__col--1 a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  .flow__col--2 {
+    left: 30vw;
+  }
+
+  .flow__col--3 {
+    left: 58.98vw;
+  }
+
+  .flow__col--4 {
+    right: 3.36vw;
+    text-align: right;
+  }
+
+  .flow__marks {
+    position: absolute;
+    top: 24.38vw;
+    left: 8.52vw;
+    font-size: 23.44vw;
+    line-height: 0.8;
+    font-weight: var(--font-weight-regular);
+    white-space: pre;
+    pointer-events: none;
+  }
+
+  .flow__go {
+    position: absolute;
+    top: 34.45vw;
+    left: 44.92vw;
+    display: flex;
+    justify-content: space-between;
+    width: 21.95vw;
+    color: var(--color-black);
+    font-size: var(--text-copy);
+    line-height: 0.8;
+    font-weight: var(--font-weight-regular);
+  }
+
+  .flow__note {
+    z-index: 4;
+    left: 1.33vw;
+    color: var(--color-white);
+  }
+
+  .flow__archives {
+    top: 74.14vw;
+    width: auto;
+  }
+
+  .flow__method--a {
+    top: 80.31vw;
+    width: 14.5vw;
+  }
+
+  .flow__method--b {
+    top: 104.69vw;
+  }
+
+  .flow__ring {
+    position: absolute;
+    top: 92.5vw;
+    left: 59.26vw;
+    width: 0;
+    height: 0;
+  }
+
+  .flow__photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    will-change: transform;
+  }
+
+  .flow__photo img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .flow__frame--ph {
-    display: grid;
-    place-items: center;
-    background: var(--color-white);
+  .flow__photo.is-hover img {
+    transform: scale(1.5);
   }
 
-  .flow__frame--ph span {
-    font-size: 3vw;
-    line-height: 1;
-    color: var(--color-black);
-  }
-
-  :global(.flow__stamp) {
+  .flow__arrow {
     position: absolute;
-    overflow: hidden;
+    top: 83.75vw;
+    left: 51.09vw;
+    z-index: 110;
+    display: block;
+    width: 16.33vw;
+    height: 17.47vw;
+  }
+
+  .flow__arrow svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: var(--color-white);
+    stroke-width: 30;
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
   }
 </style>
 
 <script>
   import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
 
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const ring = document.querySelector<HTMLElement>("[data-ring]");
+  const photos = ring ? Array.from(ring.querySelectorAll<HTMLElement>("[data-photo]")) : [];
 
-  const about = document.querySelector<HTMLElement>("[data-about]");
-  const head = document.querySelector<HTMLElement>("[data-head]");
-  const low = document.querySelector<HTMLElement>("[data-low]");
-  const strip = about?.querySelector<HTMLElement>("[data-strip]");
-  const tiles = about ? Array.from(about.querySelectorAll<HTMLCanvasElement>("[data-tile]")) : [];
+  if (ring && photos.length) {
+    const step = (Math.PI * 2) / photos.length;
+    const speed = (Math.PI * 2) / 26;
+    let hovered: HTMLElement | null = null;
+    let rotation = 0;
+    let flow = 1;
 
-  if (about && head && low && strip && tiles.length) {
-    const sources = Array.from(new Set(tiles.map((tile) => tile.dataset.src ?? "")));
-    const loaded = new Map<string, HTMLImageElement>();
-
-    const load = (src: string) =>
-      new Promise<void>((resolve) => {
-        const image = new Image();
-        image.decoding = "async";
-        image.onload = () => {
-          loaded.set(src, image);
-          resolve();
-        };
-        image.onerror = () => resolve();
-        image.src = src;
+    photos.forEach((photo) => {
+      photo.addEventListener("pointerenter", () => {
+        hovered = photo;
+        photo.classList.add("is-hover");
       });
-
-    Promise.all(sources.map(load)).then(() => {
-      const baseWidth = 524;
-      const baseHeight = 712;
-      let level = -1;
-      let pitch = 0;
-      const period = 3;
-
-      const place = (progress: number) => {
-        gsap.set(strip, { x: -gsap.utils.wrap(0, pitch * period, progress * period * pitch) });
-      };
-
-      const measure = () => {
-        pitch = (strip.children[1] as HTMLElement).offsetLeft - (strip.children[0] as HTMLElement).offsetLeft;
-        place(0);
-      };
-
-      const paint = (block: number) => {
-        const quantized = Math.round(block * 2) / 2;
-        if (quantized === level) return;
-        level = quantized;
-        const width = Math.max(6, Math.round(baseWidth / quantized));
-        const height = Math.max(8, Math.round(baseHeight / quantized));
-        tiles.forEach((tile) => {
-          const image = loaded.get(tile.dataset.src ?? "");
-          const context = tile.getContext("2d");
-          if (!image || !context) return;
-          const ratio = baseWidth / baseHeight;
-          const sourceRatio = image.naturalWidth / image.naturalHeight;
-          const cropWidth = sourceRatio > ratio ? image.naturalHeight * ratio : image.naturalWidth;
-          const cropHeight = sourceRatio > ratio ? image.naturalHeight : image.naturalWidth / ratio;
-          tile.width = width;
-          tile.height = height;
-          context.imageSmoothingEnabled = true;
-          context.drawImage(
-            image,
-            (image.naturalWidth - cropWidth) / 2,
-            (image.naturalHeight - cropHeight) / 2,
-            cropWidth,
-            cropHeight,
-            0,
-            0,
-            width,
-            height
-          );
-        });
-      };
-
-      measure();
-      paint(1);
-
-      if (reduced) {
-        gsap.set(low, { marginTop: 0 });
-        gsap.set(low.parentElement, { paddingBottom: 0 });
-        return;
-      }
-
-      ScrollTrigger.create({
-        trigger: about,
-        start: "center center",
-        end: "+=260%",
-        pin: true,
-        scrub: true,
-        refreshPriority: 1,
-        onUpdate: (self) => {
-          place(self.progress);
-          paint(1 + Math.pow(self.progress, 2.2) * 40);
-        }
-      });
-
-      gsap.fromTo(
-        low,
-        { y: 0 },
-        {
-          y: () => window.innerHeight,
-          ease: "none",
-          scrollTrigger: {
-            trigger: head,
-            start: "bottom bottom",
-            end: () => "+=" + window.innerHeight,
-            scrub: true,
-            invalidateOnRefresh: true
-          }
-        }
-      );
-
-      window.addEventListener("resize", () => {
-        measure();
-        ScrollTrigger.refresh();
+      photo.addEventListener("pointerleave", () => {
+        hovered = null;
+        photo.classList.remove("is-hover");
       });
     });
-  }
 
-  const panel = document.querySelector<HTMLElement>("[data-panel]");
-  const lens = panel?.querySelector<HTMLElement>("[data-lens]");
-  const frames = lens ? Array.from(lens.querySelectorAll<HTMLElement>("[data-frame]")) : [];
+    const place = () => {
+      const radiusX = window.innerWidth * 0.34;
+      const radiusY = window.innerWidth * 0.045;
 
-  if (panel && lens && frames.length) {
-    const ratios = frames.map((frame) => Number(frame.dataset.ratio));
-    const unit = () => window.innerWidth * 0.075;
-    const dims = (ratio: number) => ({ width: unit() * Math.sqrt(ratio), height: unit() / Math.sqrt(ratio) });
-    let current = 0;
-    let layer = 1;
-
-    gsap.set(lens, { xPercent: -50, yPercent: -50, scale: 0.6, ...dims(ratios[0]) });
-    gsap.set(frames, { clipPath: "inset(100% 0% 0% 0%)" });
-    gsap.set(frames[0], { clipPath: "inset(0% 0% 0% 0%)", zIndex: layer });
-
-    const show = (index: number) => {
-      const frame = frames[index];
-      layer += 1;
-      gsap.set(frame, { zIndex: layer, clipPath: "inset(0% 0% 0% 0%)" });
-      gsap.set(lens, dims(ratios[index]));
-      current = index;
+      photos.forEach((photo, index) => {
+        const angle = rotation + index * step;
+        const depth = Math.cos(angle);
+        const near = (depth + 1) / 2;
+        const scale = 0.62 + near * 0.62;
+        const x = Math.sin(angle) * radiusX - photo.offsetWidth / 2;
+        const y = depth * radiusY - photo.offsetHeight / 2;
+        photo.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${scale.toFixed(3)})`;
+        photo.style.zIndex = String(10 + Math.round((photo === hovered ? 2 : near) * 100));
+      });
     };
 
-    const next = () => show((current + 1) % frames.length);
+    place();
 
-    const stamps: HTMLElement[] = [];
-    panel.addEventListener("click", (event) => {
-      const box = panel.getBoundingClientRect();
-      const size = dims(ratios[current]);
-      const copy = frames[current].cloneNode(true) as HTMLElement;
-      copy.removeAttribute("style");
-      copy.removeAttribute("data-frame");
-      const holder = document.createElement("div");
-      holder.className = "flow__stamp";
-      holder.style.cssText = `left:${event.clientX - box.left - size.width / 2}px;top:${event.clientY - box.top - size.height / 2}px;width:${size.width}px;height:${size.height}px`;
-      holder.append(copy);
-      panel.insertBefore(holder, lens);
-      stamps.push(holder);
-      if (stamps.length > 80) stamps.shift()?.remove();
-    });
-
-    if (!reduced && fine) {
-      const moveX = gsap.quickTo(lens, "x", { duration: 0.18, ease: "power3.out" });
-      const moveY = gsap.quickTo(lens, "y", { duration: 0.18, ease: "power3.out" });
-      const interval = 0.28;
-      let inside = false;
-      let timer: gsap.core.Tween | undefined;
-
-      const run = () => {
-        timer = gsap.delayedCall(interval, () => {
-          next();
-          run();
-        });
-      };
-
-      panel.addEventListener("pointermove", (event) => {
-        const box = panel.getBoundingClientRect();
-        const x = event.clientX - box.left;
-        const y = event.clientY - box.top;
-
-        if (!inside) {
-          inside = true;
-          gsap.set(lens, { x, y });
-          document.documentElement.classList.add("cursor-off");
-          gsap.to(lens, { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out", overwrite: "auto" });
-          run();
-        }
-
-        moveX(x);
-        moveY(y);
-      });
-
-      panel.addEventListener("pointerleave", () => {
-        inside = false;
-        timer?.kill();
-        document.documentElement.classList.remove("cursor-off");
-        gsap.to(lens, { opacity: 0, scale: 0.6, duration: 0.3, ease: "power2.in", overwrite: "auto" });
+    if (!reduced) {
+      gsap.ticker.add((_time, delta) => {
+        flow += ((hovered ? 0 : 1) - flow) * 0.12;
+        rotation += (delta / 1000) * speed * flow;
+        place();
       });
     }
   }
