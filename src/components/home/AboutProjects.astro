@@ -19,6 +19,20 @@ const modules = import.meta.glob<{ src: string; width: number; height: number }>
   import: "default"
 });
 const linked = ["acab", "desurbanisation", "crane"];
+const names: Record<string, { en: string; fr: string }> = {
+  "3ds-yeux-pensements": { en: "Bandaged Eyes", fr: "Yeux pansés" },
+  acab: { en: "ACAB", fr: "ACAB" },
+  biche: { en: "Night Doe", fr: "Biche de nuit" },
+  "who-are-you": { en: "Who Are You?", fr: "Qui es-tu ?" },
+  "bug-fille": { en: "Glitch Girl", fr: "Fille glitch" },
+  "bouche-etoile": { en: "Star Mouth", fr: "Bouche étoile" },
+  desurbanisation: { en: "Deurbanisation", fr: "Désurbanisation" },
+  crane: { en: "Skull Grid", fr: "Crâne grille" },
+  "flowers-in-mind": { en: "Flowers in Mind", fr: "Fleurs en tête" },
+  mute: { en: "Mute", fr: "Muet" },
+  oeufv2: { en: "Hidden Egg", fr: "Œuf caché" },
+  "red-eyes": { en: "Red Eyes", fr: "Yeux rouges" }
+};
 const ring = Object.entries(modules)
   .sort(([a], [b]) => a.localeCompare(b))
   .map(([path, image]) => {
@@ -29,7 +43,7 @@ const ring = Object.entries(modules)
 ---
 
 <div class="flow" data-flow>
-  <svg class="flow__shape" viewBox="0 0 2682.8 1003.22" preserveAspectRatio="none" aria-hidden="true">
+  <svg class="flow__shape" data-shape viewBox="0 0 2682.8 1003.22" preserveAspectRatio="none" aria-hidden="true">
     <path d={shapePath} />
   </svg>
 
@@ -47,31 +61,51 @@ const ring = Object.entries(modules)
     <a href={projectsHref}><span>{copy.go}</span><span aria-hidden="true">→</span></a>
   </p>
 
-  <a class="flow__note flow__archives" href={projectsHref}>{copy.archives}</a>
-  <p class="flow__note flow__method flow__method--a">{copy.methodA}</p>
-  <p class="flow__note flow__method flow__method--b">{copy.methodB}</p>
+  <div class="flow__screen" data-screen>
 
-  <div class="flow__ring" data-ring>
-    {
-      ring.map((photo) =>
-        photo.link ? (
-          <a class="flow__photo" data-photo href={projectsHref} style={photo.style} aria-label={photo.name}>
-            <img src={photo.image.src} width={photo.image.width} height={photo.image.height} alt="" draggable="false" loading="lazy" />
-          </a>
-        ) : (
-          <div class="flow__photo" data-photo style={photo.style}>
-            <img src={photo.image.src} width={photo.image.width} height={photo.image.height} alt="" draggable="false" loading="lazy" />
-          </div>
+    <div class="flow__left">
+      <a class="flow__note flow__archives" href={projectsHref}>{copy.archives}</a>
+      <p class="flow__note flow__method flow__method--a">{copy.methodA}</p>
+      <a class="flow__arrow" href={projectsHref} aria-label={ui.nav.projects}>
+      <svg viewBox="0 0 209.028 223.667" aria-hidden="true">
+        <path d="M11.0284 15H194.028V213.5M194.028 15L11.0284 213.5" />
+      </svg>
+    </a>
+      <p class="flow__note flow__method flow__method--b">{copy.methodB}</p>
+    </div>
+
+    <p class="flow__examples">{copy.examples}</p>
+
+    <ol class="flow__list">
+      {
+        ring.map((photo, index) => (
+          <li data-entry>
+            <a href={projectsHref}>
+              <span class="flow__num">{String(index + 1).padStart(2, "0")}</span>
+              <span>{names[photo.name]?.[lang] ?? photo.name}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="flow__ring" data-ring>
+      {
+        ring.map((photo) =>
+          photo.link ? (
+            <a class="flow__photo" data-photo href={projectsHref} style={photo.style} aria-label={photo.name}>
+              <img src={photo.image.src} width={photo.image.width} height={photo.image.height} alt="" draggable="false" loading="lazy" />
+            </a>
+          ) : (
+            <div class="flow__photo" data-photo style={photo.style}>
+              <img src={photo.image.src} width={photo.image.width} height={photo.image.height} alt="" draggable="false" loading="lazy" />
+            </div>
+          )
         )
-      )
-    }
-  </div>
+      }
+    </div>
 
-  <a class="flow__arrow" href={projectsHref} aria-label={ui.nav.projects}>
-    <svg viewBox="0 0 209.028 223.667" aria-hidden="true">
-      <path d="M11.0284 15H194.028V213.5M194.028 15L11.0284 213.5" />
-    </svg>
-  </a>
+  </div>
 </div>
 
 <style>
@@ -85,30 +119,26 @@ const ring = Object.entries(modules)
 
   .flow__shape {
     position: absolute;
-    top: 52.73vw;
+    top: 52.5vw;
     left: 50%;
     width: 209.6vw;
     height: 78.38vw;
-    transform: translateX(-50%);
+    margin-left: -104.8vw;
     fill: var(--color-black);
     pointer-events: none;
   }
 
-  .flow__col,
-  .flow__note {
+  .flow__col {
     position: absolute;
+    top: 5.39vw;
     margin: 0;
     padding: 0;
     list-style: none;
     width: 18.4vw;
+    color: var(--color-black);
     font-size: var(--text-copy);
     line-height: 1;
     font-weight: var(--font-weight-regular);
-  }
-
-  .flow__col {
-    top: 5.39vw;
-    color: var(--color-black);
   }
 
   .flow__col--1 {
@@ -166,92 +196,94 @@ const ring = Object.entries(modules)
     color: inherit;
   }
 
-  .flow__note {
+  .flow__screen {
     position: absolute;
+    top: 91.7vw;
+    left: 0;
+    width: 100%;
+    height: 100svh;
+    margin-top: -50svh;
+  }
+
+  .flow__left {
+    position: absolute;
+    top: 13svh;
+    bottom: 7svh;
+    left: 2vw;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .flow__left .flow__note {
+    margin: 0;
+    color: var(--color-white);
+    font-size: var(--text-copy);
+    line-height: var(--text-copy--line-height);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .flow__left .flow__method--a {
+    width: 22vw;
+  }
+
+  .flow__left .flow__method--b {
+    width: 26vw;
+  }
+
+  .flow__examples {
+    position: absolute;
+    top: 13svh;
+    right: 2vw;
+    z-index: 20;
+    margin: 0;
+    color: var(--color-white);
+    font-size: var(--text-copy);
+    line-height: var(--text-copy--line-height);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .flow__list {
+    position: absolute;
+    top: 50%;
+    left: 80vw;
+    z-index: 20;
     margin: 0;
     padding: 0;
     list-style: none;
-    width: 18.4vw;
+    transform: translateY(-50%);
     font-size: var(--text-copy);
-    line-height: 1;
+    line-height: 1.25;
     font-weight: var(--font-weight-regular);
   }
 
-  .flow__col {
-    top: 5.39vw;
-    color: var(--color-black);
-  }
-
-  .flow__col--1 {
-    left: 0.94vw;
-  }
-
-  .flow__col--1 a {
-    color: inherit;
-    text-decoration: underline;
-  }
-
-  .flow__col--2 {
-    left: 30vw;
-  }
-
-  .flow__col--3 {
-    left: 58.98vw;
-  }
-
-  .flow__col--4 {
-    right: 3.36vw;
-    text-align: right;
-  }
-
-  .flow__marks {
-    position: absolute;
-    top: 24.38vw;
-    left: 8.52vw;
-    font-size: 23.44vw;
-    line-height: 0.8;
-    font-weight: var(--font-weight-regular);
-    white-space: pre;
-    pointer-events: none;
-  }
-
-  .flow__go {
-    position: absolute;
-    top: 34.45vw;
-    left: 44.92vw;
+  .flow__list a {
     display: flex;
-    justify-content: space-between;
-    width: 21.95vw;
-    color: var(--color-black);
-    font-size: var(--text-copy);
-    line-height: 0.8;
-    font-weight: var(--font-weight-regular);
-  }
-
-  .flow__note {
-    z-index: 4;
-    left: 1.33vw;
+    align-items: baseline;
+    gap: 0.25em;
     color: var(--color-white);
+    opacity: 0.35;
+    transition: opacity 0.25s ease;
   }
 
-  .flow__archives {
-    top: 74.14vw;
-    width: auto;
+  .flow__list li.is-current a,
+  .flow__list a:hover {
+    opacity: 1;
   }
 
-  .flow__method--a {
-    top: 80.31vw;
-    width: 14.5vw;
-  }
-
-  .flow__method--b {
-    top: 104.69vw;
+  .flow__num {
+    position: relative;
+    top: -0.45em;
+    font-size: 0.6em;
+    opacity: 0.55;
   }
 
   .flow__ring {
     position: absolute;
-    top: 92.5vw;
-    left: 59.26vw;
+    top: 52svh;
+    left: 55.5vw;
     width: 0;
     height: 0;
   }
@@ -269,21 +301,13 @@ const ring = Object.entries(modules)
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .flow__photo.is-hover img {
-    transform: scale(1.5);
   }
 
   .flow__arrow {
-    position: absolute;
-    top: 83.75vw;
-    left: 51.09vw;
-    z-index: 110;
     display: block;
-    width: 16.33vw;
-    height: 17.47vw;
+    flex: none;
+    width: 15vw;
+    height: 16.05vw;
   }
 
   .flow__arrow svg {
@@ -300,53 +324,81 @@ const ring = Object.entries(modules)
 
 <script>
   import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
 
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const ring = document.querySelector<HTMLElement>("[data-ring]");
   const photos = ring ? Array.from(ring.querySelectorAll<HTMLElement>("[data-photo]")) : [];
+  const flow = document.querySelector<HTMLElement>("[data-flow]");
+  const entries = Array.from(document.querySelectorAll<HTMLElement>("[data-entry]"));
+  const screen = document.querySelector<HTMLElement>("[data-screen]");
+  const shape = document.querySelector<SVGElement>("[data-shape]");
 
-  if (ring && photos.length) {
-    const step = (Math.PI * 2) / photos.length;
-    const speed = (Math.PI * 2) / 26;
-    let hovered: HTMLElement | null = null;
-    let rotation = 0;
-    let flow = 1;
+  if (ring && flow && screen && photos.length) {
+    const count = photos.length;
+    const turns = [-8, 6, -3, 11, -12, 4, 9, -6, 2, -10, 7, -4];
+    const shifts = [
+      [-1.6, 1.2], [1.4, -0.8], [-0.6, -1.5], [1.8, 1.1], [-1.9, -0.4], [0.7, 1.7],
+      [1.2, -1.6], [-1.3, 0.6], [0.4, 1.9], [-0.9, -1.2], [1.6, 0.3], [-0.3, -0.7]
+    ];
+    const clamp = gsap.utils.clamp(0, 1);
+    const ease = gsap.parseEase("power3.out");
 
-    photos.forEach((photo) => {
-      photo.addEventListener("pointerenter", () => {
-        hovered = photo;
-        photo.classList.add("is-hover");
-      });
-      photo.addEventListener("pointerleave", () => {
-        hovered = null;
-        photo.classList.remove("is-hover");
-      });
-    });
+    let last = reduced ? 1 : 0;
 
-    const place = () => {
-      const radiusX = window.innerWidth * 0.34;
-      const radiusY = window.innerWidth * 0.045;
+    const place = (progress: number) => {
+      last = progress;
+      const shown = Math.min(count, Math.max(0, Math.ceil(progress * (count + 0.6))));
+      entries.forEach((entry, index) => entry.classList.toggle("is-current", index === shown - 1));
+      const width = window.innerWidth;
+      const height = window.innerHeight;
 
       photos.forEach((photo, index) => {
-        const angle = rotation + index * step;
-        const depth = Math.cos(angle);
-        const near = (depth + 1) / 2;
-        const scale = 0.62 + near * 0.62;
-        const x = Math.sin(angle) * radiusX - photo.offsetWidth / 2;
-        const y = depth * radiusY - photo.offsetHeight / 2;
-        photo.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${scale.toFixed(3)})`;
-        photo.style.zIndex = String(10 + Math.round((photo === hovered ? 2 : near) * 100));
+        const raw = clamp(progress * (count + 0.6) - index);
+        const t = ease(raw);
+        const [shiftX, shiftY] = shifts[index % shifts.length];
+        const turn = turns[index % turns.length];
+        const x = (shiftX / 100) * width - photo.offsetWidth / 2;
+        const y = (shiftY / 100) * width - photo.offsetHeight / 2 - (1 - t) * height * 0.6;
+        const rotate = turn + (1 - t) * turn * 2.5;
+        const scale = 2 + (1 - t) * 0.9;
+        photo.style.visibility = raw > 0 ? "visible" : "hidden";
+        photo.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${rotate.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+        photo.style.zIndex = String(10 + index);
       });
     };
 
-    place();
+    place(last);
 
     if (!reduced) {
-      gsap.ticker.add((_time, delta) => {
-        flow += ((hovered ? 0 : 1) - flow) * 0.12;
-        rotation += (delta / 1000) * speed * flow;
-        place();
+      const hold = ScrollTrigger.create({
+        trigger: screen,
+        start: "top top",
+        end: () => "+=" + window.innerHeight * 2.4,
+        pin: flow,
+        scrub: true,
+        onUpdate: (self) => place(self.progress)
       });
+
+      if (shape) {
+        gsap.set(shape, { transformOrigin: "50% 50%" });
+        const grow = gsap.quickTo(shape, "scaleY", { duration: 1.1, ease: "power3.out" });
+        const clamp01 = gsap.utils.clamp(0, 1);
+        ScrollTrigger.create({
+          start: 0,
+          end: "max",
+          onUpdate: (self) => {
+            const reach = window.innerHeight * 0.9;
+            const scroll = self.scroll();
+            const enter = clamp01((scroll - (hold.start - reach)) / reach);
+            const leave = clamp01(1 - (scroll - hold.end) / reach);
+            const raw = Math.min(enter, leave);
+            grow(1 + raw * raw * (3 - 2 * raw) * 0.7);
+          }
+        });
+      }
     }
   }
 </script>

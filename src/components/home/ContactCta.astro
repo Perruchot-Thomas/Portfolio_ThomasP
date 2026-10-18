@@ -1,0 +1,217 @@
+---
+import type { Lang } from "../../data/i18n";
+import { socials } from "../../data/site";
+import { localePath, useUi } from "../../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = useUi(lang);
+const contactHref = localePath(lang, "/contact");
+const words = ui.cta.title.split(" ").map((word) => Array.from(word));
+const modules = import.meta.glob<{ src: string }>(
+  [
+    "../../assets/projets/*.{jpg,jpeg,png,webp,avif}",
+    "../../assets/collage/*.{jpg,jpeg,png,webp,avif}",
+    "../../assets/photos/*.{jpg,jpeg,webp,avif}",
+    "../../assets/textures/*.{jpg,jpeg,png,webp,avif}",
+    "../../assets/texture hero/*.{jpg,jpeg,png,webp,avif}"
+  ],
+  { eager: true, import: "default" }
+);
+const sources = Array.from(new Set(Object.values(modules).map((image) => image.src)));
+---
+
+<section class="talk">
+  <div class="talk__row talk__row--top">
+    <p class="talk__small">{ui.nav.contact}</p>
+    <p class="talk__small talk__intro">{ui.cta.intro}</p>
+    <p class="talk__small talk__right">{ui.cta.text}</p>
+  </div>
+
+  <a class="talk__title" href={contactHref} aria-label={ui.cta.title} data-fit data-sources={JSON.stringify(sources)}>
+    <span class="talk__star" aria-hidden="true">*</span>
+    {
+      words.map((letters) => (
+        <span class="talk__word" aria-hidden="true">
+          {letters.map((letter) => <span class="talk__letter" data-letter>{letter}</span>)}
+        </span>
+      ))
+    }
+  </a>
+
+  <div class="talk__row talk__row--bottom">
+    <ul class="talk__small talk__socials">
+      {
+        socials.map((social) => (
+          <li>
+            <a href={social.href} target={social.id === "email" ? undefined : "_blank"} rel="noopener noreferrer">
+              {social.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a class="talk__small talk__go" href={contactHref}><span>{ui.cta.go}</span><span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<style>
+  .talk {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100svh;
+    padding: 13svh 2vw 7svh;
+    background: var(--color-white);
+    color: var(--color-black);
+  }
+
+  .talk__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: start;
+    gap: 2vw;
+  }
+
+  .talk__small {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-copy);
+    line-height: var(--text-copy--line-height);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .talk__intro {
+    max-width: 22em;
+  }
+
+  .talk__right {
+    justify-self: end;
+    text-align: right;
+  }
+
+  .talk__title {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin: 4svh 0;
+    color: var(--color-black);
+    font-size: var(--talk-size, 17vw);
+    line-height: 0.8;
+    font-weight: var(--font-weight-regular);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .talk__star {
+    font-size: 0.55em;
+    line-height: 1;
+  }
+
+  .talk__word {
+    display: block;
+  }
+
+  .talk__letter {
+    position: relative;
+    display: inline-block;
+  }
+
+  .talk__letter.is-image {
+    color: transparent;
+  }
+
+  .talk__letter :global(img) {
+    position: absolute;
+    top: 0.03em;
+    left: 0;
+    display: none;
+    width: 100%;
+    height: 0.711em;
+    max-width: none;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  .talk__letter.is-image :global(img) {
+    display: block;
+  }
+
+  .talk__socials a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .talk__go {
+    display: flex;
+    justify-content: space-between;
+    align-self: end;
+    grid-column: 3;
+    justify-self: end;
+    width: min(100%, 21.95vw);
+    color: inherit;
+  }
+
+  @media (hover: hover) {
+    .talk__title .talk__word {
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .talk__title:hover .talk__word:first-of-type {
+      transform: translateX(-1.5vw);
+    }
+
+    .talk__title:hover .talk__word:last-of-type {
+      transform: translateX(1.5vw);
+    }
+  }
+</style>
+
+<script>
+  const title = document.querySelector<HTMLElement>("[data-fit]");
+
+  if (title) {
+    const fit = () => {
+      title.style.setProperty("--talk-size", "100px");
+      const available = title.parentElement ? title.parentElement.clientWidth - parseFloat(getComputedStyle(title.parentElement).paddingLeft) * 2 : window.innerWidth;
+      const natural = Array.from(title.children).reduce((total, child) => total + (child as HTMLElement).offsetWidth, 0);
+      const gaps = 0.18 * (title.children.length - 1) * 100;
+      title.style.setProperty("--talk-size", `${Math.floor((available / (natural + gaps)) * 100)}px`);
+    };
+
+    fit();
+    document.fonts?.ready.then(fit);
+    window.addEventListener("resize", fit);
+
+    const sources: string[] = JSON.parse(title.dataset.sources ?? "[]");
+    const letters = Array.from(title.querySelectorAll<HTMLElement>("[data-letter]"));
+    let turn = 0;
+
+    if (sources.length) {
+      letters.forEach((letter) => {
+        let timer = 0;
+        const image = document.createElement("img");
+        image.alt = "";
+        image.draggable = false;
+        letter.append(image);
+        letter.addEventListener("pointerenter", () => {
+          window.clearTimeout(timer);
+          let pick = Math.floor(Math.random() * sources.length);
+          if (pick === turn && sources.length > 1) pick = (pick + 1) % sources.length;
+          turn = pick;
+          image.src = sources[pick];
+          letter.classList.add("is-image");
+        });
+        letter.addEventListener("pointerleave", () => {
+          timer = window.setTimeout(() => letter.classList.remove("is-image"), 600);
+        });
+      });
+    }
+  }
+</script>

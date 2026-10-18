@@ -44,6 +44,7 @@ const en = {
     open: "I'm open for internships and collaborations.",
     go: "go to my page",
     archives: "Archives",
+    examples: "Some project examples",
     methodA: "Each project begins with research,",
     methodB: "then takes shape through textural identity, visual experimentation and bold typography, always guided by art direction."
   },
@@ -54,8 +55,15 @@ const en = {
     method: "Each project begins with research, then takes shape through textural identity, visual experimentation and bold typography, always guided by art direction."
   },
   cta: {
-    title: "LET’ TALK",
-    text: "Open for internships & collaborations."
+    title: "LET’S TALK",
+    text: "Open for internships & collaborations.",
+    intro: "Got a project, an idea or just want to say hi? Write me a few words.",
+    go: "go to contact page",
+    button: "Contact me",
+    emailLabel: "Email",
+    socialLabel: "Elsewhere",
+    first: "THOMAS",
+    last: "PERRUCHOT"
   },
   loader: {
     name: "Thomas Perruchot",
@@ -108,7 +116,22 @@ const en = {
     sent: "message sent",
     error: "something went wrong",
     or: "or",
-    not: "not"
+    not: "not",
+    lines: ["CON—", "TA", "CT."],
+    kicker: "(contact)",
+    intro: "If you have a project, an internship or a collaboration in mind, or just want to say hi, leave me a few words here. I read everything and answer as soon as I can.",
+    forLabel: "(what for?)",
+    forItems: ["Internships", "Collaborations", "Freelance projects", "Art direction", "Just saying hi"],
+    notLabel: "(not for)",
+    notItems: ["Spam", "Endless revisions", "Comic Sans"],
+    nameLabel: "(who are you?)",
+    emailLabel: "(how do I reach you?)",
+    messageLabel: "(what's on your mind?)",
+    namePlaceholder: "[ Your name ]",
+    emailPlaceholder: "[ Your email ]",
+    messagePlaceholder: "[ Your message ]",
+    opening: "your mail app is opening…",
+    subject: "Hello from your portfolio"
   },
   project: {
     labels: ["PROJECT", "BY", "TOOLS", "CONTEXT", "VISION"],
@@ -161,6 +184,7 @@ const fr: typeof en = {
     open: "Je suis ouvert aux stages et aux collaborations.",
     go: "voir ma page",
     archives: "Archives",
+    examples: "Quelques exemples de projets",
     methodA: "Chaque projet commence par la recherche,",
     methodB: "puis prend forme à travers l'identité texturale, l'expérimentation visuelle et la typographie affirmée, toujours guidée par la direction artistique."
   },
@@ -172,7 +196,14 @@ const fr: typeof en = {
   },
   cta: {
     title: "PARLONS",
-    text: "Ouvert aux stages et collaborations."
+    text: "Ouvert aux stages et collaborations.",
+    intro: "Un projet, une idée ou juste envie de dire bonjour ? Écris-moi quelques mots.",
+    go: "aller à la page contact",
+    button: "Me contacter",
+    emailLabel: "Email",
+    socialLabel: "Ailleurs",
+    first: "THOMAS",
+    last: "PERRUCHOT"
   },
   loader: {
     name: "Thomas Perruchot",
@@ -225,7 +256,22 @@ const fr: typeof en = {
     sent: "message envoyé",
     error: "une erreur est survenue",
     or: "ou",
-    not: "non"
+    not: "non",
+    lines: ["CON—", "TA", "CT."],
+    kicker: "(contact)",
+    intro: "Si tu as un projet, un stage ou une collaboration en tête, ou juste envie de dire bonjour, laisse-moi quelques mots ici. Je lis tout et je réponds dès que possible.",
+    forLabel: "(pour quoi ?)",
+    forItems: ["Stages", "Collaborations", "Projets freelance", "Direction artistique", "Juste dire bonjour"],
+    notLabel: "(pas pour)",
+    notItems: ["Le spam", "Les retouches sans fin", "Comic Sans"],
+    nameLabel: "(qui es-tu ?)",
+    emailLabel: "(comment te répondre ?)",
+    messageLabel: "(qu'as-tu en tête ?)",
+    namePlaceholder: "[ Ton nom ]",
+    emailPlaceholder: "[ Ton email ]",
+    messagePlaceholder: "[ Ton message ]",
+    opening: "ton application mail s'ouvre…",
+    subject: "Bonjour depuis ton portfolio"
   },
   project: {
     labels: ["PROJET", "PAR", "OUTILS", "CONTEXTE", "VISION"],
