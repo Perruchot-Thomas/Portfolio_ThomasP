@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import AboutPage from "../../components/about/AboutPage.astro";
 import { getLang, staticLangPaths } from "../../lib/i18n";
 
 export const getStaticPaths = staticLangPaths;
@@ -8,4 +9,5 @@ const lang = getLang(Astro.params.lang);
 ---
 
 <Layout lang={lang}>
+  <AboutPage lang={lang} />
 </Layout>

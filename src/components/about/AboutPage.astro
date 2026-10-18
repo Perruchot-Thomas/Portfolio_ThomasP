@@ -1,0 +1,426 @@
+---
+import type { Lang } from "../../data/i18n";
+import portrait from "../../assets/photos/IMG_9852.jpeg";
+import unionRaw from "../../assets/svg/union.svg?raw";
+import { useUi } from "../../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = useUi(lang);
+const copy = ui.aboutPage;
+const shapePath = unionRaw.match(/ d="([^"]+)"/)?.[1] ?? "";
+const lines = copy.lines.map((line) =>
+  line.split("|").map((part) => ({ text: part.replace(/[[\]]/g, ""), marked: part.startsWith("[") }))
+);
+const path = ui.about.skills.map((skill, index) => ({
+  ...skill,
+  number: String(index + 1).padStart(2, "0"),
+  letters: Array.from(skill.label)
+}));
+---
+
+<section class="me" data-me>
+  <canvas class="me__ghost" data-ghost data-src={portrait.src} aria-hidden="true"></canvas>
+
+  <div class="me__row">
+    <p class="me__small">{copy.kicker}</p>
+    <p class="me__small me__center">{copy.left} — {copy.right}</p>
+    <p class="me__small me__end">{copy.index}</p>
+  </div>
+
+  <h1 class="me__giant">{copy.title}</h1>
+
+  <div class="me__body">
+    <p class="me__statement">
+      {
+        lines.map((parts) => (
+          <span class="me__line">
+            {parts.map((part, index) => (
+              <>
+                {index > 0 && <span class="me__gap" aria-hidden="true" />}
+                <span class:list={[part.marked && "me__mark"]}>{part.text}</span>
+              </>
+            ))}
+          </span>
+        ))
+      }
+    </p>
+
+    <div class="me__tools">
+      <p class="me__small me__label">{copy.tools}</p>
+      <ul class="me__small me__list">
+        {ui.intro.tools.map((tool) => <li>{tool}</li>)}
+      </ul>
+    </div>
+  </div>
+
+  <div class="me__foot">
+    <p class="me__small">{copy.sideA}</p>
+    <a class="me__small" href="#path">[ {copy.down} ↓ ]</a>
+  </div>
+</section>
+
+<section class="path" id="path" data-path data-src={portrait.src}>
+  <svg class="path__shape" viewBox="0 0 2682.8 1003.22" preserveAspectRatio="none" aria-hidden="true">
+    <path d={shapePath} />
+  </svg>
+
+  <div class="path__inner">
+    <div class="path__head">
+      <p class="me__small">{copy.path}</p>
+      <p class="me__small">{copy.quote}</p>
+    </div>
+
+    <p class="path__giant" aria-hidden="true">{copy.range}</p>
+
+    <ol class="path__rows">
+      {
+        path.map((step) => (
+          <li class="path__row">
+            <span class="me__small path__num">{step.number}</span>
+            <span class="path__label" aria-label={step.label}>
+              {step.letters.map((letter) => (
+                <span class="path__letter" data-letter aria-hidden="true">
+                  {letter === " " ? " " : letter}
+                </span>
+              ))}
+            </span>
+            <span class="me__small path__year">{step.year}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .me__small {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: inherit;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .me {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4svh;
+    min-height: 100svh;
+    padding: 11svh var(--gutter) 6svh;
+    overflow: hidden;
+    color: var(--color-black);
+  }
+
+  .me__ghost {
+    position: absolute;
+    top: 11svh;
+    right: 12vw;
+    width: auto;
+    height: 78svh;
+    aspect-ratio: 524 / 712;
+    image-rendering: pixelated;
+    mix-blend-mode: multiply;
+    filter: grayscale(1) contrast(0.85) brightness(1.3);
+    pointer-events: none;
+  }
+
+  .me__row,
+  .me__giant,
+  .me__body,
+  .me__foot {
+    position: relative;
+  }
+
+  .me__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2vw;
+  }
+
+  .me__center {
+    justify-self: center;
+  }
+
+  .me__end {
+    justify-self: end;
+  }
+
+  .me__giant {
+    margin: 0;
+    font-size: var(--text-giant);
+    line-height: var(--text-giant--line-height);
+    font-weight: var(--font-weight-regular);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .me__body {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 4vw;
+    padding-top: 3svh;
+    border-top: 1px solid var(--color-grey-light);
+  }
+
+  .me__statement {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    font-size: var(--text-mid);
+    line-height: 0.92;
+    font-weight: var(--font-weight-regular);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .me__line {
+    display: flex;
+  }
+
+  .me__gap {
+    flex: none;
+    width: 1.2em;
+  }
+
+  .me__mark {
+    padding: 0 0.08em;
+    background: var(--color-black);
+    color: var(--color-white);
+  }
+
+  .me__tools {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .me__label {
+    color: var(--color-grey);
+  }
+
+  .me__foot {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+
+  .me__foot a {
+    color: inherit;
+  }
+
+  .path {
+    position: relative;
+    padding: 30vw var(--gutter) 34vw;
+    color: var(--color-white);
+  }
+
+  .path__shape {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 209.6vw;
+    height: 100%;
+    margin-left: -104.8vw;
+    fill: var(--color-black);
+    pointer-events: none;
+  }
+
+  .path__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5svh;
+  }
+
+  .path__head {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .path__giant {
+    margin: 0;
+    font-size: var(--text-giant);
+    line-height: var(--text-giant--line-height);
+    font-weight: var(--font-weight-regular);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .path__rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--color-grey);
+  }
+
+  .path__row {
+    display: grid;
+    grid-template-columns: 6vw 1fr auto;
+    align-items: center;
+    gap: 2vw;
+    padding: 1.6svh 0;
+    border-bottom: 1px solid var(--color-grey);
+  }
+
+  .path__num {
+    color: var(--color-grey);
+  }
+
+  .path__label {
+    display: flex;
+    font-size: var(--text-mid);
+    line-height: 1;
+    font-weight: var(--font-weight-regular);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .path__letter {
+    position: relative;
+    display: inline-block;
+  }
+
+  .path__letter.is-image {
+    color: transparent;
+  }
+
+  .path__letter :global(i) {
+    position: absolute;
+    top: 0.14em;
+    left: 0;
+    display: none;
+    width: 100%;
+    height: 0.711em;
+    background-size: var(--photo-size) auto;
+    background-position: var(--photo-x) 30%;
+    image-rendering: pixelated;
+  }
+
+  .path__letter.is-image :global(i) {
+    display: block;
+  }
+
+  @media (max-width: 767px) {
+    .me__row {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .me__center {
+      display: none;
+    }
+
+    .me__body {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .me__statement {
+      white-space: normal;
+    }
+
+    .me__line {
+      flex-wrap: wrap;
+    }
+
+    .me__tools {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .path__row {
+      grid-template-columns: auto 1fr auto;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const me = document.querySelector<HTMLElement>("[data-me]");
+  const ghost = document.querySelector<HTMLCanvasElement>("[data-ghost]");
+
+  if (me && ghost) {
+    const context = ghost.getContext("2d");
+    const image = new Image();
+    image.decoding = "async";
+    image.onload = () => {
+      if (!context) return;
+      let level = -1;
+      const paint = (block: number) => {
+        const quantized = Math.round(block * 2) / 2;
+        if (quantized === level) return;
+        level = quantized;
+        ghost.width = Math.max(4, Math.round(image.naturalWidth / quantized));
+        ghost.height = Math.max(4, Math.round(image.naturalHeight / quantized));
+        context.imageSmoothingEnabled = true;
+        context.drawImage(image, 0, 0, ghost.width, ghost.height);
+      };
+      paint(1);
+      if (reduced) return;
+      ScrollTrigger.create({
+        trigger: me,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+        onUpdate: (self) => paint(1 + Math.pow(self.progress, 1.6) * 40)
+      });
+    };
+    image.src = ghost.dataset.src ?? "";
+  }
+
+  const path = document.querySelector<HTMLElement>("[data-path]");
+
+  if (path) {
+    const source = path.dataset.src ?? "";
+    const letters = Array.from(path.querySelectorAll<HTMLElement>("[data-letter]"));
+
+    letters.forEach((letter) => {
+      const tile = document.createElement("i");
+      tile.style.backgroundImage = `url("${source}")`;
+      letter.append(tile);
+      let timer = 0;
+
+      const show = (duration: number) => {
+        window.clearTimeout(timer);
+        const width = letter.closest(".path__label")?.getBoundingClientRect().width ?? 600;
+        const offset = letter.offsetLeft;
+        tile.style.setProperty("--photo-size", `${width}px`);
+        tile.style.setProperty("--photo-x", `${-offset}px`);
+        letter.classList.add("is-image");
+        if (duration > 0) timer = window.setTimeout(() => letter.classList.remove("is-image"), duration);
+      };
+
+      letter.addEventListener("pointerenter", () => show(0));
+      letter.addEventListener("pointerleave", () => {
+        timer = window.setTimeout(() => letter.classList.remove("is-image"), 600);
+      });
+    });
+
+    if (!reduced && letters.length) {
+      let visible = false;
+      new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+      }).observe(path);
+      window.setInterval(() => {
+        if (!visible) return;
+        const letter = letters[Math.floor(Math.random() * letters.length)];
+        letter.dispatchEvent(new PointerEvent("pointerenter"));
+        window.setTimeout(() => letter.dispatchEvent(new PointerEvent("pointerleave")), 500 + Math.random() * 700);
+      }, 260);
+    }
+  }
+</script>

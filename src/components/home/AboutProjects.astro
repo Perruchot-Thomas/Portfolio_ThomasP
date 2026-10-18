@@ -2,6 +2,7 @@
 import type { Lang } from "../../data/i18n";
 import unionRaw from "../../assets/svg/union.svg?raw";
 import { localePath, useUi } from "../../lib/i18n";
+import { gallery } from "../../data/gallery";
 
 interface Props {
   lang: Lang;
@@ -19,20 +20,6 @@ const modules = import.meta.glob<{ src: string; width: number; height: number }>
   import: "default"
 });
 const linked = ["acab", "desurbanisation", "crane"];
-const names: Record<string, { en: string; fr: string }> = {
-  "3ds-yeux-pensements": { en: "Bandaged Eyes", fr: "Yeux pansés" },
-  acab: { en: "ACAB", fr: "ACAB" },
-  biche: { en: "Night Doe", fr: "Biche de nuit" },
-  "who-are-you": { en: "Who Are You?", fr: "Qui es-tu ?" },
-  "bug-fille": { en: "Glitch Girl", fr: "Fille glitch" },
-  "bouche-etoile": { en: "Star Mouth", fr: "Bouche étoile" },
-  desurbanisation: { en: "Deurbanisation", fr: "Désurbanisation" },
-  crane: { en: "Skull Grid", fr: "Crâne grille" },
-  "flowers-in-mind": { en: "Flowers in Mind", fr: "Fleurs en tête" },
-  mute: { en: "Mute", fr: "Muet" },
-  oeufv2: { en: "Hidden Egg", fr: "Œuf caché" },
-  "red-eyes": { en: "Red Eyes", fr: "Yeux rouges" }
-};
 const ring = Object.entries(modules)
   .sort(([a], [b]) => a.localeCompare(b))
   .map(([path, image]) => {
@@ -82,7 +69,7 @@ const ring = Object.entries(modules)
           <li data-entry>
             <a href={projectsHref}>
               <span class="flow__num">{String(index + 1).padStart(2, "0")}</span>
-              <span>{names[photo.name]?.[lang] ?? photo.name}</span>
+              <span>{gallery.find((item) => item.file.endsWith(photo.name))?.names[lang] ?? photo.name}</span>
             </a>
           </li>
         ))

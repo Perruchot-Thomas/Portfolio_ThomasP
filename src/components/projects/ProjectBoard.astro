@@ -1,0 +1,313 @@
+---
+import type { Lang } from "../../data/i18n";
+import { gallery, galleryCategories } from "../../data/gallery";
+import { useUi } from "../../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = useUi(lang);
+const copy = ui.projectsPage;
+
+const modules = import.meta.glob<{ src: string; width: number; height: number }>("../../assets/projets/*.{jpg,jpeg,png,webp,avif}", {
+  eager: true,
+  import: "default"
+});
+
+const spots = [
+  [4, 6, -4],
+  [23, 2, 3],
+  [42, 9, -2],
+  [61, 3, 5],
+  [80, 8, -3],
+  [9, 38, 2],
+  [28, 44, -5],
+  [48, 36, 4],
+  [67, 42, -2],
+  [84, 34, 6],
+  [36, 66, -3],
+  [58, 64, 2]
+];
+
+const items = gallery
+  .map((item, index) => {
+    const key = Object.keys(modules).find((path) => path.includes(`/${item.file}.`));
+    const image = key ? modules[key] : undefined;
+    if (!image) return undefined;
+    const ratio = image.width / image.height;
+    const [left, top, turn] = spots[index % spots.length];
+    return {
+      ...item,
+      image,
+      number: String(index + 1).padStart(2, "0"),
+      style: `left:${left}%;top:${top}%;width:${Math.sqrt(170 * ratio).toFixed(2)}vw;--turn:${turn}deg`
+    };
+  })
+  .filter((item) => item !== undefined);
+
+const counts = Object.fromEntries(galleryCategories.map((category) => [category, items.filter((item) => item.category === category).length]));
+const filters = [
+  { id: "all", label: copy.all, count: items.length },
+  ...galleryCategories.map((category) => ({ id: category, label: copy[category], count: counts[category] }))
+];
+---
+
+<section class="board" data-board>
+  <div class="board__top">
+    <p class="board__small">{copy.kicker}</p>
+    <p class="board__small">{items.length} {copy.works}</p>
+    <p class="board__small board__right">{copy.hint}</p>
+  </div>
+
+  <div class="board__bar">
+    <p class="board__small board__label">{copy.filter}</p>
+    <div class="board__filters" role="group" aria-label={copy.filter}>
+      {
+        filters.map((filter, index) => (
+          <button class:list={["board__small", "board__filter", index === 0 && "is-active"]} type="button" data-filter={filter.id} aria-pressed={index === 0 ? "true" : "false"}>
+            [ {filter.label}<span class="board__num">{String(filter.count).padStart(2, "0")}</span> ]
+          </button>
+        ))
+      }
+    </div>
+    <button class="board__small board__filter board__shuffle" type="button" data-shuffle>[ {copy.shuffle} ]</button>
+  </div>
+
+  <div class="board__field" data-field>
+    <h1 class="board__title">{ui.nav.projects}</h1>
+
+    {
+      items.map((item) => (
+        <figure class="board__item" data-item data-category={item.category} style={item.style}>
+          <div class="board__card">
+            <img src={item.image.src} width={item.image.width} height={item.image.height} alt={item.names[lang]} draggable="false" loading="lazy" />
+            <figcaption class="board__small board__caption">
+              <span class="board__num">{item.number}</span>
+              {item.names[lang]}
+            </figcaption>
+          </div>
+        </figure>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .board {
+    display: flex;
+    flex-direction: column;
+    gap: 3svh;
+    min-height: 100svh;
+    padding: 11svh var(--gutter) 4svh;
+    overflow: hidden;
+    color: var(--color-black);
+  }
+
+  .board__top {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2vw;
+  }
+
+  .board__small {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .board__right {
+    justify-self: end;
+    text-align: right;
+  }
+
+  .board__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 1.2vw;
+    padding-bottom: 2svh;
+    border-bottom: 1px solid var(--color-grey-light);
+  }
+
+  .board__label {
+    margin-right: 1vw;
+  }
+
+  .board__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2vw;
+  }
+
+  .board__filter {
+    opacity: 0.35;
+    cursor: pointer;
+    transition: opacity 0.25s ease;
+  }
+
+  .board__filter:hover,
+  .board__filter.is-active {
+    opacity: 1;
+  }
+
+  .board__shuffle {
+    margin-left: auto;
+    opacity: 1;
+  }
+
+  .board__num {
+    position: relative;
+    top: -0.45em;
+    margin: 0 0.15em 0 0.25em;
+    font-size: 0.6em;
+    opacity: 0.55;
+  }
+
+  .board__caption .board__num {
+    margin-left: 0;
+  }
+
+  .board__field {
+    position: relative;
+    flex: 1;
+    min-height: 62vh;
+  }
+
+  .board__title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    margin: 0;
+    color: var(--color-white);
+    mix-blend-mode: difference;
+    font-size: var(--text-giant);
+    line-height: var(--text-giant--line-height);
+    font-weight: var(--font-weight-regular);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .board__item {
+    position: absolute;
+    z-index: 1;
+    margin: 0;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .board__item:active {
+    cursor: grabbing;
+  }
+
+  .board__card {
+    transform: rotate(var(--turn));
+  }
+
+  .board__card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+  }
+
+  .board__caption {
+    margin-top: 0.4em;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 767px) {
+    .board__top {
+      grid-template-columns: 1fr;
+    }
+
+    .board__right {
+      justify-self: start;
+      text-align: left;
+    }
+
+    .board__item {
+      width: 34vw !important;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { Draggable } from "gsap/Draggable";
+  import { InertiaPlugin } from "gsap/InertiaPlugin";
+
+  gsap.registerPlugin(Draggable, InertiaPlugin);
+
+  const board = document.querySelector<HTMLElement>("[data-board]");
+  const field = board?.querySelector<HTMLElement>("[data-field]");
+
+  if (board && field) {
+    const items = Array.from(field.querySelectorAll<HTMLElement>("[data-item]"));
+    const buttons = Array.from(board.querySelectorAll<HTMLButtonElement>("[data-filter]"));
+    const shuffle = board.querySelector<HTMLButtonElement>("[data-shuffle]");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let layer = items.length + 1;
+
+    Draggable.create(items, {
+      type: "x,y",
+      bounds: field,
+      inertia: true,
+      edgeResistance: 0.75,
+      onPress() {
+        layer += 1;
+        gsap.set(this.target, { zIndex: layer });
+        gsap.to(this.target.firstElementChild, { scale: 1.04, duration: 0.25, ease: "power3.out" });
+      },
+      onRelease() {
+        gsap.to(this.target.firstElementChild, { scale: 1, duration: 0.4, ease: "power3.out" });
+      }
+    });
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter ?? "all";
+        buttons.forEach((other) => {
+          const active = other === button;
+          other.classList.toggle("is-active", active);
+          other.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+        items.forEach((item) => {
+          const visible = filter === "all" || item.dataset.category === filter;
+          item.style.pointerEvents = visible ? "" : "none";
+          gsap.to(item, {
+            autoAlpha: visible ? 1 : 0,
+            scale: visible ? 1 : 0.7,
+            duration: reduced ? 0 : 0.45,
+            ease: "power3.out"
+          });
+        });
+      });
+    });
+
+    shuffle?.addEventListener("click", () => {
+      const box = field.getBoundingClientRect();
+      items.forEach((item) => {
+        const width = item.offsetWidth;
+        const height = item.offsetHeight;
+        const left = item.offsetLeft;
+        const top = item.offsetTop;
+        const x = gsap.utils.random(0, Math.max(0, box.width - width)) - left;
+        const y = gsap.utils.random(0, Math.max(0, box.height - height)) - top;
+        gsap.to(item, { x, y, duration: reduced ? 0 : 0.9, ease: "power3.inOut" });
+        gsap.to(item.firstElementChild, { rotation: gsap.utils.random(-7, 7), duration: reduced ? 0 : 0.9, ease: "power3.inOut" });
+      });
+    });
+  }
+</script>
