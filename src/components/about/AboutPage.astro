@@ -1,7 +1,18 @@
 ---
 import type { Lang } from "../../data/i18n";
-import portrait from "../../assets/photos/IMG_9852.jpeg";
 import unionRaw from "../../assets/svg/union.svg?raw";
+import selfie from "../../assets/photos/IMG_9852.jpeg";
+import drawing from "../../assets/about/drawing.jpg";
+import penTablet from "../../assets/about/pen-tablet.jpg";
+import firstCollab from "../../assets/about/first-collab.jpg";
+import tshirt from "../../assets/about/tshirt.jpg";
+import photoshop from "../../assets/about/photoshop.png";
+import mmi from "../../assets/about/mmi.png";
+import texture from "../../assets/textures/texture-2.jpg";
+import desurbanisation from "../../assets/projets/07-desurbanisation.jpg";
+import acab from "../../assets/projets/02-acab.jpg";
+import flowers from "../../assets/projets/09-flowers-in-mind.jpg";
+import redEyes from "../../assets/projets/12-red-eyes.jpg";
 import { useUi } from "../../lib/i18n";
 
 interface Props {
@@ -12,9 +23,39 @@ const { lang } = Astro.props;
 const ui = useUi(lang);
 const copy = ui.aboutPage;
 const shapePath = unionRaw.match(/ d="([^"]+)"/)?.[1] ?? "";
-const lines = copy.lines.map((line) =>
-  line.split("|").map((part) => ({ text: part.replace(/[[\]]/g, ""), marked: part.startsWith("[") }))
+
+const pictures = [
+  { image: drawing, size: "s" },
+  { image: penTablet, size: "s" },
+  { image: desurbanisation, size: "m" },
+  { image: mmi, size: "s" },
+  { image: selfie, size: "l" },
+  { image: firstCollab, size: "s" },
+  { image: tshirt, size: "s" },
+  { image: acab, size: "m" },
+  { image: flowers, size: "m" },
+  { image: photoshop, size: "s" },
+  { image: texture, size: "s" },
+  { image: redEyes, size: "m" }
+];
+
+const [w1, w2, w3, w4, w5] = copy.words;
+const layout: [number | "end", string | number][][] = [
+  [[1, w1], [5, 0], [6, 2], [8, ")"], [10, "("], [11, 3]],
+  [[1, w2], [5, 1], [7, 4], [9, ")"], [11, "("], [12, 5]],
+  [[1, 6], [2, ")"], [3, "("], [4, 7], ["end", w3]],
+  [[1, w4], [6, 8], [7, ")"], [8, "("], [10, 9]],
+  [[1, 10], [2, "("], [4, 11], [5, ")"], ["end", w5]]
+];
+
+const lines = layout.map((tokens) =>
+  tokens.map(([column, token]) => {
+    const place = column === "end" ? "grid-column:1 / -1;justify-self:end" : `grid-column:${column}`;
+    if (typeof token === "number") return { kind: "picture" as const, place, ...pictures[token] };
+    return { kind: "word" as const, place, text: token };
+  })
 );
+
 const path = ui.about.skills.map((skill, index) => ({
   ...skill,
   number: String(index + 1).padStart(2, "0"),
@@ -22,56 +63,48 @@ const path = ui.about.skills.map((skill, index) => ({
 }));
 ---
 
-<section class="me" data-me>
-  <canvas class="me__ghost" data-ghost data-src={portrait.src} aria-hidden="true"></canvas>
+<section class="order" data-order>
+  <p class="order__small order__presents">
+    {copy.presents.map((line) => <span>{line}</span>)}
+  </p>
 
-  <div class="me__row">
-    <p class="me__small">{copy.kicker}</p>
-    <p class="me__small me__center">{copy.left} — {copy.right}</p>
-    <p class="me__small me__end">{copy.index}</p>
-  </div>
+  <h1 class="order__title" aria-label={`${copy.title} — ${copy.words.join(" ")}`}>
+    {
+      lines.map((tokens) => (
+        <span class="order__line" aria-hidden="true">
+          {tokens.map((token) =>
+            token.kind === "word" ? (
+              <span class="order__word" style={token.place} data-token>{token.text}</span>
+            ) : (
+              <span class:list={["order__pic", `order__pic--${token.size}`]} style={token.place} data-token>
+                <img src={token.image.src} width={token.image.width} height={token.image.height} alt="" draggable="false" />
+              </span>
+            )
+          )}
+        </span>
+      ))
+    }
+  </h1>
 
-  <h1 class="me__giant">{copy.title}</h1>
-
-  <div class="me__body">
-    <p class="me__statement">
-      {
-        lines.map((parts) => (
-          <span class="me__line">
-            {parts.map((part, index) => (
-              <>
-                {index > 0 && <span class="me__gap" aria-hidden="true" />}
-                <span class:list={[part.marked && "me__mark"]}>{part.text}</span>
-              </>
-            ))}
-          </span>
-        ))
-      }
+  <div class="order__foot">
+    <p class="order__small">
+      <span class="order__grey">{copy.tools}</span> {ui.intro.tools.join(", ")}
     </p>
-
-    <div class="me__tools">
-      <p class="me__small me__label">{copy.tools}</p>
-      <ul class="me__small me__list">
-        {ui.intro.tools.map((tool) => <li>{tool}</li>)}
-      </ul>
-    </div>
-  </div>
-
-  <div class="me__foot">
-    <p class="me__small">{copy.sideA}</p>
-    <a class="me__small" href="#path">[ {copy.down} ↓ ]</a>
+    <p class="order__small order__role">
+      {copy.role.map((line) => <span>{line}</span>)}
+    </p>
   </div>
 </section>
 
-<section class="path" id="path" data-path data-src={portrait.src}>
+<section class="path" id="path" data-path data-src={selfie.src}>
   <svg class="path__shape" viewBox="0 0 2682.8 1003.22" preserveAspectRatio="none" aria-hidden="true">
     <path d={shapePath} />
   </svg>
 
   <div class="path__inner">
     <div class="path__head">
-      <p class="me__small">{copy.path}</p>
-      <p class="me__small">{copy.quote}</p>
+      <p class="order__small">{copy.path}</p>
+      <p class="order__small">{copy.quote}</p>
     </div>
 
     <p class="path__giant" aria-hidden="true">{copy.range}</p>
@@ -80,15 +113,15 @@ const path = ui.about.skills.map((skill, index) => ({
       {
         path.map((step) => (
           <li class="path__row">
-            <span class="me__small path__num">{step.number}</span>
+            <span class="order__small path__num">{step.number}</span>
             <span class="path__label" aria-label={step.label}>
               {step.letters.map((letter) => (
                 <span class="path__letter" data-letter aria-hidden="true">
-                  {letter === " " ? " " : letter}
+                  {letter === " " ? "\u00a0" : letter}
                 </span>
               ))}
             </span>
-            <span class="me__small path__year">{step.year}</span>
+            <span class="order__small path__year">{step.year}</span>
           </li>
         ))
       }
@@ -97,131 +130,111 @@ const path = ui.about.skills.map((skill, index) => ({
 </section>
 
 <style>
-  .me__small {
+  .order__small {
+    display: flex;
+    flex-direction: column;
     margin: 0;
-    padding: 0;
-    list-style: none;
-    color: inherit;
+    color: var(--color-black);
     font-size: var(--text-small);
     line-height: var(--text-small--line-height);
     font-weight: var(--font-weight-regular);
   }
 
-  .me {
-    position: relative;
+  .order__grey {
+    display: inline;
+    color: var(--color-grey);
+  }
+
+  .order {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 4svh;
     min-height: 100svh;
-    padding: 11svh var(--gutter) 6svh;
+    padding: 11svh var(--gutter) 5svh;
     overflow: hidden;
     color: var(--color-black);
   }
 
-  .me__ghost {
-    position: absolute;
-    top: 11svh;
-    right: 12vw;
-    width: auto;
-    height: 78svh;
-    aspect-ratio: 524 / 712;
-    image-rendering: pixelated;
-    mix-blend-mode: multiply;
-    filter: grayscale(1) contrast(0.85) brightness(1.3);
-    pointer-events: none;
-  }
-
-  .me__row,
-  .me__giant,
-  .me__body,
-  .me__foot {
-    position: relative;
-  }
-
-  .me__row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 2vw;
-  }
-
-  .me__center {
-    justify-self: center;
-  }
-
-  .me__end {
-    justify-self: end;
-  }
-
-  .me__giant {
+  .order__title {
+    display: flex;
+    flex-direction: column;
     margin: 0;
-    font-size: var(--text-giant);
-    line-height: var(--text-giant--line-height);
+    font-size: var(--text-order);
+    line-height: var(--text-order--line-height);
     font-weight: var(--font-weight-regular);
     letter-spacing: -0.02em;
     text-transform: uppercase;
     white-space: nowrap;
   }
 
-  .me__body {
+  .order__line {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: center;
+  }
+
+  .order__word,
+  .order__pic {
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  .order__word {
+    display: block;
+  }
+
+  .order__pic {
+    position: relative;
+    z-index: 1;
+    display: block;
+    flex: none;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .order__pic:hover {
+    z-index: 2;
+    transform: scale(1.6);
+  }
+
+  .order__pic img {
+    display: block;
+    width: auto;
+    height: 100%;
+  }
+
+  .order__pic--s {
+    height: 0.52em;
+  }
+
+  .order__pic--m {
+    height: 1em;
+  }
+
+  .order__pic--l {
+    height: 1.9em;
+    margin-block: -0.5em;
+  }
+
+  .order__foot {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
     gap: 4vw;
-    padding-top: 3svh;
-    border-top: 1px solid var(--color-grey-light);
   }
 
-  .me__statement {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    font-size: var(--text-mid);
-    line-height: 0.92;
-    font-weight: var(--font-weight-regular);
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .me__line {
-    display: flex;
-  }
-
-  .me__gap {
-    flex: none;
-    width: 1.2em;
-  }
-
-  .me__mark {
-    padding: 0 0.08em;
-    background: var(--color-black);
-    color: var(--color-white);
-  }
-
-  .me__tools {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+  .order__role {
     text-align: right;
-  }
-
-  .me__label {
-    color: var(--color-grey);
-  }
-
-  .me__foot {
-    display: flex;
-    justify-content: space-between;
-    margin-top: auto;
-  }
-
-  .me__foot a {
-    color: inherit;
   }
 
   .path {
     position: relative;
     padding: 30vw var(--gutter) 34vw;
     color: var(--color-white);
+  }
+
+  .path .order__small {
+    color: inherit;
   }
 
   .path__shape {
@@ -272,7 +285,7 @@ const path = ui.about.skills.map((skill, index) => ({
     border-bottom: 1px solid var(--color-grey);
   }
 
-  .path__num {
+  .path .path__num {
     color: var(--color-grey);
   }
 
@@ -311,29 +324,23 @@ const path = ui.about.skills.map((skill, index) => ({
   }
 
   @media (max-width: 767px) {
-    .me__row {
-      grid-template-columns: 1fr 1fr;
+    .order__title {
+      font-size: calc(var(--text-order) * 1.5);
     }
 
-    .me__center {
-      display: none;
+    .order__line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0 0.2em;
     }
 
-    .me__body {
+    .order__foot {
       flex-direction: column;
       align-items: flex-start;
     }
 
-    .me__statement {
-      white-space: normal;
-    }
-
-    .me__line {
-      flex-wrap: wrap;
-    }
-
-    .me__tools {
-      align-items: flex-start;
+    .order__role {
       text-align: left;
     }
 
@@ -345,41 +352,20 @@ const path = ui.about.skills.map((skill, index) => ({
 
 <script>
   import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
 
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const me = document.querySelector<HTMLElement>("[data-me]");
-  const ghost = document.querySelector<HTMLCanvasElement>("[data-ghost]");
+  const order = document.querySelector<HTMLElement>("[data-order]");
 
-  if (me && ghost) {
-    const context = ghost.getContext("2d");
-    const image = new Image();
-    image.decoding = "async";
-    image.onload = () => {
-      if (!context) return;
-      let level = -1;
-      const paint = (block: number) => {
-        const quantized = Math.round(block * 2) / 2;
-        if (quantized === level) return;
-        level = quantized;
-        ghost.width = Math.max(4, Math.round(image.naturalWidth / quantized));
-        ghost.height = Math.max(4, Math.round(image.naturalHeight / quantized));
-        context.imageSmoothingEnabled = true;
-        context.drawImage(image, 0, 0, ghost.width, ghost.height);
-      };
-      paint(1);
-      if (reduced) return;
-      ScrollTrigger.create({
-        trigger: me,
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-        onUpdate: (self) => paint(1 + Math.pow(self.progress, 1.6) * 40)
-      });
-    };
-    image.src = ghost.dataset.src ?? "";
+  if (order && !reduced) {
+    const tokens = Array.from(order.querySelectorAll<HTMLElement>("[data-token]"));
+    gsap.from(tokens, {
+      yPercent: 40,
+      autoAlpha: 0,
+      duration: 0.9,
+      ease: "power3.out",
+      stagger: { each: 0.035, from: "random" },
+      delay: 0.15
+    });
   }
 
   const path = document.querySelector<HTMLElement>("[data-path]");
@@ -394,17 +380,15 @@ const path = ui.about.skills.map((skill, index) => ({
       letter.append(tile);
       let timer = 0;
 
-      const show = (duration: number) => {
+      const show = () => {
         window.clearTimeout(timer);
         const width = letter.closest(".path__label")?.getBoundingClientRect().width ?? 600;
-        const offset = letter.offsetLeft;
         tile.style.setProperty("--photo-size", `${width}px`);
-        tile.style.setProperty("--photo-x", `${-offset}px`);
+        tile.style.setProperty("--photo-x", `${-letter.offsetLeft}px`);
         letter.classList.add("is-image");
-        if (duration > 0) timer = window.setTimeout(() => letter.classList.remove("is-image"), duration);
       };
 
-      letter.addEventListener("pointerenter", () => show(0));
+      letter.addEventListener("pointerenter", show);
       letter.addEventListener("pointerleave", () => {
         timer = window.setTimeout(() => letter.classList.remove("is-image"), 600);
       });

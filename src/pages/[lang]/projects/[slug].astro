@@ -1,13 +1,12 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
+import ProjectDetail from "../../../components/projects/ProjectDetail.astro";
 import { languages } from "../../../data/i18n";
 import { projects, getProject } from "../../../data/projects";
 import { getLang } from "../../../lib/i18n";
 
 export function getStaticPaths() {
-  return languages.flatMap((lang) =>
-    projects.map((project) => ({ params: { lang, slug: project.slug } }))
-  );
+  return languages.flatMap((lang) => projects.map((project) => ({ params: { lang, slug: project.slug } })));
 }
 
 const lang = getLang(Astro.params.lang);
@@ -19,4 +18,5 @@ if (!project) {
 ---
 
 <Layout lang={lang} title={`${project.title} - sidus`}>
+  <ProjectDetail lang={lang} project={project} />
 </Layout>

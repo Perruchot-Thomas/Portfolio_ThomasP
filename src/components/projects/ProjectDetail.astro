@@ -1,0 +1,383 @@
+---
+import { Image } from "astro:assets";
+import type { Lang } from "../../data/i18n";
+import type { Project } from "../../data/projects";
+import { projects } from "../../data/projects";
+import { localePath, useUi } from "../../lib/i18n";
+
+interface Props {
+  lang: Lang;
+  project: Project;
+}
+
+const { lang, project } = Astro.props;
+const ui = useUi(lang);
+const copy = ui.work;
+const [projectLabel, byLabel, toolsLabel, contextLabel, visionLabel] = copy.labels;
+const index = projects.findIndex((item) => item.slug === project.slug);
+const next = projects[(index + 1) % projects.length];
+const count = `(${String(index + 1).padStart(2, "0")}/${String(projects.length).padStart(2, "0")})`;
+
+const blocks = project.dissection.blocks.map((block, order) => {
+  const [head, ...rest] = block[lang].split("\n\n");
+  const titled = rest.length > 0 && head.length < 40;
+  return {
+    label: titled ? `(${head.replace(/\.$/, "")})` : `${copy.detail} ${String(order + 1).padStart(2, "0")})`,
+    text: titled ? rest.join("\n\n") : block[lang]
+  };
+});
+---
+
+<article class="work" data-work>
+  <section class="work__top">
+    <div class="work__head">
+      <h1 class="work__title">{project.name}</h1>
+      <p class="work__small work__status">{count} {copy.status}</p>
+    </div>
+
+    <div class="work__body">
+      <div class="work__col">
+        <div class="work__group">
+          <p class="work__small work__kicker">{projectLabel}</p>
+          <p class="work__small">{project.title}</p>
+        </div>
+        <div class="work__group">
+          <p class="work__small work__kicker">{visionLabel}</p>
+          <p class="work__small work__intro">{project.vision[lang]}</p>
+        </div>
+      </div>
+
+      <div class="work__col">
+        <div class="work__group">
+          <p class="work__small work__kicker">{byLabel}</p>
+          <p class="work__small">× {project.by}</p>
+        </div>
+        <div class="work__group">
+          <p class="work__small work__kicker">{toolsLabel}</p>
+          <p class="work__small">× {project.tools}</p>
+        </div>
+        <div class="work__group">
+          <p class="work__small work__kicker">{contextLabel}</p>
+          <ul class="work__small work__list">
+            {project.context[lang].split(" / ").map((item) => <li>× {item}</li>)}
+          </ul>
+        </div>
+      </div>
+
+      <div class="work__cover">
+        <div class="work__poster">
+          <Image src={project.poster} alt={project.title} width={1000} format="webp" quality={82} loading="eager" />
+        </div>
+        <div class="work__actions">
+          <a class="work__action" href={localePath(lang, "/projects")}>[ ← {copy.back} ]</a>
+          {
+            project.stream && (
+              <a class="work__action" href={project.stream} target="_blank" rel="noopener noreferrer">
+                <span>[ {copy.stream}</span>
+                <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M22 78 L78 22 M34 22 H78 V66" /></svg>
+                <span>]</span>
+              </a>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="work__part">
+    <div class="work__rule">
+      <p class="work__small work__kicker">{copy.moodboard}</p>
+      <p class="work__small">{project.name.toLowerCase()} — 01</p>
+    </div>
+    <div class="work__grid">
+      <div class="work__wide" data-reveal>
+        <Image src={project.moodboard.image} alt="" width={1692} format="webp" quality={80} />
+      </div>
+      <p class="work__small work__text" data-reveal>{project.moodboard.text[lang]}</p>
+    </div>
+  </section>
+
+  <section class="work__part">
+    <div class="work__rule">
+      <p class="work__small work__kicker">{copy.dissection}</p>
+      <p class="work__small">{project.name.toLowerCase()} — 02</p>
+    </div>
+    <div class="work__grid">
+      <div class="work__cut">
+        <Image src={project.dissection.image} alt="" width={1600} format="webp" quality={82} />
+      </div>
+      <div class="work__blocks">
+        {
+          blocks.map((block) => (
+            <div class="work__group" data-reveal>
+              <p class="work__small work__kicker">{block.label}</p>
+              <p class="work__small work__text">{block.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <nav class="work__next">
+    <p class="work__small">{count}</p>
+    <a class="work__action" href={localePath(lang, `/projects/${next.slug}`)}>
+      <span>[ {copy.next} — {next.name.toLowerCase()}</span>
+      <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M22 78 L78 22 M34 22 H78 V66" /></svg>
+      <span>]</span>
+    </a>
+  </nav>
+</article>
+
+<style>
+  .work {
+    color: var(--color-black);
+  }
+
+  .work__top {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    padding: 11svh var(--gutter) 5svh;
+  }
+
+  .work__head {
+    display: flex;
+    align-items: last baseline;
+    justify-content: space-between;
+    gap: 2vw;
+    padding-bottom: 3svh;
+    border-bottom: 1px solid var(--color-grey-light);
+  }
+
+  .work__title {
+    margin: 0;
+    font-size: var(--text-giant);
+    line-height: var(--text-giant--line-height);
+    font-weight: var(--font-weight-regular);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .work__status {
+    text-align: right;
+  }
+
+  .work__body,
+  .work__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: start;
+    gap: 2vw;
+  }
+
+  .work__body {
+    flex: 1;
+    padding-top: 4svh;
+  }
+
+  .work__col,
+  .work__blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5svh;
+  }
+
+  .work__group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work__small {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .work__kicker {
+    display: block;
+    margin-bottom: 0.5em;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .work__intro,
+  .work__text {
+    max-width: 26em;
+    white-space: pre-line;
+  }
+
+  .work__cover {
+    grid-column: 3 / 5;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3svh;
+  }
+
+  .work__poster {
+    flex: none;
+    height: 50svh;
+  }
+
+  .work__poster :global(img) {
+    display: block;
+    width: auto;
+    height: 100%;
+  }
+
+  .work__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5svh 2vw;
+  }
+
+  .work__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25em;
+    color: var(--color-black);
+    font-size: var(--text-mid);
+    line-height: 1;
+    font-weight: var(--font-weight-regular);
+    white-space: nowrap;
+  }
+
+  .work__action svg {
+    width: 0.62em;
+    height: 0.62em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 9;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .work__action:hover svg {
+    transform: translate(0.06em, -0.06em);
+  }
+
+  .work__part {
+    display: flex;
+    flex-direction: column;
+    gap: 4svh;
+    padding: 8svh var(--gutter) 0;
+  }
+
+  .work__rule {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1.5svh;
+    border-top: 2px solid var(--color-black);
+  }
+
+  .work__rule .work__kicker {
+    margin-bottom: 0;
+  }
+
+  .work__wide {
+    grid-column: 1 / 4;
+  }
+
+  .work__wide :global(img),
+  .work__cut :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .work__cut {
+    position: sticky;
+    top: 11svh;
+    grid-column: 1 / 3;
+  }
+
+  .work__blocks {
+    grid-column: 3 / 5;
+    gap: 8svh;
+    padding-top: 2svh;
+  }
+
+  .work__next {
+    display: flex;
+    align-items: last baseline;
+    justify-content: space-between;
+    margin: 14svh var(--gutter) 12svh;
+    padding-top: 3svh;
+    border-top: 1px solid var(--color-grey-light);
+  }
+
+  @media (max-width: 767px) {
+    .work__head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .work__status {
+      text-align: left;
+    }
+
+    .work__body,
+    .work__grid {
+      grid-template-columns: 1fr;
+      row-gap: 5svh;
+    }
+
+    .work__cover,
+    .work__wide,
+    .work__cut,
+    .work__blocks {
+      grid-column: auto;
+    }
+
+    .work__cover {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .work__poster {
+      width: 100%;
+      height: auto;
+    }
+
+    .work__poster :global(img) {
+      width: 100%;
+      height: auto;
+    }
+
+    .work__cut {
+      position: static;
+    }
+
+    .work__next {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2svh;
+    }
+
+    .work__action {
+      white-space: normal;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const work = document.querySelector<HTMLElement>("[data-work]");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (work && !reduced) {
+    ScrollTrigger.batch(work.querySelectorAll<HTMLElement>("[data-reveal]"), {
+      start: "top 92%",
+      once: true,
+      onEnter: (batch) => gsap.from(batch, { y: 40, autoAlpha: 0, duration: 0.9, ease: "power3.out", stagger: 0.08 })
+    });
+  }
+</script>

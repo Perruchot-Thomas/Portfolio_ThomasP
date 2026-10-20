@@ -1,7 +1,8 @@
 ---
 import type { Lang } from "../../data/i18n";
 import { gallery, galleryCategories } from "../../data/gallery";
-import { useUi } from "../../lib/i18n";
+import { projectForGallery } from "../../data/projects";
+import { localePath, useUi } from "../../lib/i18n";
 
 interface Props {
   lang: Lang;
@@ -38,9 +39,11 @@ const items = gallery
     if (!image) return undefined;
     const ratio = image.width / image.height;
     const [left, top, turn] = spots[index % spots.length];
+    const project = projectForGallery(item.file);
     return {
       ...item,
       image,
+      href: project ? localePath(lang, `/projects/${project.slug}`) : undefined,
       number: String(index + 1).padStart(2, "0"),
       style: `left:${left}%;top:${top}%;width:${Math.sqrt(170 * ratio).toFixed(2)}vw;--turn:${turn}deg`
     };
@@ -80,12 +83,13 @@ const filters = [
 
     {
       items.map((item) => (
-        <figure class="board__item" data-item data-category={item.category} style={item.style}>
+        <figure class:list={["board__item", item.href && "board__item--link"]} data-item data-category={item.category} data-href={item.href} style={item.style}>
           <div class="board__card">
             <img src={item.image.src} width={item.image.width} height={item.image.height} alt={item.names[lang]} draggable="false" loading="lazy" />
             <figcaption class="board__small board__caption">
               <span class="board__num">{item.number}</span>
               {item.names[lang]}
+              {item.href && <span aria-hidden="true"> [ ↗ ]</span>}
             </figcaption>
           </div>
         </figure>
@@ -272,6 +276,10 @@ const filters = [
       },
       onRelease() {
         gsap.to(this.target.firstElementChild, { scale: 1, duration: 0.4, ease: "power3.out" });
+      },
+      onClick() {
+        const href = (this.target as HTMLElement).dataset.href;
+        if (href) window.location.href = href;
       }
     });
 

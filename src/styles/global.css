@@ -28,6 +28,8 @@
   --text-giant: 11vw;
   --text-giant--line-height: 0.8;
   --gutter: 1.75rem;
+  --text-order: min(8.4vw, 11.5svh);
+  --text-order--line-height: 0.9;
   --text-mid: min(4.4vw, 6.4svh);
   --text-body: clamp(0.95rem, 0.4rem + 1vw, 1.2rem);
   --text-body--line-height: 1.2;

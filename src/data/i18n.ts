@@ -88,6 +88,16 @@ const en = {
     back: "back to top ↑",
     info: "(info)"
   },
+  work: {
+    labels: ["(project)", "(by)", "(tools)", "(context)", "(vision)"],
+    status: "Case study — poster, moodboard & dissection.",
+    back: "back",
+    stream: "stream",
+    moodboard: "(moodboard)",
+    dissection: "(dissection)",
+    detail: "(detail",
+    next: "next project"
+  },
   projectsPage: {
     covers: "Covers",
     posters: "Posters",
@@ -101,21 +111,13 @@ const en = {
     filter: "(filter)"
   },
   aboutPage: {
-    title: "ABOUT ME",
-    kicker: "(about me)",
-    index: "(001)",
-    left: "(graphic designer)",
-    right: "(mmi student)",
-    down: "read",
-    statement: "I’M THOMAS PERRUCHOT, A GRAPHIC DESIGNER AND MMI STUDENT WITH A FOCUS ON ART DIRECTION, TEXTURAL IDENTITY, VISUAL EXPERIMENTATION AND BOLD TYPOGRAPHY. I BUILD IMAGES FROM RAW TEXTURES, TORN EDGES AND HEAVY TYPE.",
-    sideA: "(portfolio — 2026)",
-    sideB: "(open to work)",
+    title: "About me",
+    words: ["(I’M", "THOMAS", "PERRUCHOT", "(GRAPHIC", "DESIGNER)"],
+    presents: ["Thomas Perruchot", "presents sixteen years of images, 2010—2026"],
+    tools: "(tools)",
+    role: ["Graphic designer & MMI student", "Art direction, textural identity,", "visual experimentation & bold type"],
     quote: "( open for internships & collaborations )",
     path: "(path)",
-    tools: "(tools)",
-    line: "TEXTURE, TYPE AND IMAGES — ALWAYS GUIDED BY ART DIRECTION.",
-    second: "(002)",
-    lines: ["I’M|[THOMAS PERRUCHOT]", "A GRAPHIC DESIGNER AND MMI STUDENT", "WITH A|FOCUS ON|ART DIRECTION,", "TEXTURAL|IDENTITY,", "VISUAL|EXPERIMENTATION,", "AND|BOLD|TYPOGRAPHY."],
     range: "*( 2010—2026 )"
   },
   about: {
@@ -264,6 +266,16 @@ const fr: typeof en = {
     back: "retour en haut ↑",
     info: "(infos)"
   },
+  work: {
+    labels: ["(projet)", "(par)", "(outils)", "(contexte)", "(vision)"],
+    status: "Étude de cas — affiche, moodboard & dissection.",
+    back: "retour",
+    stream: "écouter",
+    moodboard: "(moodboard)",
+    dissection: "(dissection)",
+    detail: "(détail",
+    next: "projet suivant"
+  },
   projectsPage: {
     covers: "Covers",
     posters: "Affiches",
@@ -277,21 +289,13 @@ const fr: typeof en = {
     filter: "(filtre)"
   },
   aboutPage: {
-    title: "À PROPOS",
-    kicker: "(à propos)",
-    index: "(001)",
-    left: "(graphiste)",
-    right: "(étudiant mmi)",
-    down: "lire",
-    statement: "JE SUIS THOMAS PERRUCHOT, GRAPHISTE ET ÉTUDIANT EN MMI, CENTRÉ SUR LA DIRECTION ARTISTIQUE, L’IDENTITÉ TEXTURALE, L’EXPÉRIMENTATION VISUELLE ET LA TYPOGRAPHIE AFFIRMÉE. JE CONSTRUIS DES IMAGES À PARTIR DE TEXTURES BRUTES, DE BORDS DÉCHIRÉS ET DE TYPOGRAPHIES LOURDES.",
-    sideA: "(portfolio — 2026)",
-    sideB: "(disponible)",
+    title: "À propos",
+    words: ["(JE SUIS", "THOMAS", "PERRUCHOT", "(GRAPHISTE", "À PARIS)"],
+    presents: ["Thomas Perruchot", "présente seize ans d’images, 2010—2026"],
+    tools: "(outils)",
+    role: ["Graphiste & étudiant en MMI", "Direction artistique, identité texturale,", "expérimentation visuelle & typographie affirmée"],
     quote: "( ouvert aux stages & collaborations )",
     path: "(parcours)",
-    tools: "(outils)",
-    line: "TEXTURE, TYPOGRAPHIE ET IMAGES — TOUJOURS GUIDÉES PAR LA DIRECTION ARTISTIQUE.",
-    second: "(002)",
-    lines: ["JE SUIS|[THOMAS PERRUCHOT]", "GRAPHISTE ET ÉTUDIANT EN MMI", "CENTRÉ SUR|LA DIRECTION|ARTISTIQUE,", "L’IDENTITÉ|TEXTURALE,", "L’EXPÉRIMENTATION|VISUELLE,", "ET LA|TYPOGRAPHIE|AFFIRMÉE."],
     range: "*( 2010—2026 )"
   },
   about: {
