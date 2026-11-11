@@ -1,10 +1,10 @@
 order: 13
-name: "CORBEAU"
+name: "Corbeau"
 category: covers
-home: false
+home: true
 year: "2026"
 tools: "affinity"
-stream: "https://open.spotify.com/"
+stream: "https://youtu.be/-Up86x-fdyQ"
 context:
   fr: "industrie musicale / cover de rap"
   en: "music industry / rap cover"

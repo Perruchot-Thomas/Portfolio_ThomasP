@@ -170,12 +170,18 @@ const networks = socials.filter((social) => social.id !== "email");
       row-gap: 4svh;
     }
 
+    .footer__cell:nth-child(3) {
+      grid-column: 1 / -1;
+    }
+
     .footer__link {
       overflow-wrap: anywhere;
     }
 
     .footer__bottom {
       grid-template-columns: 1fr;
+      gap: 0.8em;
+      margin-top: 4svh;
     }
 
 

@@ -87,6 +87,22 @@ const en = {
     loading: "Loading",
     year: "2026"
   },
+  notFound: {
+    label: "(lost)",
+    text: "This page doesn't exist, or not anymore. Maybe it was moved, maybe it never existed.",
+    path: "(you asked for)",
+    home: "back home",
+    contact: "tell me"
+  },
+  artGallery: {
+    name: "Art gallery",
+    label: "(everything else)",
+    text: "Drawings, paintings, pastels and digital pieces. Everything I make outside of graphic design, all in one place.",
+    pieces: "pieces",
+    all: "all",
+    open: "open the folder",
+    types: { drawing: "drawings", painting: "paintings", pastel: "pastels", digital: "digital" }
+  },
   footer: {
     top: "top",
     thanks: "THANKS FOR SCROLLING",
@@ -113,6 +129,7 @@ const en = {
     status: "Case study — poster, moodboard & dissection.",
     back: "back",
     stream: "stream",
+    site: "visit the site",
     moodboard: "(moodboard)",
     dissection: "(dissection)",
     detail: "(detail",
@@ -124,6 +141,7 @@ const en = {
     covers: "Covers",
     posters: "Posters",
     experiments: "Experiments",
+    web: "Websites",
     all: "All",
     scroll: "scroll",
     kicker: "(projects)",
@@ -296,6 +314,22 @@ const fr: typeof en = {
     loading: "Chargement",
     year: "2026"
   },
+  notFound: {
+    label: "(perdu)",
+    text: "Cette page n'existe pas, ou plus. Elle a peut-être bougé, peut-être qu'elle n'a jamais existé.",
+    path: "(tu cherchais)",
+    home: "retour à l'accueil",
+    contact: "me prévenir"
+  },
+  artGallery: {
+    name: "Galerie artistique",
+    label: "(tout le reste)",
+    text: "Dessins, peintures, pastels et pièces digitales. Tout ce que je fais en dehors du graphisme, réuni au même endroit.",
+    pieces: "œuvres",
+    all: "tout",
+    open: "ouvrir le dossier",
+    types: { drawing: "dessins", painting: "peintures", pastel: "pastels", digital: "digital" }
+  },
   footer: {
     top: "haut",
     thanks: "MERCI D'AVOIR DÉFILÉ",
@@ -322,6 +356,7 @@ const fr: typeof en = {
     status: "Étude de cas — affiche, moodboard & dissection.",
     back: "retour",
     stream: "écouter",
+    site: "voir le site",
     moodboard: "(moodboard)",
     dissection: "(dissection)",
     detail: "(détail",
@@ -333,6 +368,7 @@ const fr: typeof en = {
     covers: "Covers",
     posters: "Affiches",
     experiments: "Expérimentations",
+    web: "Sites web",
     all: "Tout",
     scroll: "défiler",
     kicker: "(projets)",

@@ -479,6 +479,72 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
     white-space: nowrap;
     pointer-events: none;
   }
+
+  @media (max-width: 767px) {
+    .menu {
+      --sheet-h: min(100svh, max(78svh, 30rem));
+    }
+
+    .menu__handle {
+      width: 132px;
+    }
+
+    .menu__nav--top {
+      top: 4.25rem;
+      inset-inline: var(--gutter);
+    }
+
+    .menu__nav ul {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem 1.5rem;
+    }
+
+    .menu__info {
+      justify-self: start;
+    }
+
+    .menu__bottom {
+      inset-inline: var(--gutter);
+      bottom: 2rem;
+    }
+
+    .menu__socials {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem 1.5rem;
+    }
+
+    .menu__giant {
+      top: 58%;
+      width: min(calc(100vw - var(--gutter) * 2), calc((var(--sheet-h) - 22rem) * var(--ratio)));
+    }
+
+    .menu__about {
+      top: auto;
+      right: var(--gutter);
+      bottom: calc(2rem + 4.6em);
+      left: var(--gutter);
+      width: auto;
+      justify-content: flex-end;
+    }
+
+    .menu:has(.menu__about.is-open) .menu__giant {
+      opacity: 0;
+    }
+
+    .menu__story {
+      left: var(--gutter);
+      right: var(--gutter);
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.6em;
+    }
+
+    .menu__story-big {
+      margin: 0.8em 0;
+      text-align: left;
+    }
+  }
 </style>
 
 <script>
@@ -488,7 +554,7 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
   const handle = document.querySelector<HTMLElement>("[data-menu-handle]");
 
   if (menu && sheet && handle) {
-    const maxHeight = () => Math.min(window.innerHeight, Math.max(window.innerHeight * 0.7, 384));
+    const maxHeight = () => Math.min(window.innerHeight, window.innerWidth < 768 ? Math.max(window.innerHeight * 0.78, 480) : Math.max(window.innerHeight * 0.7, 384));
     const openHeight = () => maxHeight();
     let height = 0;
     let dragStart = 0;
@@ -498,7 +564,7 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
     const shape = (value: number) => {
       const width = window.innerWidth;
       const center = width / 2;
-      const half = 118;
+      const half = width < 768 ? 92 : 118;
       const curve = 30;
       const tab = 46;
       const h = Math.max(0, value);

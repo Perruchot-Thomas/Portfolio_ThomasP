@@ -248,8 +248,28 @@ const networks = socials.filter((social) => social.id !== "email");
       grid-column: 1 / -1;
     }
 
+    .contact {
+      padding-top: 10svh;
+    }
+
+    .contact__intro {
+      gap: 2svh;
+    }
+
+    .contact__reach {
+      margin-top: 2svh;
+    }
+
     .contact__status-line {
       align-self: flex-start;
+    }
+
+    .contact__input {
+      font-size: max(1rem, var(--text-mid));
+    }
+
+    .contact__actions {
+      gap: 1.25rem;
     }
   }
 </style>
@@ -284,6 +304,7 @@ const networks = socials.filter((social) => social.id !== "email");
       }
 
       const data = new FormData(form);
+      const endpoint = form.dataset.endpoint ?? "";
       const key = form.dataset.key ?? "";
 
       if (!key) {
@@ -299,7 +320,7 @@ const networks = socials.filter((social) => social.id !== "email");
       status.textContent = form.dataset.sending ?? "";
 
       try {
-        const response = await fetch(form.dataset.endpoint ?? "", {
+        const response = await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify({

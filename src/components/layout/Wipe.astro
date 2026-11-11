@@ -11,6 +11,7 @@ languages.forEach((lang) => {
   labels[localePath(lang, "/about")] = nav.about;
   labels[localePath(lang, "/contact")] = nav.contact;
   labels[localePath(lang, "/legal")] = ui[lang].footer.legal;
+  labels[localePath(lang, "/galerie")] = ui[lang].artGallery.name.toLowerCase();
   projects.forEach((project) => {
     labels[localePath(lang, `/projects/${project.slug}`)] = project.name.toLowerCase();
   });

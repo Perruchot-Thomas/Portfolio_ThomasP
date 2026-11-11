@@ -1,0 +1,340 @@
+---
+import { Image } from "astro:assets";
+import type { Lang } from "../../data/i18n";
+import { galleryPieces, galleryTypes } from "../../data/artGallery";
+import { localePath, useUi } from "../../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = useUi(lang);
+const copy = ui.artGallery;
+const pad = (value: number) => String(value).padStart(2, "0");
+const filters = [{ key: "all", label: copy.all }, ...galleryTypes.map((type) => ({ key: type, label: copy.types[type] }))];
+---
+
+<article class="gal" data-gal>
+  <aside class="gal__side">
+    <div class="gal__head">
+      <p class="gal__small gal__grey">{copy.label}</p>
+      <h1 class="gal__title">{copy.name}</h1>
+    </div>
+
+    <p class="gal__small gal__text">{copy.text}</p>
+
+    <div class="gal__group">
+      <p class="gal__small"><span data-count>{pad(galleryPieces.length)}</span> {copy.pieces}</p>
+      <div class="gal__filters" role="group">
+        {
+          filters.map((filter, index) => (
+            <button class:list={["gal__small", "gal__filter", index === 0 && "is-active"]} type="button" data-filter={filter.key} aria-pressed={index === 0 ? "true" : "false"}>
+              [ {filter.label} ]
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="gal__foot">
+      <a class="gal__small" href={localePath(lang, "")}>[ ← {ui.work.back} ]</a>
+    </div>
+  </aside>
+
+  <div class="gal__view" data-view>
+    <div class="gal__track" data-track>
+      {
+        galleryPieces.map((piece, index) => (
+          <figure class="gal__piece" data-piece data-type={piece.type}>
+            <Image src={piece.image} alt={piece.name} widths={[600, 1000]} sizes="(max-width: 767px) 90vw, 50vw" format="webp" quality={80} loading={index < 4 ? "eager" : "lazy"} draggable="false" />
+            <figcaption class="gal__small">
+              <span><span class="gal__grey">({pad(index + 1)})</span> {piece.name}</span>
+              <span class="gal__grey">{copy.types[piece.type]}</span>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+
+    <div class="gal__rail" aria-hidden="true">
+      <span class="gal__rail-fill" data-rail></span>
+    </div>
+  </div>
+</article>
+
+<style>
+  .gal {
+    display: grid;
+    grid-template-columns: minmax(0, 27vw) minmax(0, 1fr);
+    height: 100svh;
+    overflow: hidden;
+    color: var(--color-black);
+    background: var(--color-white);
+  }
+
+  .gal__small {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .gal__grey {
+    color: var(--color-grey);
+  }
+
+  .gal a {
+    color: inherit;
+  }
+
+  .gal__side {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 4svh;
+    padding: 11svh 2vw 4svh var(--gutter);
+    background: var(--color-white);
+  }
+
+  .gal__head {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2svh;
+  }
+
+  .gal__title {
+    margin: 0;
+    font-size: var(--text-mid);
+    line-height: 1;
+    font-weight: var(--font-weight-regular);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  .gal__group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+  }
+
+  .gal__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em 1em;
+  }
+
+  .gal__filter {
+    white-space: nowrap;
+    cursor: pointer;
+    color: var(--color-grey);
+    transition: color 0.3s ease;
+  }
+
+  .gal__filter:hover,
+  .gal__filter.is-active {
+    color: var(--color-black);
+  }
+
+  .gal__foot {
+    margin-top: auto;
+  }
+
+  .gal__view {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gal__track {
+    display: flex;
+    align-items: center;
+    gap: 3vw;
+    width: max-content;
+    height: 100%;
+    padding: 11svh 6vw 10svh 3vw;
+    will-change: transform;
+  }
+
+  .gal__piece {
+    position: relative;
+    flex-shrink: 0;
+    height: 62svh;
+    margin: 0;
+  }
+
+  .gal__piece[hidden] {
+    display: none;
+  }
+
+  .gal__piece img {
+    display: block;
+    width: auto;
+    height: 100%;
+    user-select: none;
+  }
+
+  .gal__piece figcaption {
+    position: absolute;
+    top: calc(100% + 0.8em);
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    white-space: nowrap;
+  }
+
+  .gal__rail {
+    position: absolute;
+    right: var(--gutter);
+    bottom: 4svh;
+    left: 3vw;
+    height: 1px;
+    background: var(--color-grey-light);
+  }
+
+  .gal__rail-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--color-black);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  @media (min-width: 768px) and (max-width: 1100px) {
+    .gal {
+      grid-template-columns: minmax(0, 36vw) minmax(0, 1fr);
+    }
+
+    .gal__piece {
+      height: 56svh;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .gal {
+      display: block;
+      height: auto;
+      overflow: visible;
+    }
+
+    .gal__side {
+      gap: 3svh;
+      padding: 10svh var(--gutter) 6svh;
+    }
+
+    .gal__foot {
+      margin-top: 0;
+    }
+
+    .gal__view {
+      overflow: visible;
+    }
+
+    .gal__track {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: end;
+      gap: 5svh 1.25rem;
+      width: auto;
+      height: auto;
+      padding: 0 var(--gutter) 10svh;
+      transform: none;
+    }
+
+    .gal__piece {
+      height: auto;
+    }
+
+    .gal__piece img {
+      width: 100%;
+      height: auto;
+    }
+
+    .gal__piece figcaption {
+      position: static;
+      flex-direction: column;
+      gap: 0.2em;
+      margin-top: 0.8em;
+      white-space: normal;
+    }
+
+    .gal__rail {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gal__view {
+      overflow-x: auto;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const gal = document.querySelector<HTMLElement>("[data-gal]");
+  const view = gal?.querySelector<HTMLElement>("[data-view]");
+  const track = gal?.querySelector<HTMLElement>("[data-track]");
+  const rail = gal?.querySelector<HTMLElement>("[data-rail]");
+
+  if (gal && view && track && rail) {
+    const pieces = Array.from(gal.querySelectorAll<HTMLElement>("[data-piece]"));
+    const filters = Array.from(gal.querySelectorAll<HTMLButtonElement>("[data-filter]"));
+    const count = gal.querySelector<HTMLElement>("[data-count]");
+    const distance = () => Math.max(0, track.scrollWidth - view.clientWidth);
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const media = gsap.matchMedia();
+      media.add("(min-width: 768px)", () => {
+        gsap.to(track, {
+          x: () => -distance(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: gal,
+            start: "top top",
+            end: () => `+=${distance()}`,
+            pin: true,
+            scrub: 0.8,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              gsap.set(rail, { scaleX: self.progress });
+            }
+          }
+        });
+      });
+      window.addEventListener("load", () => ScrollTrigger.refresh());
+    }
+
+    filters.forEach((filter) =>
+      filter.addEventListener("click", () => {
+        const key = filter.dataset.filter ?? "all";
+        let shown = 0;
+        pieces.forEach((piece) => {
+          const visible = key === "all" || piece.dataset.type === key;
+          piece.hidden = !visible;
+          if (visible) shown += 1;
+        });
+        filters.forEach((item) => {
+          const active = item === filter;
+          item.classList.toggle("is-active", active);
+          item.setAttribute("aria-pressed", String(active));
+        });
+        if (count) count.textContent = String(shown).padStart(2, "0");
+        if (window.scrollY > gal.offsetTop) window.scrollTo(0, gal.offsetTop);
+        ScrollTrigger.refresh();
+      })
+    );
+  }
+</script>

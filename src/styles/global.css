@@ -175,3 +175,12 @@
 }
 
 
+
+@media (max-width: 767px) {
+  :root {
+    --gutter: 1.25rem;
+    --text-mid: min(7.2vw, 4.4svh);
+    --text-order: min(10.4vw, 7.6svh);
+    --text-giant: 13vw;
+  }
+}

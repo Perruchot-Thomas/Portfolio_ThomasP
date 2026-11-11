@@ -7,7 +7,7 @@ export const socials = [
 
 export const contactForm = {
   endpoint: "https://api.web3forms.com/submit",
-  key: ""
+  key: "1176a45e-0b24-43d6-8211-dc7be3a47da3"
 };
 
 export const navItems = [

@@ -1,0 +1,171 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { languages } from "../data/i18n";
+import { localePath, useUi } from "../lib/i18n";
+---
+
+<Layout lang="fr" title="404 - sidus" cta={false} footer={false}>
+  <section class="lost" data-lost>
+    {
+      languages.map((lang) => {
+        const ui = useUi(lang);
+        const copy = ui.notFound;
+        return (
+          <div class="lost__copy" data-lang={lang} hidden={lang !== "fr"}>
+            <div class="lost__block">
+              <p class="lost__small lost__grey">{copy.label}</p>
+              <p class="lost__small lost__text">{copy.text}</p>
+            </div>
+            <div class="lost__block">
+              <p class="lost__small lost__grey">{copy.path}</p>
+              <p class="lost__small lost__path" data-path>/</p>
+            </div>
+            <div class="lost__actions">
+              <a class="lost__small" href={localePath(lang, "")}>[ ← {copy.home} ]</a>
+              <a class="lost__small" href={localePath(lang, "/contact")}>[ {copy.contact} ↗ ]</a>
+            </div>
+          </div>
+        );
+      })
+    }
+
+    <h1 class="lost__code" data-code aria-label="404">404</h1>
+  </section>
+</Layout>
+
+<style>
+  .lost {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100svh;
+    padding: 11svh var(--gutter) 3svh;
+    overflow: hidden;
+    color: var(--color-black);
+    background: var(--color-white);
+  }
+
+  .lost__copy {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 2vw;
+    row-gap: 3svh;
+  }
+
+  .lost__copy[hidden] {
+    display: none;
+  }
+
+  .lost__small {
+    margin: 0;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .lost__grey {
+    color: var(--color-grey);
+  }
+
+  .lost a {
+    color: inherit;
+  }
+
+  .lost__block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  .lost__block:first-child {
+    grid-column: 1 / 5;
+  }
+
+  .lost__block:nth-child(2) {
+    grid-column: 7 / 10;
+  }
+
+  .lost__text {
+    max-width: 26em;
+  }
+
+  .lost__path {
+    overflow-wrap: anywhere;
+  }
+
+  .lost__actions {
+    grid-column: 10 / 13;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5em;
+  }
+
+  .lost__code {
+    margin: 0;
+    font-size: calc(var(--text-giant) * 5.2);
+    line-height: 0.78;
+    font-weight: var(--font-weight-regular);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    user-select: none;
+    cursor: default;
+  }
+
+  @media (max-width: 767px) {
+    .lost__copy {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lost__block:first-child,
+    .lost__block:nth-child(2),
+    .lost__actions {
+      grid-column: 1 / -1;
+    }
+
+    .lost {
+      padding-top: 10svh;
+    }
+
+    .lost__actions {
+      align-items: flex-start;
+    }
+
+    .lost__code {
+      font-size: calc(var(--text-giant) * 3.6);
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
+
+  gsap.registerPlugin(ScrambleTextPlugin);
+
+  const lost = document.querySelector<HTMLElement>("[data-lost]");
+  const code = lost?.querySelector<HTMLElement>("[data-code]");
+
+  if (lost && code) {
+    const lang = window.location.pathname.startsWith("/en") ? "en" : "fr";
+    document.documentElement.lang = lang;
+    lost.querySelectorAll<HTMLElement>("[data-lang]").forEach((block) => {
+      block.hidden = block.dataset.lang !== lang;
+    });
+    lost.querySelectorAll<HTMLElement>("[data-path]").forEach((path) => {
+      path.textContent = decodeURIComponent(window.location.pathname);
+    });
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const run = (duration: number) => {
+        gsap.killTweensOf(code);
+        gsap.to(code, { duration, ease: "none", scrambleText: { text: "404", chars: "0123456789", speed: 0.5, revealDelay: duration * 0.4 } });
+      };
+      run(1.4);
+      code.addEventListener("pointerenter", () => run(0.8));
+    }
+  }
+</script>

@@ -60,6 +60,13 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
     <div class="work__foot">
       <a class="work__small" href={localePath(lang, "")}>[ ← {copy.back} ]</a>
       {
+        project.site && (
+          <a class="work__small" href={project.site} target="_blank" rel="noopener noreferrer">
+            [ {copy.site} ↗ ]
+          </a>
+        )
+      }
+      {
         project.stream && (
           <a class="work__small" href={project.stream} target="_blank" rel="noopener noreferrer">
             [ {copy.stream} ↗ ]
@@ -75,8 +82,17 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
         frames.map((frame) =>
           frame.kind === "image" ? (
             <figure class="work__frame" data-frame>
-              <Image src={frame.image} alt={name} width={1600} format="webp" quality={82} loading={frame.number === "01" ? "eager" : "lazy"} draggable="false" />
-              <figcaption class="work__small work__grey">({copy.figure} {frame.number})</figcaption>
+              {frame.href ? (
+                <a class="work__link" href={frame.href} target="_blank" rel="noopener noreferrer" data-magnet data-label={`[ ${copy.site} ↗ ]`}>
+                  <Image src={frame.image} alt={name} width={1600} format="webp" quality={82} loading={frame.number === "01" ? "eager" : "lazy"} draggable="false" />
+                </a>
+              ) : (
+                <Image src={frame.image} alt={name} width={1600} format="webp" quality={82} loading={frame.number === "01" ? "eager" : "lazy"} draggable="false" />
+              )}
+              <figcaption class="work__small work__grey">
+                ({copy.figure} {frame.number})
+                {frame.href && <a class="work__caption-link" href={frame.href} target="_blank" rel="noopener noreferrer">[ {copy.site} ↗ ]</a>}
+              </figcaption>
             </figure>
           ) : (
             <div class="work__note">
@@ -206,6 +222,16 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
 
 
 
+  .work__link {
+    display: block;
+    height: 100%;
+  }
+
+  .work .work__caption-link {
+    margin-left: 1.2em;
+    color: var(--color-black);
+  }
+
   .work__frame figcaption {
     position: absolute;
     top: calc(100% + 0.8em);
@@ -269,40 +295,84 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
     transform-origin: left center;
   }
 
-  @media (max-width: 767px) {
+  @media (min-width: 768px) and (max-width: 1100px) {
     .work {
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-rows: auto minmax(0, 1fr);
-    }
-
-    .work__side {
-      gap: 2svh;
-      padding: 10svh var(--gutter) 2svh;
+      grid-template-columns: minmax(0, 36vw) minmax(0, 1fr);
     }
 
     .work__meta {
-      display: none;
-    }
-
-    .work__track {
-      gap: 6vw;
-      padding: 2svh 10vw 8svh var(--gutter);
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .work__frame {
-      height: 44svh;
+      height: 58svh;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .work {
+      display: block;
+      height: auto;
+      overflow: visible;
+    }
+
+    .work__side {
+      gap: 3.2svh;
+      padding: 10svh var(--gutter) 6svh;
+    }
+
+    .work__meta {
+      gap: 2.4svh 1.25rem;
+    }
+
+    .work__view {
+      overflow: visible;
+    }
+
+    .work__track {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6svh;
+      width: auto;
+      height: auto;
+      padding: 0 var(--gutter);
+      transform: none;
+    }
+
+    .work__frame {
+      height: auto;
+    }
+
+    .work__frame img {
+      width: 100%;
+      height: auto;
+    }
+
+    .work__link {
+      height: auto;
+    }
+
+    .work__frame figcaption {
+      position: static;
+      margin-top: 0.8em;
     }
 
     .work__note {
-      width: 72vw;
+      width: auto;
+      max-width: 32em;
     }
 
     .work__next {
-      min-width: 86vw;
+      min-width: 0;
+      height: auto;
+      margin: 4svh calc(var(--gutter) * -1) 0;
+      padding: 8svh var(--gutter) 10svh;
+      border-top: 1px solid var(--color-grey-light);
+      border-left: 0;
     }
 
     .work__rail {
-      left: var(--gutter);
+      display: none;
     }
   }
 
@@ -326,21 +396,24 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
 
   if (work && view && track && rail && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     const distance = () => Math.max(0, track.scrollWidth - view.clientWidth);
+    const media = gsap.matchMedia();
 
-    gsap.to(track, {
-      x: () => -distance(),
-      ease: "none",
-      scrollTrigger: {
-        trigger: work,
-        start: "top top",
-        end: () => `+=${distance()}`,
-        pin: true,
-        scrub: 0.8,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          gsap.set(rail, { scaleX: self.progress });
+    media.add("(min-width: 768px)", () => {
+      gsap.to(track, {
+        x: () => -distance(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: work,
+          start: "top top",
+          end: () => `+=${distance()}`,
+          pin: true,
+          scrub: 0.8,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            gsap.set(rail, { scaleX: self.progress });
+          }
         }
-      }
+      });
     });
 
     window.addEventListener("load", () => ScrollTrigger.refresh());

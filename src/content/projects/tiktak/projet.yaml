@@ -1,0 +1,48 @@
+order: 0
+name: "TiK•TaK"
+category: web
+home: true
+year: "2026"
+tools: "figma, astro, three.js"
+site: "https://tiktak.tperruchot.fr"
+context:
+  fr: "site e-commerce / configurateur de montres en 3D"
+  en: "e-commerce website / 3D watch configurator"
+vision:
+  fr: "un site doux et tactile où l’on compose sa montre pièce par pièce, comme on la tiendrait dans la main."
+  en: "a soft, tactile website where you build your watch piece by piece, as if you were holding it in your hand."
+cover: ./cover.jpg
+frames:
+  - image: ./charte-logo.jpg
+  - label:
+      fr: "(la direction artistique)"
+      en: "(art direction)"
+    text:
+      fr: "tik•tak est une marque fictive de montres composées et assemblées en france. le logo reprend deux cadrans posés côte à côte, reliés comme les deux syllabes du nom : un tik bleu ciel, un tak saumon. tout le reste en découle.\n\nj’ai choisi un style en relief, presque moulé dans la matière : une seule lumière en haut à gauche, des boutons qui sortent quand on peut les choisir et des creux quand il faut les remplir. l’idée est que l’interface ait la même douceur qu’un objet qu’on manipule."
+      en: "tik•tak is a fictional brand of watches composed and assembled in france. the logo shows two dials placed side by side, linked like the two syllables of the name: a sky-blue tik and a salmon tak. everything else comes from it.\n\ni chose a raised, almost moulded style: a single light from the top left, buttons that stand out when they can be picked and hollows when something has to be filled in. the idea is for the interface to feel as soft as an object you handle."
+  - image: ./charte-couleurs.jpg
+  - label:
+      fr: "(la charte graphique)"
+      en: "(brand guidelines)"
+    text:
+      fr: "une base très claire, nuage et lait, pour que la montre soit toujours ce qui ressort. l’ardoise sert au texte, le saumon aux actions et le ciel à la sélection. un dégradé ciel vers saumon signe la marque, mais jamais derrière un texte.\n\ncôté typographie, lexend exa en light pour les titres et les chiffres, larges et aérés comme un cadran, et lexend deca pour le texte courant. les pictogrammes suivent un trait de 1,5 sur une grille de 24, et quelques interdits gardent l’ensemble cohérent : pas de fond noir, pas de pastel pour du texte, pas de capitales lourdes ni d’ombres dures."
+      en: "a very light base, cloud and milk, so the watch is always what stands out. slate is for text, salmon for actions and sky for selection. a sky-to-salmon gradient signs the brand, but never behind text.\n\nfor type, lexend exa light for titles and numbers, wide and airy like a dial, and lexend deca for body text. icons follow a 1.5 stroke on a 24 grid, and a few rules keep everything consistent: no black backgrounds, no pastel text, no heavy capitals and no hard shadows."
+  - image: ./charte-signes.jpg
+  - image: ./site-en-ligne.jpg
+    href: "https://tiktak.tperruchot.fr"
+  - label:
+      fr: "(la mise en place)"
+      en: "(how it works)"
+    text:
+      fr: "le site est construit avec astro, et la montre est modélisée en 3D avec three.js. chaque composant de la montre, bracelet, boîtier, cadran, aiguilles, verre, est une pièce à part avec sa propre matière.\n\nà chaque composant correspond un label, comme « cuir ciel », « or rose » ou « verre saphir ». choisir un label ne modifie qu’un seul élément à la fois : sa couleur, et sa matière quand il le faut, plus ou moins brillante selon que c’est du cuir ou du métal. le changement est ensuite traduit directement dans le rendu 3D, où la pièce passe en douceur d’une teinte à l’autre."
+      en: "the website is built with astro, and the watch is modelled in 3D with three.js. each component of the watch, strap, case, dial, hands, glass, is a separate piece with its own material.\n\neach component has a label, like “sky leather”, “rose gold” or “sapphire glass”. picking a label only changes one element at a time: its colour, and its material when needed, more or less shiny depending on whether it is leather or metal. the change is then translated straight into the 3D render, where the piece smoothly shifts from one shade to the next."
+  - image: ./ecran-bracelet.jpg
+  - label:
+      fr: "(l’ia)"
+      en: "(the ai)"
+    text:
+      fr: "on peut aussi décrire sa montre avec ses mots, « sobre, or rose, bracelet ciel ». l’ia lit la description et la traduit en labels, un par composant. la montre se compose alors toute seule dans le rendu 3D, et chaque choix reste modifiable ensuite, un élément à la fois."
+      en: "you can also describe your watch in your own words, “sober, rose gold, sky strap”. the ai reads the description and turns it into labels, one per component. the watch then builds itself in the 3D render, and every choice can still be changed afterwards, one element at a time."
+  - image: ./ecran-ia.jpg
+  - image: ./ecran-mes-montres.jpg
+  - image: ./ecran-commande.jpg
