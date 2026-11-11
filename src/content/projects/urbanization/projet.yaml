@@ -1,0 +1,47 @@
+order: 7
+name: "URBANIZATION"
+category: posters
+home: true
+year: "2026"
+tools: "affinity"
+context:
+  fr: "affiche / exploration visuelle"
+  en: "poster design / visual exploration"
+vision:
+  fr: "une collision graphique entre une nature luxuriante et l’intrusion brutale de la signalétique urbaine."
+  en: "a graphic collision between a lush natural environment and the brutal intrusion of urban signage."
+cover: ./cover.jpg
+frames:
+  - image: ./cover.jpg
+  - label:
+      fr: "(moodboard)"
+      en: "(moodboard)"
+    text:
+      fr: "pour le moodboard, je me suis concentré sur le thème de l’urbanisation, en regardant particulièrement le japon et ses luttes environnementales. protéger la nature face à l’expansion du béton y est un enjeu énorme. pour capter cette tension, je me suis appuyé sur une esthétique très influencée par hayao miyazaki. je voulais retrouver sa façon de représenter l’environnement : la beauté fragile de la nature, violemment interrompue par les infrastructures humaines."
+      en: "for the moodboard, i focused on the theme of urbanization, specifically looking at japan and its environmental struggles. nature protection versus concrete expansion is a massive issue there. to capture this tension, i leaned into an aesthetic heavily influenced by hayao miyazaki. i wanted to reflect his specific way of depicting the environment, showing the fragile beauty of nature being violently interrupted by human infrastructure."
+  - image: ./image-01.jpg
+  - image: ./image-02.png
+  - label:
+      fr: "(détail 01)"
+      en: "(detail 01)"
+    text:
+      fr: "pour les informations personnelles de l’affiche, comme mon nom et la date, j’ai choisi de placer le texte à la verticale. cette mise en page fait directement référence à l’écriture japonaise traditionnelle. elle inscrit les influences japonaises du projet dans la typographie et la structure même de la pièce."
+      en: "for the personal information on the poster, such as my name and the date, i decided to place the text vertically. this layout is a direct reference to traditional japanese writing. it physically embeds the japanese influences of the project straight into the typography and structure of the piece."
+  - label:
+      fr: "(détail 02)"
+      en: "(detail 02)"
+    text:
+      fr: |-
+        les poteaux avec le panneau stop et les feux rouges sont des emblèmes universels de l’arrêt. je m’en suis servi pour créer un double sens : la nature stoppée de force par le béton, ou un appel direct à arrêter l’urbanisation. placés exactement à la frontière entre la nature luxuriante et le fond blanc vide, ces panneaux imposent visuellement un arrêt brutal au paysage.
+        
+        le mélange volontaire de japonais et d’anglais sur la signalétique rappelle que cette lutte environnementale est un enjeu global, pas un cas isolé.
+      en: |-
+        the poles featuring the stop sign and the red lights act as universal emblems of halting. i used them to create a double meaning: they represent either nature being forcibly stopped by concrete, or a direct call to stop urbanization altogether. by positioning these signs exactly on the border between the lush nature and the empty white background, they visually enforce a brutal, sudden stop to the landscape.
+        
+        the intentional mix of japanese and english on the signage highlights that this environmental struggle is a global issue, not just an isolated one.
+  - label:
+      fr: "(détail 03)"
+      en: "(detail 03)"
+    text:
+      fr: "la nature luxuriante prend une esthétique presque numérique, intemporelle et figée. j’ai ajouté ces formes circulaires comme des bulles arrêtées dans le temps. pourtant, même figées par les éléments urbains, elles apportent paradoxalement une sensation bien plus vivante et dynamique, qui casse l’immobilité rigide des panneaux."
+      en: "the lush nature is given an almost digital, timeless, and frozen aesthetic. i added these circular shapes like bubbles completely stopped in time. yet, even though they are physically frozen by the urban elements, they paradoxically bring a much more lively and dynamic feel to the atmosphere, breaking the rigid stillness of the signs."

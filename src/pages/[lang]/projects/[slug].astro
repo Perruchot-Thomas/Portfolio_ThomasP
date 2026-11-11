@@ -2,21 +2,23 @@
 import Layout from "../../../layouts/Layout.astro";
 import ProjectDetail from "../../../components/projects/ProjectDetail.astro";
 import { languages } from "../../../data/i18n";
-import { projects, getProject } from "../../../data/projects";
+import { getProjects } from "../../../data/projects";
 import { getLang } from "../../../lib/i18n";
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const projects = await getProjects();
   return languages.flatMap((lang) => projects.map((project) => ({ params: { lang, slug: project.slug } })));
 }
 
 const lang = getLang(Astro.params.lang);
-const project = getProject(Astro.params.slug ?? "");
+const projects = await getProjects();
+const project = projects.find((item) => item.slug === Astro.params.slug);
 
 if (!project) {
-  return Astro.redirect(`/${lang}/projects`);
+  return Astro.redirect(`/${lang}`);
 }
 ---
 
-<Layout lang={lang} title={`${project.title} - sidus`}>
-  <ProjectDetail lang={lang} project={project} />
+<Layout lang={lang} title={`${project.name} - sidus`} cta={false} footer={false}>
+  <ProjectDetail lang={lang} project={project} projects={projects} />
 </Layout>

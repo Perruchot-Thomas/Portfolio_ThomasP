@@ -8,6 +8,6 @@ export const getStaticPaths = staticLangPaths;
 const lang = getLang(Astro.params.lang);
 ---
 
-<Layout lang={lang}>
+<Layout lang={lang} cta={false}>
   <AboutPage lang={lang} />
 </Layout>

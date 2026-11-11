@@ -1,0 +1,27 @@
+order: 3
+name: "Biche"
+category: covers
+home: true
+year: "2026"
+tools: "photoshop"
+context:
+  fr: "cover / exploration photo"
+  en: "cover / photo exploration"
+vision:
+  fr: "une silhouette blanche découpée dans une forêt grise, comme une apparition dans les phares."
+  en: "a white silhouette cut into a grey forest, like something appearing in the headlights."
+cover: ./cover.jpg
+frames:
+  - image: ./cover.jpg
+  - label:
+      fr: "(la silhouette)"
+      en: "(the silhouette)"
+    text:
+      fr: "la biche est un aplat blanc pur, sans aucun détail. elle se lit comme un trou de lumière dans l’image, une présence qu’on devine plus qu’on ne la voit."
+      en: "the doe is a flat pure white shape, without any detail. it reads like a hole of light in the image, a presence you sense more than you see."
+  - label:
+      fr: "(la forêt)"
+      en: "(the forest)"
+    text:
+      fr: "les branches et le grain du fond sont superposés en plusieurs couches de gris pour construire une nuit épaisse, presque étouffante."
+      en: "the branches and the grain are stacked in several layers of grey to build a thick, almost suffocating night."

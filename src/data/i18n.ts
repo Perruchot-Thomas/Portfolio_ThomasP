@@ -55,6 +55,18 @@ const en = {
     word: "projects",
     method: "Each project begins with research, then takes shape through textural identity, visual experimentation and bold typography, always guided by art direction."
   },
+  showcase: {
+    views: ["showcase", "list", "slider"],
+    identity: ["(sidus)", "Portfolio of Thomas Perruchot: textural identity, raw images and bold type."],
+    jobs: ["(roles)", "Graphic designer · Art director"],
+    status: ["(status)", "MMI student, Montbéliard — looking for an internship"],
+    label: "(view)",
+    works: "works",
+    talk: "let’s talk",
+    hint: "scroll",
+    open: "open",
+    go: "go to project"
+  },
   cta: {
     title: "LET’S TALK",
     text: "Open for internships & collaborations.",
@@ -67,7 +79,7 @@ const en = {
     last: "PERRUCHOT",
     lines: ["LET’S TALK", "WITH ME"],
     kicker: "(contact)",
-    city: "Paris"
+    city: "Montbéliard"
   },
   loader: {
     name: "Thomas Perruchot",
@@ -86,7 +98,15 @@ const en = {
     tagline: "Textural identity, art direction & bold typography",
     rights: "© 2026 Thomas Perruchot",
     back: "back to top ↑",
-    info: "(info)"
+    info: "(info)",
+    internship: "(internship)",
+    internshipText: "Looking for an internship in graphic design and art direction.",
+    internshipLink: "get in touch",
+    legal: "legal notice",
+    legalTitle: "Legal notice",
+    legalHost: "(hosting)",
+    legalPending: "hosting provider specified when the website goes live.",
+    unlock: "info & contact"
   },
   work: {
     labels: ["(project)", "(by)", "(tools)", "(context)", "(vision)"],
@@ -96,7 +116,9 @@ const en = {
     moodboard: "(moodboard)",
     dissection: "(dissection)",
     detail: "(detail",
-    next: "next project"
+    next: "next project",
+    year: "(year)",
+    figure: "fig."
   },
   projectsPage: {
     covers: "Covers",
@@ -108,7 +130,10 @@ const en = {
     works: "works",
     hint: "Drag them, throw them, filter them.",
     shuffle: "shuffle",
-    filter: "(filter)"
+    filter: "(filter)",
+    pile: "pile",
+    index: "index",
+    view: "(view)"
   },
   aboutPage: {
     title: "About me",
@@ -118,7 +143,12 @@ const en = {
     role: ["Graphic designer & MMI student", "Art direction, textural identity,", "visual experimentation & bold type"],
     quote: "( open for internships & collaborations )",
     path: "(path)",
-    range: "*( 2010—2026 )"
+    range: "*( 2010—2026 )",
+    sections: ["(about me)", "(in numbers)", "(path)", "(tools)"],
+    facts: ["(years of images)", "(works)", "(tools)", "(milestones)"],
+    hover: "hover a line",
+    photo: "(me — 2026)",
+    contactLabel: "(contact)"
   },
   about: {
     title: "ABOUT",
@@ -152,7 +182,8 @@ const en = {
     message: "[your message]",
     send: "send",
     sent: "message sent",
-    error: "something went wrong",
+    error: "something went wrong, write to me directly by email",
+    sending: "sending…",
     or: "or",
     not: "not",
     lines: ["CON—", "TA", "CT."],
@@ -233,6 +264,18 @@ const fr: typeof en = {
     word: "projets",
     method: "Chaque projet commence par la recherche, puis prend forme grâce à l'identité texturale, l'expérimentation visuelle et la typographie affirmée, toujours guidé par la direction artistique."
   },
+  showcase: {
+    views: ["showcase", "liste", "slider"],
+    identity: ["(sidus)", "Portfolio de Thomas Perruchot : identité texturale, images brutes et typographie affirmée."],
+    jobs: ["(métiers)", "Graphiste · Directeur artistique"],
+    status: ["(statut)", "Étudiant MMI, Montbéliard — en recherche de stage"],
+    label: "(vue)",
+    works: "projets",
+    talk: "on se parle",
+    hint: "défiler",
+    open: "ouvrir",
+    go: "voir le projet"
+  },
   cta: {
     title: "PARLONS",
     text: "Ouvert aux stages et collaborations.",
@@ -245,7 +288,7 @@ const fr: typeof en = {
     last: "PERRUCHOT",
     lines: ["PARLONS", "ENSEMBLE"],
     kicker: "(contact)",
-    city: "Paris"
+    city: "Montbéliard"
   },
   loader: {
     name: "Thomas Perruchot",
@@ -264,7 +307,15 @@ const fr: typeof en = {
     tagline: "Identité texturale, direction artistique & typographie affirmée",
     rights: "© 2026 Thomas Perruchot",
     back: "retour en haut ↑",
-    info: "(infos)"
+    info: "(infos)",
+    internship: "(stage)",
+    internshipText: "Je cherche un stage en graphisme et direction artistique.",
+    internshipLink: "me contacter",
+    legal: "mentions légales",
+    legalTitle: "Mentions légales",
+    legalHost: "(hébergement)",
+    legalPending: "hébergeur précisé à la mise en ligne du site.",
+    unlock: "infos & contact"
   },
   work: {
     labels: ["(projet)", "(par)", "(outils)", "(contexte)", "(vision)"],
@@ -274,7 +325,9 @@ const fr: typeof en = {
     moodboard: "(moodboard)",
     dissection: "(dissection)",
     detail: "(détail",
-    next: "projet suivant"
+    next: "projet suivant",
+    year: "(année)",
+    figure: "fig."
   },
   projectsPage: {
     covers: "Covers",
@@ -286,7 +339,10 @@ const fr: typeof en = {
     works: "projets",
     hint: "Attrape-les, lance-les, filtre-les.",
     shuffle: "mélanger",
-    filter: "(filtre)"
+    filter: "(filtre)",
+    pile: "pile",
+    index: "index",
+    view: "(vue)"
   },
   aboutPage: {
     title: "À propos",
@@ -296,7 +352,12 @@ const fr: typeof en = {
     role: ["Graphiste & étudiant en MMI", "Direction artistique, identité texturale,", "expérimentation visuelle & typographie affirmée"],
     quote: "( ouvert aux stages & collaborations )",
     path: "(parcours)",
-    range: "*( 2010—2026 )"
+    range: "*( 2010—2026 )",
+    sections: ["(à propos)", "(en chiffres)", "(parcours)", "(outils)"],
+    facts: ["(années d’images)", "(projets)", "(outils)", "(étapes)"],
+    hover: "survole une ligne",
+    photo: "(moi — 2026)",
+    contactLabel: "(contact)"
   },
   about: {
     title: "À PROPOS",
@@ -330,7 +391,8 @@ const fr: typeof en = {
     message: "[ton message]",
     send: "envoyer",
     sent: "message envoyé",
-    error: "une erreur est survenue",
+    error: "une erreur est survenue, écris-moi directement par mail",
+    sending: "envoi…",
     or: "ou",
     not: "non",
     lines: ["CON—", "TA", "CT."],

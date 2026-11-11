@@ -1,0 +1,27 @@
+order: 8
+name: "Crâne"
+category: covers
+home: true
+year: "2026"
+tools: "photoshop"
+context:
+  fr: "cover / exploration"
+  en: "cover / exploration"
+vision:
+  fr: "un profil noir qui laisse voir son crâne, et une pensée rangée dans une grille."
+  en: "a black profile revealing its skull, and a mind sorted into a grid."
+cover: ./cover.jpg
+frames:
+  - image: ./cover.jpg
+  - label:
+      fr: "(la grille)"
+      en: "(the grid)"
+    text:
+      fr: "le haut du crâne est découpé en carrés, comme une mémoire classée en cases. certaines sont pleines, d’autres restent vides."
+      en: "the top of the skull is cut into squares, like a memory sorted into boxes. some are full, others stay empty."
+  - label:
+      fr: "(la radio)"
+      en: "(the x-ray)"
+    text:
+      fr: "le crâne est traité comme une radiographie, en noir et blanc très contrasté, pour montrer ce qu’il y a sous la peau sans rien adoucir."
+      en: "the skull is treated like an x-ray, in harsh black and white, to show what lies under the skin without softening anything."

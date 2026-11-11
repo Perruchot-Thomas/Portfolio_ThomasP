@@ -1,0 +1,27 @@
+order: 9
+name: "Flowers in mind"
+category: posters
+home: true
+year: "2026"
+tools: "affinity, photoshop"
+context:
+  fr: "affiche / illustration vectorielle"
+  en: "poster / vector illustration"
+vision:
+  fr: "des fleurs dessinées au trait qui poussent d’une photo, comme des pensées qui s’échappent."
+  en: "line-drawn flowers growing out of a photo, like thoughts slipping away."
+cover: ./cover.jpg
+frames:
+  - image: ./cover.jpg
+  - label:
+      fr: "(le trait)"
+      en: "(the line)"
+    text:
+      fr: "les fleurs sont dessinées en vectoriel, d’un seul trait fin, presque fragile. elles flottent au-dessus de la page comme des idées pas encore posées."
+      en: "the flowers are drawn in vector, with a single thin, almost fragile line. they float above the page like ideas not settled yet."
+  - label:
+      fr: "(la racine)"
+      en: "(the root)"
+    text:
+      fr: "en bas, une vraie photo de fleurs sert de racine. le dessin part du réel pour aller vers l’imaginaire."
+      en: "at the bottom, a real photo of flowers acts as the root. the drawing starts from reality and drifts toward imagination."

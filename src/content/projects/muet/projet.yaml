@@ -1,0 +1,27 @@
+order: 10
+name: "Mute"
+category: experiments
+home: true
+year: "2026"
+tools: "photoshop"
+context:
+  fr: "expérimentation / portrait"
+  en: "experiment / portrait"
+vision:
+  fr: "un visage noyé dans le blanc et des icônes de son coupé : tout ce qu’on ne dit pas."
+  en: "a face drowned in white and muted sound icons: everything we leave unsaid."
+cover: ./cover.jpg
+frames:
+  - image: ./cover.jpg
+  - label:
+      fr: "(le silence)"
+      en: "(the silence)"
+    text:
+      fr: "les icônes de volume coupé se répètent comme des notifications. elles remplacent la parole, le visage reste derrière, effacé."
+      en: "the muted volume icons repeat like notifications. they replace speech, while the face stays behind, erased."
+  - label:
+      fr: "(le blanc)"
+      en: "(the white)"
+    text:
+      fr: "le blanc surexposé ronge le portrait. je voulais une image presque vide pour qu’on entende le silence."
+      en: "the overexposed white eats the portrait. i wanted an almost empty image, so you could hear the silence."

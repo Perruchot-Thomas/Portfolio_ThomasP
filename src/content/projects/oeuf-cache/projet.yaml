@@ -1,0 +1,27 @@
+order: 11
+name: "Œuf"
+category: posters
+home: true
+year: "2026"
+tools: "photoshop, affinity"
+context:
+  fr: "affiche / collage"
+  en: "poster / collage"
+vision:
+  fr: "une boîte d’œufs où chaque coquille cache un visage, et une phrase qui le dit : un œuf peut en cacher un autre."
+  en: "an egg box where every shell hides a face, and a line that says it: one egg can hide another."
+cover: ./cover.jpg
+frames:
+  - image: ./cover.jpg
+  - label:
+      fr: "(les visages)"
+      en: "(the faces)"
+    text:
+      fr: "deux œufs ont un visage. ils se ressemblent mais ne réagissent pas pareil, comme deux personnes qu’on range dans la même boîte."
+      en: "two eggs have a face. they look alike but don’t react the same way, like two people put in the same box."
+  - label:
+      fr: "(la bulle)"
+      en: "(the bubble)"
+    text:
+      fr: "la bulle « #@%&! » est le seul bruit de l’affiche. elle casse le calme de la composition et rend l’objet presque vivant."
+      en: "the “#@%&!” bubble is the only noise on the poster. it breaks the calm of the layout and makes the object almost alive."

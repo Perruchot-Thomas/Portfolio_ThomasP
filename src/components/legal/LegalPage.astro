@@ -1,0 +1,125 @@
+---
+import type { Lang } from "../../data/i18n";
+import { host, legalSections, legalUpdated } from "../../data/legal";
+import { localePath, useUi } from "../../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = useUi(lang);
+const copy = ui.footer;
+const hosting = host.name ? [host.name, host.address, host.url].filter(Boolean).join("\n") : copy.legalPending;
+const sections = [
+  ...legalSections.slice(0, 2).map((section) => ({ label: section.label[lang], text: section.text[lang] })),
+  { label: copy.legalHost, text: hosting },
+  ...legalSections.slice(2).map((section) => ({ label: section.label[lang], text: section.text[lang] }))
+];
+---
+
+<section class="legal">
+  <div class="legal__intro">
+    <p class="legal__small legal__grey">(sidus)</p>
+    <h1 class="legal__title">{copy.legalTitle}</h1>
+    <p class="legal__small legal__grey">{legalUpdated[lang]}</p>
+    <a class="legal__small legal__back" href={localePath(lang, "")}>[ ← {ui.work.back} ]</a>
+  </div>
+
+  <div class="legal__list">
+    {
+      sections.map((section) => (
+        <div class="legal__block">
+          <p class="legal__small legal__grey">{section.label}</p>
+          <p class="legal__small legal__text">{section.text}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .legal {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 2vw;
+    min-height: 100svh;
+    padding: 11svh var(--gutter) 10svh;
+    color: var(--color-black);
+    background: var(--color-white);
+  }
+
+  .legal__small {
+    margin: 0;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .legal__grey {
+    color: var(--color-grey);
+  }
+
+  .legal a {
+    color: inherit;
+  }
+
+  .legal__intro {
+    position: sticky;
+    top: 11svh;
+    grid-column: 1 / 6;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6svh;
+  }
+
+  .legal__title {
+    margin: 0 0 1svh;
+    font-size: var(--text-order);
+    line-height: var(--text-order--line-height);
+    font-weight: var(--font-weight-regular);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .legal__back {
+    margin-top: 3svh;
+  }
+
+  .legal__list {
+    grid-column: 7 / 13;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6svh 2vw;
+    align-content: start;
+  }
+
+  .legal__block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6em;
+  }
+
+  .legal__text {
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 767px) {
+    .legal {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 6svh;
+    }
+
+    .legal__intro,
+    .legal__list {
+      position: static;
+      grid-column: 1 / -1;
+    }
+
+    .legal__list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

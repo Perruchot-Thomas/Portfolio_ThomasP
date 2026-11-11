@@ -1,0 +1,42 @@
+order: 13
+name: "CORBEAU"
+category: covers
+home: false
+year: "2026"
+tools: "affinity"
+stream: "https://open.spotify.com/"
+context:
+  fr: "industrie musicale / cover de rap"
+  en: "music industry / rap cover"
+vision:
+  fr: "une composition sombre et atmosphérique qui fusionne silhouettes humaine et animale pour refléter l’identité brute du morceau."
+  en: "a dark, atmospheric composition merging human and animal silhouettes to reflect the raw identity of the track."
+cover: ./cover.jpg
+frames:
+  - image: ./cover.jpg
+  - label:
+      fr: "(moodboard)"
+      en: "(moodboard)"
+    text:
+      fr: "“corbeau” est le dernier morceau de “guilt”, un projet de 10 titres porté par un message : créer et s’aimer sans culpabilité. le corbeau donne une forme physique à gliz. s’il annonce d’habitude le mauvais présage, ici il annonce son arrivée brute dans le monde de la musique. pour le traduire, j’ai construit un moodboard autour d’une atmosphère sombre et oppressante : ciels lourds, textures brutes et corbeaux en vol."
+      en: "“corbeau” is the final track of “guilt”, a 10-track project carrying a core message: create and love yourself without guilt. the raven gives a physical form to gliz. while it usually brings bad omens, here it announces his raw arrival in the music world. to translate this, i built a moodboard around a dark, oppressive atmosphere: heavy skies, raw textures, and flying ravens."
+  - image: ./image-01.jpg
+  - image: ./image-02.png
+  - label:
+      fr: "(détail 01)"
+      en: "(detail 01)"
+    text:
+      fr: "j’ai choisi de montrer gliz de profil parce qu’il regarde dans une direction précise. ici, ce regard symbolise son entrée dans l’industrie musicale. j’ai utilisé un noir et blanc strict pour installer tout de suite l’atmosphère brute de sa mixtape et l’ambiance sombre qu’il veut dégager."
+      en: "i chose to feature gliz in profile because it shows him looking toward a specific direction. here, it symbolizes his gaze fixed on his entry into the music industry. i used strict black and white to immediately establish the raw atmosphere of his mixtape and the exact dark vibe he wants to project."
+  - label:
+      fr: "(détail 02)"
+      en: "(detail 02)"
+    text:
+      fr: "j’ai dessiné le corbeau de profil comme une pure silhouette vectorielle, une ombre qui fait partie intégrante de gliz. ce choix vient d’influences manga et du fait qu’un corbeau en vol ressemble souvent à une simple forme sombre dans le ciel. dans la composition, l’oiseau regarde l’horizon exactement dans la même direction que l’artiste. l’ombre vectorielle en aplat était aussi un choix technique : je voulais fondre parfaitement gliz et le corbeau pour n’en faire qu’une seule entité."
+      en: "i designed the raven in profile as a pure vector silhouette, acting as a shadow that becomes an integral part of gliz. this visual choice comes from manga influences and the fact that a flying raven often just looks like a dark shape against the sky. in the composition, the bird looks toward the horizon in the exact same direction as the artist. going with a flat vector shadow was also a strict technical decision: my goal was to perfectly melt gliz and the raven together, forging them into one single entity."
+  - label:
+      fr: "(détail 03)"
+      en: "(detail 03)"
+    text:
+      fr: "le fond est directement lié aux thèmes du morceau, qui parle beaucoup d’orage et de ciel. j’ai construit un environnement dense et lourd, mais j’ai placé volontairement une légère lueur qui perce les nuages exactement là où regardent le corbeau et gliz. cette lumière crée un point focal, une direction claire et une lueur d’espoir dans une atmosphère sinon oppressante."
+      en: "the background is directly tied to the track’s themes, which speak heavily about storms and the sky. i built a dense, heavy environment, but i intentionally placed a subtle glow breaking through the clouds exactly where the raven and gliz are looking. this light creates a focal point, giving a clear direction and a glimmer of purpose within an otherwise oppressive atmosphere."

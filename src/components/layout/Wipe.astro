@@ -1,0 +1,132 @@
+---
+import { languages, ui } from "../../data/i18n";
+import { getProjects } from "../../data/projects";
+import { localePath } from "../../lib/i18n";
+
+const projects = await getProjects();
+const labels: Record<string, string> = {};
+languages.forEach((lang) => {
+  const nav = ui[lang].nav;
+  labels[localePath(lang, "")] = nav.home;
+  labels[localePath(lang, "/about")] = nav.about;
+  labels[localePath(lang, "/contact")] = nav.contact;
+  labels[localePath(lang, "/legal")] = ui[lang].footer.legal;
+  projects.forEach((project) => {
+    labels[localePath(lang, `/projects/${project.slug}`)] = project.name.toLowerCase();
+  });
+});
+---
+
+<div class="wipe-root" data-wipe-root data-labels={JSON.stringify(labels)} aria-hidden="true">
+  <div class="wipe" data-wipe>
+    <div class="wipe__fill" data-wipe-fill></div>
+  </div>
+  <div class="wipe__center">
+    <span class="wipe__line" data-wipe-line></span>
+    <p class="wipe__label" data-wipe-label></p>
+    <span class="wipe__line" data-wipe-line></span>
+  </div>
+  <p class="wipe__count" data-wipe-count>000</p>
+</div>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector("[data-wipe-root]");
+    if (!root || !document.documentElement.hasAttribute("data-wipe")) return;
+    try {
+      root.querySelector("[data-wipe-label]").textContent = sessionStorage.getItem("wipe-label") || "";
+      root.querySelector("[data-wipe-count]").textContent = "100";
+    } catch (error) {}
+  })();
+</script>
+
+<style>
+  .wipe {
+    position: fixed;
+    inset: 0;
+    z-index: 105;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    background: rgb(255 255 255 / 0.35);
+    -webkit-backdrop-filter: blur(30px) saturate(1.6);
+    backdrop-filter: blur(30px) saturate(1.6);
+  }
+
+  .wipe__fill {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: var(--color-white);
+  }
+
+  .wipe__center {
+    position: fixed;
+    inset: 0;
+    z-index: 106;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2em;
+    padding: 0 var(--gutter);
+    visibility: hidden;
+    pointer-events: none;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+  }
+
+  .wipe__label {
+    margin: 0;
+    color: var(--color-black);
+    font-weight: var(--font-weight-regular);
+    white-space: nowrap;
+  }
+
+  .wipe__line {
+    flex: 1;
+    height: 1px;
+    background: var(--color-black);
+    transform: scaleX(0);
+  }
+
+  .wipe__line:first-child {
+    transform-origin: right center;
+  }
+
+  .wipe__line:last-child {
+    transform-origin: left center;
+  }
+
+  .wipe__count {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    z-index: 106;
+    margin: 0;
+    color: var(--color-grey);
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    font-variant-numeric: tabular-nums;
+    transform: translateX(-50%);
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  :global(html[data-wipe]) .wipe {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  :global(html[data-wipe]) .wipe__fill {
+    opacity: 1;
+  }
+
+  :global(html[data-wipe]) .wipe__center,
+  :global(html[data-wipe]) .wipe__count {
+    visibility: visible;
+  }
+
+  :global(html[data-wipe]) .wipe__line {
+    transform: none;
+  }
+</style>

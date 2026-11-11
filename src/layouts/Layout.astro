@@ -3,9 +3,10 @@ import "../styles/global.css";
 import type { Lang } from "../data/i18n";
 import Header from "../components/layout/Header.astro";
 import MenuOverlay from "../components/layout/MenuOverlay.astro";
-import Intro from "../components/layout/Intro.astro";
 import Footer from "../components/layout/Footer.astro";
 import ContactCta from "../components/home/ContactCta.astro";
+import Wipe from "../components/layout/Wipe.astro";
+import plexRegular from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url";
 
 interface Props {
   lang: Lang;
@@ -13,9 +14,10 @@ interface Props {
   description?: string;
   theme?: "white" | "blue" | "orange";
   cta?: boolean;
+  footer?: boolean;
 }
 
-const { lang, title = "sidus - Thomas Perruchot", description = "Portfolio de Thomas Perruchot, graphiste et étudiant MMI.", theme = "white", cta = true } = Astro.props;
+const { lang, title = "sidus - Thomas Perruchot", description = "Portfolio de Thomas Perruchot, graphiste et étudiant MMI.", theme = "white", cta = true, footer = true } = Astro.props;
 const titleStyle =
   lang === "fr" ? "--title-fit:21.61vw;--title-cap:18.7svh;--about-length:4.748;--proj-length:4.1274" : "--title-fit:18.76vw;--title-cap:65svh;--about-length:3.2085;--proj-length:4.7544";
 ---
@@ -27,10 +29,14 @@ const titleStyle =
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href={plexRegular} as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     <script is:inline>
       (function () {
         if (!sessionStorage.getItem("intro-seen") && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.setAttribute("data-intro", "");
+        try {
+          if (sessionStorage.getItem("wipe") && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.setAttribute("data-wipe", "");
+        } catch (error) {}
       })();
     </script>
   </head>
@@ -39,8 +45,8 @@ const titleStyle =
       <svg viewBox="-16 -16 32 32" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="butt">
         <path d="M0 -12V12M-10.4 -6L10.4 6M-10.4 6L10.4 -6" />
       </svg>
+      <span class="cursor__label" data-cursor-label></span>
     </div>
-    <Intro lang={lang} />
     <Header lang={lang}>
       <slot name="header-extra" />
     </Header>
@@ -49,14 +55,19 @@ const titleStyle =
       <slot />
     </main>
     {cta && <ContactCta lang={lang} />}
-    <Footer lang={lang} />
+    {footer && <Footer lang={lang} />}
+    <Wipe />
     <script>
       import { initScroll } from "../lib/scroll";
       import { initScramble } from "../lib/scramble";
       import { initCursor } from "../lib/cursor";
+      import { initRoll } from "../lib/roll";
+      import { initWipe } from "../lib/wipe";
       initScroll();
       initScramble();
       initCursor();
+      initRoll();
+      initWipe();
     </script>
   </body>
 </html>

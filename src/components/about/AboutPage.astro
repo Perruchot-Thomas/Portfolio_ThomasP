@@ -1,19 +1,20 @@
 ---
 import type { Lang } from "../../data/i18n";
-import unionRaw from "../../assets/svg/union.svg?raw";
 import selfie from "../../assets/photos/IMG_9852.jpeg";
+import mirror from "../../assets/photos/IMG_9852 2.jpeg";
+import blur from "../../assets/photos/imagemoi copie.avif";
+import photo1 from "../../assets/photos/photo-1.jpg";
+import photo2 from "../../assets/photos/photo-2.jpg";
+import photo3 from "../../assets/photos/photo-3.jpg";
+import photo5 from "../../assets/photos/photo-5.jpg";
+import photo6 from "../../assets/photos/photo-6.jpg";
+import photo7 from "../../assets/photos/photo-7.jpg";
+import grain from "../../assets/photos/photo header.avif";
 import drawing from "../../assets/about/drawing.jpg";
 import penTablet from "../../assets/about/pen-tablet.jpg";
-import firstCollab from "../../assets/about/first-collab.jpg";
 import tshirt from "../../assets/about/tshirt.jpg";
-import photoshop from "../../assets/about/photoshop.png";
-import mmi from "../../assets/about/mmi.png";
-import texture from "../../assets/textures/texture-2.jpg";
-import desurbanisation from "../../assets/projets/07-desurbanisation.jpg";
-import acab from "../../assets/projets/02-acab.jpg";
-import flowers from "../../assets/projets/09-flowers-in-mind.jpg";
-import redEyes from "../../assets/projets/12-red-eyes.jpg";
-import { useUi } from "../../lib/i18n";
+import { socials } from "../../data/site";
+import { localePath, useUi } from "../../lib/i18n";
 
 interface Props {
   lang: Lang;
@@ -22,389 +23,287 @@ interface Props {
 const { lang } = Astro.props;
 const ui = useUi(lang);
 const copy = ui.aboutPage;
-const shapePath = unionRaw.match(/ d="([^"]+)"/)?.[1] ?? "";
+const sentence = (value: string) => {
+  const lower = value.toLowerCase();
+  return (lower.charAt(0).toUpperCase() + lower.slice(1)).replace(/\bmmi\b/gi, "MMI");
+};
+const steps = ui.about.skills.map((skill) => ({ label: sentence(skill.label), year: skill.year }));
+const email = socials.find((social) => social.id === "email");
 
-const pictures = [
-  { image: drawing, size: "s" },
-  { image: penTablet, size: "s" },
-  { image: desurbanisation, size: "m" },
-  { image: mmi, size: "s" },
-  { image: selfie, size: "l" },
-  { image: firstCollab, size: "s" },
-  { image: tshirt, size: "s" },
-  { image: acab, size: "m" },
-  { image: flowers, size: "m" },
-  { image: photoshop, size: "s" },
-  { image: texture, size: "s" },
-  { image: redEyes, size: "m" }
+const photos = [selfie, photo1, drawing, blur, photo2, tshirt, mirror, photo5, penTablet, photo3, photo6, grain, photo7];
+const offsets = [
+  [-4, -6, -5],
+  [-30, -22, 4],
+  [28, 18, -3],
+  [34, -24, 7],
+  [-36, 20, -8],
+  [10, -30, 3],
+  [-16, 26, -4],
+  [22, -8, 6],
+  [-26, -4, -7],
+  [38, 4, 2],
+  [6, 24, -3],
+  [-38, -28, 8],
+  [16, -26, -6],
+  [-10, 10, 5],
+  [30, 30, -1],
+  [0, -2, 4]
 ];
-
-const [w1, w2, w3, w4, w5] = copy.words;
-const layout: [number | "end", string | number][][] = [
-  [[1, w1], [5, 0], [6, 2], [8, ")"], [10, "("], [11, 3]],
-  [[1, w2], [5, 1], [7, 4], [9, ")"], [11, "("], [12, 5]],
-  [[1, 6], [2, ")"], [3, "("], [4, 7], ["end", w3]],
-  [[1, w4], [6, 8], [7, ")"], [8, "("], [10, 9]],
-  [[1, 10], [2, "("], [4, 11], [5, ")"], ["end", w5]]
-];
-
-const lines = layout.map((tokens) =>
-  tokens.map(([column, token]) => {
-    const place = column === "end" ? "grid-column:1 / -1;justify-self:end" : `grid-column:${column}`;
-    if (typeof token === "number") return { kind: "picture" as const, place, ...pictures[token] };
-    return { kind: "word" as const, place, text: token };
-  })
-);
-
-const path = ui.about.skills.map((skill, index) => ({
-  ...skill,
-  number: String(index + 1).padStart(2, "0"),
-  letters: Array.from(skill.label)
-}));
+const items = photos.map((image, index) => {
+  const [x, y, turn] = offsets[index % offsets.length];
+  return { image, x, y, turn };
+});
 ---
 
-<section class="order" data-order>
-  <p class="order__small order__presents">
-    {copy.presents.map((line) => <span>{line}</span>)}
-  </p>
+<section class="me" data-me>
+  <div class="me__area me__area--name">
+    <p class="me__small me__grey">{copy.sections[0]}</p>
+    <h1 class="me__name">{ui.cta.first}<br />{ui.cta.last}</h1>
+  </div>
 
-  <h1 class="order__title" aria-label={`${copy.title} — ${copy.words.join(" ")}`}>
+  <p class="me__area me__area--identity me__small">{ui.showcase.identity[1]}</p>
+
+  <div class="me__area me__area--path">
+    <p class="me__small me__grey">{copy.path}</p>
+    <ul class="me__small me__list">
+      {steps.map((step) => <li><span class="me__grey">{step.year}</span> {step.label}</li>)}
+    </ul>
+  </div>
+
+  <div class="me__area me__area--jobs">
+    <p class="me__small me__grey">{ui.showcase.jobs[0]}</p>
+    <p class="me__small">{ui.showcase.jobs[1]}</p>
+  </div>
+
+  <div class="me__area me__area--tools">
+    <p class="me__small me__grey">{copy.tools}</p>
+    <p class="me__small">{ui.intro.tools.join(", ")}</p>
+  </div>
+
+  <p class="me__area me__area--hint me__small me__grey">[ {ui.hero.scroll} ↓ ]</p>
+
+  <div class="me__area me__area--status">
+    <p class="me__small me__grey">{ui.showcase.status[0]}</p>
+    <p class="me__small">{ui.showcase.status[1]}</p>
+    <a class="me__small" href={localePath(lang, "/contact")}>[ {ui.footer.internshipLink} ↗ ]</a>
+    {email && <a class="me__small me__grey" href={email.href}>{email.label}</a>}
+  </div>
+
+  <div class="me__pile" data-pile aria-hidden="true">
     {
-      lines.map((tokens) => (
-        <span class="order__line" aria-hidden="true">
-          {tokens.map((token) =>
-            token.kind === "word" ? (
-              <span class="order__word" style={token.place} data-token>{token.text}</span>
-            ) : (
-              <span class:list={["order__pic", `order__pic--${token.size}`]} style={token.place} data-token>
-                <img src={token.image.src} width={token.image.width} height={token.image.height} alt="" draggable="false" />
-              </span>
-            )
-          )}
-        </span>
+      items.map((item) => (
+        <figure class="me__photo" data-photo data-x={item.x} data-y={item.y} data-turn={item.turn}>
+          <img src={item.image.src} width={item.image.width} height={item.image.height} alt="" loading="lazy" draggable="false" />
+        </figure>
       ))
     }
-  </h1>
-
-  <div class="order__foot">
-    <p class="order__small">
-      <span class="order__grey">{copy.tools}</span> {ui.intro.tools.join(", ")}
-    </p>
-    <p class="order__small order__role">
-      {copy.role.map((line) => <span>{line}</span>)}
-    </p>
-  </div>
-</section>
-
-<section class="path" id="path" data-path data-src={selfie.src}>
-  <svg class="path__shape" viewBox="0 0 2682.8 1003.22" preserveAspectRatio="none" aria-hidden="true">
-    <path d={shapePath} />
-  </svg>
-
-  <div class="path__inner">
-    <div class="path__head">
-      <p class="order__small">{copy.path}</p>
-      <p class="order__small">{copy.quote}</p>
-    </div>
-
-    <p class="path__giant" aria-hidden="true">{copy.range}</p>
-
-    <ol class="path__rows">
-      {
-        path.map((step) => (
-          <li class="path__row">
-            <span class="order__small path__num">{step.number}</span>
-            <span class="path__label" aria-label={step.label}>
-              {step.letters.map((letter) => (
-                <span class="path__letter" data-letter aria-hidden="true">
-                  {letter === " " ? "\u00a0" : letter}
-                </span>
-              ))}
-            </span>
-            <span class="order__small path__year">{step.year}</span>
-          </li>
-        ))
-      }
-    </ol>
   </div>
 </section>
 
 <style>
-  .order__small {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
+  .me {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "name . identity"
+      "path . jobs"
+      "tools hint status";
+    gap: 4svh 2vw;
+    height: 100svh;
+    padding: 11svh var(--gutter) 5svh;
+    overflow: hidden;
     color: var(--color-black);
+    background: var(--color-white);
+  }
+
+  .me__small {
+    margin: 0;
     font-size: var(--text-small);
     line-height: var(--text-small--line-height);
     font-weight: var(--font-weight-regular);
   }
 
-  .order__grey {
-    display: inline;
+  .me__grey {
     color: var(--color-grey);
   }
 
-  .order {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 4svh;
-    min-height: 100svh;
-    padding: 11svh var(--gutter) 5svh;
-    overflow: hidden;
-    color: var(--color-black);
+  .me a {
+    color: inherit;
   }
 
-  .order__title {
+  .me__area {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
+    gap: 0.5em;
+  }
+
+  .me__area--name {
+    grid-area: name;
+  }
+
+  .me__area--identity {
+    grid-area: identity;
+    justify-self: end;
+    max-width: 22em;
+    text-align: right;
+  }
+
+  .me__area--path {
+    grid-area: path;
+    align-self: center;
+  }
+
+  .me__area--jobs {
+    grid-area: jobs;
+    align-self: center;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .me__area--tools {
+    grid-area: tools;
+    align-self: end;
+  }
+
+  .me__area--hint {
+    grid-area: hint;
+    align-self: end;
+    justify-self: center;
+  }
+
+  .me__area--status {
+    grid-area: status;
+    align-self: end;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .me__name {
     margin: 0;
     font-size: var(--text-order);
     line-height: var(--text-order--line-height);
     font-weight: var(--font-weight-regular);
     letter-spacing: -0.02em;
     text-transform: uppercase;
-    white-space: nowrap;
   }
 
-  .order__line {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    align-items: center;
+  .me__list {
+    padding: 0;
+    list-style: none;
   }
 
-  .order__word,
-  .order__pic {
-    grid-row: 1;
-    justify-self: start;
-  }
-
-  .order__word {
-    display: block;
-  }
-
-  .order__pic {
-    position: relative;
-    z-index: 1;
-    display: block;
-    flex: none;
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .order__pic:hover {
-    z-index: 2;
-    transform: scale(1.6);
-  }
-
-  .order__pic img {
-    display: block;
-    width: auto;
-    height: 100%;
-  }
-
-  .order__pic--s {
-    height: 0.52em;
-  }
-
-  .order__pic--m {
-    height: 1em;
-  }
-
-  .order__pic--l {
-    height: 1.9em;
-    margin-block: -0.5em;
-  }
-
-  .order__foot {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 4vw;
-  }
-
-  .order__role {
-    text-align: right;
-  }
-
-  .path {
-    position: relative;
-    padding: 30vw var(--gutter) 34vw;
-    color: var(--color-white);
-  }
-
-  .path .order__small {
-    color: inherit;
-  }
-
-  .path__shape {
+  .me__pile {
     position: absolute;
-    top: 0;
+    top: 50%;
     left: 50%;
-    width: 209.6vw;
-    height: 100%;
-    margin-left: -104.8vw;
-    fill: var(--color-black);
+    z-index: 2;
+    width: 0;
+    height: 0;
     pointer-events: none;
   }
 
-  .path__inner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 5svh;
-  }
-
-  .path__head {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .path__giant {
-    margin: 0;
-    font-size: var(--text-giant);
-    line-height: var(--text-giant--line-height);
-    font-weight: var(--font-weight-regular);
-    letter-spacing: -0.02em;
-    white-space: nowrap;
-  }
-
-  .path__rows {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    border-top: 1px solid var(--color-grey);
-  }
-
-  .path__row {
-    display: grid;
-    grid-template-columns: 6vw 1fr auto;
-    align-items: center;
-    gap: 2vw;
-    padding: 1.6svh 0;
-    border-bottom: 1px solid var(--color-grey);
-  }
-
-  .path .path__num {
-    color: var(--color-grey);
-  }
-
-  .path__label {
-    display: flex;
-    font-size: var(--text-mid);
-    line-height: 1;
-    font-weight: var(--font-weight-regular);
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .path__letter {
-    position: relative;
-    display: inline-block;
-  }
-
-  .path__letter.is-image {
-    color: transparent;
-  }
-
-  .path__letter :global(i) {
+  .me__photo {
     position: absolute;
-    top: 0.14em;
+    top: 0;
     left: 0;
-    display: none;
-    width: 100%;
-    height: 0.711em;
-    background-size: var(--photo-size) auto;
-    background-position: var(--photo-x) 30%;
-    image-rendering: pixelated;
+    width: 16vw;
+    margin: 0;
+    will-change: transform;
   }
 
-  .path__letter.is-image :global(i) {
+  .me__photo img {
     display: block;
+    width: 100%;
+    height: auto;
   }
 
   @media (max-width: 767px) {
-    .order__title {
-      font-size: calc(var(--text-order) * 1.5);
+    .me {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "name name"
+        "identity identity"
+        "path jobs"
+        "tools status";
+      grid-template-rows: auto auto 1fr auto;
+      gap: 3svh 4vw;
     }
 
-    .order__line {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0 0.2em;
-    }
-
-    .order__foot {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .order__role {
+    .me__area--identity {
+      justify-self: start;
       text-align: left;
     }
 
-    .path__row {
-      grid-template-columns: auto 1fr auto;
+    .me__area--hint {
+      display: none;
     }
-  }
+
+    .me__photo {
+      width: 36vw;
+    }  }
 </style>
 
 <script>
   import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+  gsap.registerPlugin(ScrollTrigger);
+
+  const me = document.querySelector<HTMLElement>("[data-me]");
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const order = document.querySelector<HTMLElement>("[data-order]");
 
-  if (order && !reduced) {
-    const tokens = Array.from(order.querySelectorAll<HTMLElement>("[data-token]"));
-    gsap.from(tokens, {
-      yPercent: 40,
-      autoAlpha: 0,
-      duration: 0.9,
-      ease: "power3.out",
-      stagger: { each: 0.035, from: "random" },
-      delay: 0.15
+  if (me) {
+    const photos = Array.from(me.querySelectorAll<HTMLElement>("[data-photo]"));
+    const place = (photo: HTMLElement) => ({
+      x: (Number(photo.dataset.x) / 100) * window.innerWidth,
+      y: (Number(photo.dataset.y) / 100) * window.innerHeight,
+      turn: Number(photo.dataset.turn)
     });
-  }
 
-  const path = document.querySelector<HTMLElement>("[data-path]");
+    photos.forEach((photo, index) => {
+      photo.style.zIndex = String(index + 1);
+      gsap.set(photo, { xPercent: -50, yPercent: -50 });
+    });
 
-  if (path) {
-    const source = path.dataset.src ?? "";
-    const letters = Array.from(path.querySelectorAll<HTMLElement>("[data-letter]"));
-
-    letters.forEach((letter) => {
-      const tile = document.createElement("i");
-      tile.style.backgroundImage = `url("${source}")`;
-      letter.append(tile);
-      let timer = 0;
-
-      const show = () => {
-        window.clearTimeout(timer);
-        const width = letter.closest(".path__label")?.getBoundingClientRect().width ?? 600;
-        tile.style.setProperty("--photo-size", `${width}px`);
-        tile.style.setProperty("--photo-x", `${-letter.offsetLeft}px`);
-        letter.classList.add("is-image");
-      };
-
-      letter.addEventListener("pointerenter", show);
-      letter.addEventListener("pointerleave", () => {
-        timer = window.setTimeout(() => letter.classList.remove("is-image"), 600);
+    if (reduced) {
+      photos.forEach((photo) => {
+        const spot = place(photo);
+        gsap.set(photo, { x: spot.x, y: spot.y, rotation: spot.turn });
       });
-    });
+    } else {
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: me,
+          start: "top top",
+          end: () => `+=${window.innerHeight * photos.length * 0.32}`,
+          pin: true,
+          scrub: 0.8,
+          invalidateOnRefresh: true
+        }
+      });
 
-    if (!reduced && letters.length) {
-      let visible = false;
-      new IntersectionObserver(([entry]) => {
-        visible = entry.isIntersecting;
-      }).observe(path);
-      window.setInterval(() => {
-        if (!visible) return;
-        const letter = letters[Math.floor(Math.random() * letters.length)];
-        letter.dispatchEvent(new PointerEvent("pointerenter"));
-        window.setTimeout(() => letter.dispatchEvent(new PointerEvent("pointerleave")), 500 + Math.random() * 700);
-      }, 260);
+      photos.forEach((photo, index) => {
+        timeline.fromTo(
+          photo,
+          {
+            x: () => place(photo).x * 0.4,
+            y: () => window.innerHeight * 0.95,
+            rotation: () => place(photo).turn * 3
+          },
+          {
+            x: () => place(photo).x,
+            y: () => place(photo).y,
+            rotation: () => place(photo).turn,
+            duration: 1,
+            ease: "power3.out"
+          },
+          index * 0.6
+        );
+      });
     }
   }
 </script>

@@ -1,0 +1,27 @@
+order: 5
+name: "Bug fille"
+category: posters
+home: true
+year: "2026"
+tools: "photoshop, affinity"
+context:
+  fr: "affiche / identité numérique"
+  en: "poster / digital identity"
+vision:
+  fr: "un portrait qui se dérègle, entre interface d’ordinateur et identité qui se pixelise."
+  en: "a portrait breaking down, between a computer interface and an identity turning into pixels."
+cover: ./cover.jpg
+frames:
+  - image: ./cover.jpg
+  - label:
+      fr: "(le bug)"
+      en: "(the bug)"
+    text:
+      fr: "le visage se décompose en pixels et en blocs, comme une image qui charge mal. je voulais parler de ces identités qu’on construit en ligne et qui finissent par se fissurer."
+      en: "the face breaks into pixels and blocks, like an image that fails to load. i wanted to talk about the identities we build online and that end up cracking."
+  - label:
+      fr: "(l’interface)"
+      en: "(the interface)"
+    text:
+      fr: "barre de fenêtre, code-barres, platine : les éléments d’interface encadrent le portrait comme un objet qu’on consomme."
+      en: "window bar, barcode, turntable: the interface elements frame the portrait like something you consume."

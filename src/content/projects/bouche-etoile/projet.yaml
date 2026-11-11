@@ -1,0 +1,27 @@
+order: 6
+name: "Bouche étoile"
+category: covers
+home: true
+year: "2026"
+tools: "photoshop"
+context:
+  fr: "cover / musique"
+  en: "cover / music"
+vision:
+  fr: "une bouche grande ouverte qui avale une étoile, entre cri et chant."
+  en: "a wide open mouth swallowing a star, somewhere between a scream and a song."
+cover: ./cover.jpg
+frames:
+  - image: ./cover.jpg
+  - label:
+      fr: "(le cri)"
+      en: "(the scream)"
+    text:
+      fr: "la bouche remplit tout le cadre. on ne sait pas si elle crie ou si elle chante, et c’est cette hésitation que je voulais garder pour une cover."
+      en: "the mouth fills the whole frame. you can’t tell if it screams or sings, and that hesitation is what i wanted to keep for a cover."
+  - label:
+      fr: "(l’étoile)"
+      en: "(the star)"
+    text:
+      fr: "l’étoile posée sur la langue est mon signe : sidus veut dire astre en latin. elle devient la voix qu’on s’apprête à entendre."
+      en: "the star on the tongue is my sign: sidus means star in latin. it becomes the voice you are about to hear."

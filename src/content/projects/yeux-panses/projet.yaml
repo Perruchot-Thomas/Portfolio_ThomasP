@@ -1,0 +1,27 @@
+order: 1
+name: "Yeux pansés"
+category: covers
+home: true
+year: "2026"
+tools: "photoshop"
+context:
+  fr: "cover fictive / détournement"
+  en: "fictional cover / hijacking"
+vision:
+  fr: "un gros plan d’œil blessé détourné en jaquette de console, entre soin et saturation des écrans."
+  en: "a close-up of a wounded eye turned into a console case, somewhere between care and screen overload."
+cover: ./cover.jpg
+frames:
+  - image: ./cover.jpg
+  - label:
+      fr: "(le regard)"
+      en: "(the gaze)"
+    text:
+      fr: "l’œil occupe toute la jaquette. les pansements rouges posés en croix parlent de la fatigue des écrans : on regarde tellement qu’il faut finir par soigner nos yeux."
+      en: "the eye fills the whole case. the red bandages crossed over it speak about screen fatigue: we look so much that we end up having to heal our eyes."
+  - label:
+      fr: "(la jaquette)"
+      en: "(the case)"
+    text:
+      fr: "j’ai repris les codes d’une boîte de console, logo vertical et bande blanche, pour que l’image ressemble à un objet qu’on pourrait trouver en rayon."
+      en: "i borrowed the codes of a console box, vertical logo and white band, so the image feels like an object you could find on a shelf."

@@ -1,0 +1,14 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import LegalPage from "../../components/legal/LegalPage.astro";
+import { getLang, staticLangPaths, useUi } from "../../lib/i18n";
+
+export const getStaticPaths = staticLangPaths;
+
+const lang = getLang(Astro.params.lang);
+const ui = useUi(lang);
+---
+
+<Layout lang={lang} title={`${ui.footer.legalTitle} - sidus`} cta={false}>
+  <LegalPage lang={lang} />
+</Layout>

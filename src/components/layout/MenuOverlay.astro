@@ -19,6 +19,7 @@ const sidusRatio = sidusBox.width / sidusBox.height;
 const maskSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${sidusBox.width} ${sidusBox.height}"><path d="${sidusPath}"/></svg>`;
 const maskUrl = `url("data:image/svg+xml,${encodeURIComponent(maskSvg)}")`;
 const entries = navItems.map((item, index) => ({ ...item, index }));
+const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
 ---
 
 <aside id="menu" class="menu" data-open="false" data-dragging="false" aria-label={ui.menuLabel}>
@@ -31,6 +32,23 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
         </svg>
       </div>
       <div class="menu__zoom" aria-hidden="true"><span></span></div>
+      <div class="menu__story" data-story aria-hidden="true">
+        <p class="menu__story-small menu__story-label" data-split>{about[0][0]}</p>
+        <p class="menu__story-small menu__story-line" data-split>{about[0][1]}</p>
+        <p class="menu__story-big" data-split>{about[1][1]}</p>
+        <p class="menu__story-small menu__story-label" data-split>{about[2][0]}</p>
+        <p class="menu__story-small menu__story-line" data-split>{about[2][1]}</p>
+      </div>
+      <dl class="menu__about" data-about>
+        {
+          about.map(([label, text]) => (
+            <div class="menu__about-row">
+              <dt data-split>{label}</dt>
+              <dd data-split>{text}</dd>
+            </div>
+          ))
+        }
+      </dl>
       <nav class="menu__nav menu__nav--top" aria-label={ui.menuLabel}>
         <ul>
           {
@@ -43,6 +61,9 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
               </li>
             ))
           }
+          <li>
+            <button class="menu__info" type="button" data-about-toggle aria-expanded="false">[ {about[0][0]} ]</button>
+          </li>
         </ul>
       </nav>
       <div class="menu__bottom">
@@ -81,24 +102,17 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
   }
 
   .menu {
-    --sheet-h: min(100vh, max(88vh, 26rem));
+    --sheet-h: min(100vh, max(70vh, 24rem));
     position: fixed;
     inset-inline: 0;
     top: 0;
     z-index: 60;
-    height: var(--h);
+    --tab-h: 46px;
+    height: calc(var(--h) + var(--tab-h));
     background: linear-gradient(135deg, color-mix(in srgb, var(--color-grey-light) 58%, transparent), color-mix(in srgb, var(--color-grey-light) 44%, transparent) 45%, color-mix(in srgb, var(--color-grey-light) 58%, transparent));
-    box-shadow: 0 12px 40px -18px rgb(0 0 0 / 0.35);
-    transition: height 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .menu::before {
-    content: "";
-    position: absolute;
-    inset: 0;
     -webkit-backdrop-filter: blur(20px) saturate(1.8) brightness(1.08);
     backdrop-filter: blur(20px) saturate(1.8) brightness(1.08);
-    pointer-events: none;
+    transition: height 0.9s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .menu::after {
@@ -116,16 +130,6 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
 
   .menu[data-dragging="true"] {
     transition: none;
-  }
-
-  .menu[data-open="false"] {
-    box-shadow: none;
-    background: transparent;
-  }
-
-  .menu[data-open="false"]::before,
-  .menu[data-open="false"]::after {
-    display: none;
   }
 
   .menu__clip {
@@ -159,7 +163,7 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
     inset: 0 0 auto 0;
     height: var(--sheet-h);
     transform: translateY(min(0px, calc(var(--h) - var(--sheet-h))));
-    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .menu[data-dragging="true"] .menu__sheet {
@@ -226,6 +230,153 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
     overflow: visible;
   }
 
+  :global(html[data-intro]),
+  :global(html[data-intro] body) {
+    overflow: hidden;
+  }
+
+  :global(html[data-intro]) .menu {
+    height: 100svh;
+    transition: none;
+  }
+
+  :global(html[data-intro]) .menu__sheet {
+    height: 100svh;
+    transform: none;
+    transition: none;
+  }
+
+  .menu.is-intro {
+    transition: none;
+  }
+
+  .menu.is-intro .menu__sheet {
+    height: 100svh;
+    transform: translateY(min(0px, calc(var(--h) - 100svh)));
+    transition: none;
+  }
+
+  :global(html[data-intro]) .menu__nav,
+  :global(html[data-intro]) .menu__bottom,
+  :global(html[data-intro]) .menu__handle,
+  .menu.is-intro .menu__nav,
+  .menu.is-intro .menu__bottom,
+  .menu.is-intro ~ .menu__handle {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .menu__story {
+    position: absolute;
+    top: 50%;
+    left: 2rem;
+    right: 2rem;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: 9em minmax(0, 34em);
+    justify-content: center;
+    gap: 1.2em 2vw;
+    color: var(--color-black);
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-50%);
+  }
+
+  :global(html[data-intro]) .menu__story,
+  .menu.is-intro .menu__story {
+    visibility: visible;
+  }
+
+  .menu__story-small {
+    margin: 0;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .menu__story-label {
+    color: var(--color-grey);
+  }
+
+  .menu__story-big {
+    grid-column: 1 / -1;
+    margin: 0.4em 0;
+    font-size: var(--text-mid);
+    line-height: 1;
+    font-weight: var(--font-weight-regular);
+    letter-spacing: -0.01em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .menu__info {
+    padding: 0.15em 0.55em;
+    border: 0;
+    background: var(--color-white);
+    color: var(--color-black);
+    font: inherit;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    cursor: pointer;
+    transition:
+      background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .menu__info:hover,
+  .menu__info[aria-expanded="true"] {
+    background: var(--color-black);
+    color: var(--color-white);
+  }
+
+  .menu__about {
+    position: absolute;
+    top: calc(4.5rem + 3em);
+    bottom: calc(2.5rem + 3em);
+    right: 2rem;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.9em;
+    width: min(26em, calc(100% - 4rem));
+    margin: 0;
+    color: var(--color-black);
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .menu__about.is-open {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .menu__about-row {
+    display: grid;
+    grid-template-columns: 6.5em 1fr;
+    gap: 0.8em;
+  }
+
+  .menu__about-row dt {
+    color: var(--color-grey);
+  }
+
+  .menu__about-row dd {
+    margin: 0;
+  }
+
+  :global(.split-word) {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  :global(.split-char) {
+    display: inline-block;
+    will-change: transform, opacity, filter;
+  }
+
   .menu__nav--top {
     position: absolute;
     top: 4.5rem;
@@ -289,23 +440,22 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
     top: var(--h);
     left: 50%;
     z-index: 65;
-    margin-top: 1.5rem;
-    padding: 0.6rem 1rem;
-    color: var(--color-white);
+    width: 176px;
+    height: 46px;
+    padding: 0 0 2px;
+    border: 0;
+    color: var(--color-black);
+    font: inherit;
     font-size: var(--text-small);
     line-height: var(--text-small--line-height);
-    mix-blend-mode: difference;
-    transform: translate(-50%, -50%);
+    background: none;
+    transform: translateX(-50%);
     cursor: grab;
     touch-action: none;
     -webkit-tap-highlight-color: transparent;
-    transition: top 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s;
-  }
-
-  @media (min-width: 768px) {
-    .menu__handle {
-      margin-top: 2rem;
-    }
+    transition:
+      top 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.25s;
   }
 
   .menu[data-dragging="true"] ~ .menu__handle {
@@ -313,14 +463,18 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
     transition: none;
   }
 
-  .menu__handle:hover,
+  .menu__handle:hover .menu__pull,
+  .menu__handle:focus-visible .menu__pull {
+    opacity: 0.55;
+  }
+
   .menu__handle:focus-visible {
-    opacity: 0.6;
     outline: none;
   }
 
   .menu__pull {
     display: block;
+    transition: opacity 0.25s ease;
     font-weight: var(--font-weight-regular);
     white-space: nowrap;
     pointer-events: none;
@@ -328,21 +482,51 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
 </style>
 
 <script>
+  import { gsap } from "gsap";
   const menu = document.getElementById("menu");
   const sheet = menu?.querySelector<HTMLElement>(".menu__sheet");
   const handle = document.querySelector<HTMLElement>("[data-menu-handle]");
 
   if (menu && sheet && handle) {
-    const maxHeight = () => Math.min(window.innerHeight, Math.max(window.innerHeight * 0.88, 416));
+    const maxHeight = () => Math.min(window.innerHeight, Math.max(window.innerHeight * 0.7, 384));
     const openHeight = () => maxHeight();
     let height = 0;
     let dragStart = 0;
     let heightStart = 0;
     let moved = false;
 
+    const shape = (value: number) => {
+      const width = window.innerWidth;
+      const center = width / 2;
+      const half = 118;
+      const curve = 30;
+      const tab = 46;
+      const h = Math.max(0, value);
+      const right = center + half;
+      const left = center - half;
+      const shoulder = 22;
+      const round = 22;
+      const inner = right - curve;
+      const outer = left + curve;
+      menu.style.clipPath = `path("M0 0 H${width} V${h} H${right} C${right - curve * 0.45} ${h} ${inner} ${h + shoulder * 0.35} ${inner} ${h + shoulder} V${h + tab - round} C${inner} ${h + tab - round * 0.45} ${inner - round * 0.45} ${h + tab} ${inner - round} ${h + tab} H${outer + round} C${outer + round * 0.45} ${h + tab} ${outer} ${h + tab - round * 0.45} ${outer} ${h + tab - round} V${h + shoulder} C${outer} ${h + shoulder * 0.35} ${left + curve * 0.45} ${h} ${left} ${h} H0 Z")`;
+    };
+
+    let following = 0;
+    const follow = () => {
+      cancelAnimationFrame(following);
+      const until = performance.now() + 1100;
+      const step = () => {
+        shape(menu.getBoundingClientRect().height - 46);
+        if (performance.now() < until) following = requestAnimationFrame(step);
+      };
+      step();
+    };
+
     const render = (next: number) => {
       if (next <= 8) menu.dataset.zoom = "false";
       height = Math.max(0, Math.min(maxHeight(), next));
+      if (menu.dataset.dragging === "true") shape(height);
+      else follow();
       const open = height > 8;
       document.documentElement.style.setProperty("--h", `${height}px`);
       menu.dataset.open = String(open);
@@ -449,5 +633,121 @@ const entries = navItems.map((item, index) => ({ ...item, index }));
       link.addEventListener("blur", hideZoom);
     });
     window.addEventListener("resize", () => render(Math.min(height, maxHeight())));
+    shape(height);
+
+    const aboutBox = menu.querySelector<HTMLElement>("[data-about]");
+    const aboutToggle = menu.querySelector<HTMLButtonElement>("[data-about-toggle]");
+    const story = menu.querySelector<HTMLElement>("[data-story]");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ease = "expo.out";
+
+    const split = (root: Element) => {
+      root.querySelectorAll<HTMLElement>("[data-split]").forEach((block) => {
+        if (block.dataset.done) return;
+        block.dataset.done = "1";
+        const words = (block.textContent ?? "").trim().split(/\s+/);
+        block.textContent = "";
+        words.forEach((word, index) => {
+          const wrap = document.createElement("span");
+          wrap.className = "split-word";
+          Array.from(word).forEach((letter) => {
+            const char = document.createElement("span");
+            char.className = "split-char";
+            char.textContent = letter;
+            wrap.append(char);
+          });
+          block.append(wrap);
+          if (index < words.length - 1) block.append(" ");
+        });
+      });
+    };
+
+    const write = (root: Element, delay = 0) => {
+      split(root);
+      const blocks = Array.from(root.querySelectorAll<HTMLElement>("[data-split]"));
+      const timeline = gsap.timeline({ delay });
+      blocks.forEach((block, index) => {
+        const chars = block.querySelectorAll(".split-char");
+        timeline.fromTo(
+          chars,
+          { opacity: 0, yPercent: 60, filter: "blur(6px)" },
+          { opacity: 1, yPercent: 0, filter: "blur(0px)", duration: reduced ? 0 : 0.9, ease, stagger: reduced ? 0 : 0.014 },
+          index === 0 ? 0 : `<${reduced ? 0 : 0.18}`
+        );
+      });
+      return timeline;
+    };
+
+    const erase = (root: Element) =>
+      gsap.to(root.querySelectorAll(".split-char"), {
+        opacity: 0,
+        yPercent: -50,
+        filter: "blur(6px)",
+        duration: reduced ? 0 : 0.5,
+        ease: "power2.in",
+        stagger: { each: reduced ? 0 : 0.003, from: "start" }
+      });
+
+    if (aboutBox) split(aboutBox);
+    aboutToggle?.addEventListener("click", () => {
+      if (!aboutBox) return;
+      const open = !aboutBox.classList.contains("is-open");
+      aboutToggle.setAttribute("aria-expanded", String(open));
+      if (open) {
+        aboutBox.classList.add("is-open");
+        write(aboutBox);
+      } else {
+        erase(aboutBox).eventCallback("onComplete", () => aboutBox.classList.remove("is-open"));
+      }
+    });
+
+    const html = document.documentElement;
+    if (html.hasAttribute("data-intro") && story) {
+      try {
+        sessionStorage.setItem("intro-seen", "1");
+      } catch {}
+      menu.dataset.dragging = "true";
+      menu.classList.add("is-intro");
+      menu.dataset.open = "true";
+      html.style.setProperty("--h", `${window.innerHeight}px`);
+      shape(window.innerHeight);
+      sheet.setAttribute("inert", "");
+      split(story);
+      gsap.set(story.querySelectorAll(".split-char"), { opacity: 0 });
+      const main = document.querySelector("main");
+      if (main) gsap.set(main, { y: 60, opacity: 0.4 });
+
+      const close = () => {
+        const state = { value: window.innerHeight };
+        html.removeAttribute("data-intro");
+        erase(story);
+        const timeline = gsap.timeline({
+          onComplete: () => {
+            menu.classList.remove("is-intro");
+            menu.dataset.dragging = "false";
+            render(0);
+            if (main) gsap.set(main, { clearProps: "all" });
+          }
+        });
+        timeline.to(
+          state,
+          {
+            value: 0,
+            duration: reduced ? 0 : 1.6,
+            ease: "expo.inOut",
+            onUpdate: () => {
+              document.documentElement.style.setProperty("--h", `${state.value}px`);
+              shape(state.value);
+            }
+          },
+          reduced ? 0 : 0.35
+        );
+        if (main) timeline.to(main, { y: 0, opacity: 1, duration: reduced ? 0 : 1.6, ease: "expo.out" }, reduced ? 0 : 0.75);
+      };
+
+      document.fonts.ready.then(() => {
+        write(story, reduced ? 0 : 0.35).eventCallback("onComplete", () => gsap.delayedCall(reduced ? 0.2 : 1.1, close));
+      });
+    }
   }
 </script>

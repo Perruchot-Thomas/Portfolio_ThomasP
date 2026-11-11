@@ -155,6 +155,17 @@ const sources = Array.from(new Set(Object.values(modules).map((image) => image.s
   .talk__go:hover svg {
     transform: translate(0.06em, -0.06em);
   }
+
+  @media (max-width: 767px) {
+    .talk__top {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .talk__right {
+      justify-self: start;
+      text-align: left;
+    }
+  }
 </style>
 
 <script>

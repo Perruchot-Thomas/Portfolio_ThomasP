@@ -25,6 +25,12 @@ const networks = socials.filter((social) => social.id !== "email");
     </div>
 
     <div class="footer__cell">
+      <p class="footer__head">{copy.internship}</p>
+      <p class="footer__small">{copy.internshipText}</p>
+      <a class="footer__small footer__link footer__more" href={localePath(lang, "/contact")}>[ {copy.internshipLink} ↗ ]</a>
+    </div>
+
+    <div class="footer__cell">
       <p class="footer__head">{ui.cta.emailLabel}</p>
       {email && <a class="footer__small footer__link" href={email.href}>{email.label}</a>}
       <p class="footer__head footer__head--gap">{ui.cta.socialLabel}</p>
@@ -64,7 +70,7 @@ const networks = socials.filter((social) => social.id !== "email");
 
   <div class="footer__bottom">
     <p class="footer__small">{copy.rights}</p>
-    <p class="footer__small footer__tagline">{copy.tagline}</p>
+    <a class="footer__small footer__link" href={localePath(lang, "/legal")}>[ {copy.legal} ]</a>
     <a class="footer__small footer__link footer__top" href="#top">[ {copy.back} ]</a>
   </div>
 </footer>
@@ -92,7 +98,7 @@ const networks = socials.filter((social) => social.id !== "email");
 
   .footer__grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 2vw;
     padding-top: 1.2em;
     border-top: 1px solid var(--color-grey);
@@ -143,15 +149,15 @@ const networks = socials.filter((social) => social.id !== "email");
 
   .footer__bottom {
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 1fr auto auto;
     align-items: end;
     gap: 2vw;
     margin-top: 8svh;
   }
 
-  .footer__tagline {
-    max-width: 24em;
-    text-align: center;
+  .footer__more {
+    display: inline-block;
+    margin-top: 0.8em;
   }
 
   .footer__top {
@@ -160,17 +166,18 @@ const networks = socials.filter((social) => social.id !== "email");
 
   @media (max-width: 767px) {
     .footer__grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       row-gap: 4svh;
+    }
+
+    .footer__link {
+      overflow-wrap: anywhere;
     }
 
     .footer__bottom {
       grid-template-columns: 1fr;
     }
 
-    .footer__tagline {
-      text-align: left;
-    }
 
     .footer__top {
       justify-self: start;

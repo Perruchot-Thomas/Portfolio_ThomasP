@@ -1,0 +1,27 @@
+order: 4
+name: "Who are you ?"
+category: experiments
+home: true
+year: "2026"
+tools: "photoshop"
+context:
+  fr: "expérimentation / collage"
+  en: "experiment / collage"
+vision:
+  fr: "des visages découpés dans des formes noires qui posent une question simple : qui es-tu vraiment ?"
+  en: "faces cut out of black shapes asking one simple question: who are you, really?"
+cover: ./cover.jpg
+frames:
+  - image: ./cover.jpg
+  - label:
+      fr: "(les visages)"
+      en: "(the faces)"
+    text:
+      fr: "les portraits sont enfermés dans des formes noires taillées à la main, comme des masques. chaque visage regarde ailleurs, aucun ne répond."
+      en: "the portraits are locked inside hand-cut black shapes, like masks. every face looks somewhere else, none of them answers."
+  - label:
+      fr: "(la question)"
+      en: "(the question)"
+    text:
+      fr: "la phrase est éclatée sur toute l’image, à des tailles et dans des sens différents. on la lit par morceaux, comme une pensée qui revient en boucle."
+      en: "the sentence is scattered across the image, in different sizes and directions. you read it in pieces, like a thought on a loop."

@@ -1,6 +1,6 @@
 ---
 import type { Lang } from "../../data/i18n";
-import { socials } from "../../data/site";
+import { contactForm, socials } from "../../data/site";
 import { useUi } from "../../lib/i18n";
 
 interface Props {
@@ -11,107 +11,77 @@ const { lang } = Astro.props;
 const ui = useUi(lang);
 const copy = ui.contact;
 const email = socials.find((social) => social.id === "email");
+const networks = socials.filter((social) => social.id !== "email");
 ---
 
-<section class="contact">
-  <div class="contact__head">
-    <h1 class="contact__title">{copy.title}</h1>
-    <p class="contact__small contact__status">{ui.cta.text}</p>
+<section class="contact" data-contact>
+  <div class="contact__col contact__intro">
+    <p class="contact__small contact__grey">{copy.kicker}</p>
+    <h1 class="contact__title" data-title>{copy.title}</h1>
+    <p class="contact__small contact__text" data-reveal>{copy.intro}</p>
+
+    <div class="contact__block" data-reveal>
+      <p class="contact__small contact__grey">{copy.forLabel}</p>
+      <ul class="contact__small contact__list">
+        {copy.forItems.map((item) => <li>× {item}</li>)}
+      </ul>
+    </div>
+
+    <div class="contact__block contact__reach" data-reveal>
+      <p class="contact__small contact__grey">{ui.cta.emailLabel}</p>
+      {email && <a class="contact__small contact__link" href={email.href}>{email.label}</a>}
+      <p class="contact__small contact__grey contact__gap">{ui.cta.socialLabel}</p>
+      <ul class="contact__small contact__list contact__inline">
+        {
+          networks.map((social) => (
+            <li>
+              <a class="contact__link" href={social.href} target="_blank" rel="noopener noreferrer">{social.label} ↗</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </div>
 
-  <div class="contact__body">
-    <div class="contact__col">
-      <p class="contact__small contact__kicker">{copy.kicker}</p>
-      <p class="contact__small contact__intro">{copy.intro}</p>
-    </div>
+  <form class="contact__form" data-form data-to={email?.label ?? ""} data-subject={copy.subject} data-opening={copy.opening} data-endpoint={contactForm.endpoint} data-key={contactForm.key} data-sending={copy.sending} data-sent={copy.sent} data-error={copy.error} novalidate>
+    <input class="contact__trap" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
+    <p class="contact__small contact__grey contact__status-line">{ui.showcase.status[1]}</p>
 
-    <div class="contact__col">
-      <div class="contact__group">
-        <p class="contact__small contact__kicker">{copy.forLabel}</p>
-        <ul class="contact__small contact__list">
-          {copy.forItems.map((item) => <li>× {item}</li>)}
-        </ul>
-      </div>
-      <div class="contact__group">
-        <p class="contact__small contact__kicker">{copy.notLabel}</p>
-        <ul class="contact__small contact__list contact__list--not">
-          {copy.notItems.map((item) => <li>× {item}</li>)}
-        </ul>
-      </div>
-    </div>
-
-  <form class="contact__form" data-form data-to={email?.label ?? ""} data-subject={copy.subject} data-opening={copy.opening} novalidate>
-    <label class="contact__field">
-      <span class="contact__small contact__kicker">{copy.nameLabel}</span>
+    <label class="contact__field" data-reveal>
+      <span class="contact__small contact__grey">{copy.nameLabel}</span>
       <input class="contact__input" type="text" name="name" placeholder={copy.namePlaceholder} autocomplete="name" required />
     </label>
 
-    <label class="contact__field">
-      <span class="contact__small contact__kicker">{copy.emailLabel}</span>
+    <label class="contact__field" data-reveal>
+      <span class="contact__small contact__grey">{copy.emailLabel}</span>
       <input class="contact__input" type="email" name="email" placeholder={copy.emailPlaceholder} autocomplete="email" required />
     </label>
 
-    <label class="contact__field">
-      <span class="contact__small contact__kicker">{copy.messageLabel}</span>
-      <textarea class="contact__input contact__area" name="message" rows="1" placeholder={copy.messagePlaceholder} required></textarea>
+    <label class="contact__field" data-reveal>
+      <span class="contact__small contact__grey">{copy.messageLabel}</span>
+      <textarea class="contact__input contact__area" name="message" rows="3" placeholder={copy.messagePlaceholder} required></textarea>
     </label>
 
-    <div class="contact__actions">
+    <div class="contact__actions" data-reveal>
       <button class="contact__send" type="submit" aria-label={copy.send}>
         <span aria-hidden="true">[</span>
         <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M22 78 L78 22 M34 22 H78 V66" /></svg>
         <span aria-hidden="true">]</span>
       </button>
-      <p class="contact__small contact__status" data-status aria-live="polite"></p>
+      <p class="contact__small contact__grey" data-status aria-live="polite"></p>
     </div>
   </form>
-  </div>
 </section>
 
 <style>
   .contact {
-    display: flex;
-    flex-direction: column;
-    min-height: 100svh;
-    padding: 11svh var(--gutter) 5svh;
-    color: var(--color-black);
-  }
-
-  .contact__head {
-    display: flex;
-    align-items: last baseline;
-    justify-content: space-between;
-    gap: 2vw;
-    padding-bottom: 3svh;
-    border-bottom: 1px solid var(--color-grey-light);
-  }
-
-  .contact__title {
-    margin: 0;
-    font-size: var(--text-giant);
-    line-height: var(--text-giant--line-height);
-    font-weight: var(--font-weight-regular);
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .contact__status {
-    text-align: right;
-  }
-
-  .contact__body {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    align-items: start;
-    gap: 2vw;
-    padding-top: 4svh;
-  }
-
-  .contact__col {
-    display: flex;
-    flex-direction: column;
-    gap: 3.5svh;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 2vw;
+    min-height: 100svh;
+    padding: 11svh var(--gutter) 6svh;
+    color: var(--color-black);
+    background: var(--color-white);
   }
 
   .contact__small {
@@ -123,70 +93,121 @@ const email = socials.find((social) => social.id === "email");
     font-weight: var(--font-weight-regular);
   }
 
-  .contact__kicker {
-    display: block;
-    margin-bottom: 0.5em;
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
+  .contact__grey {
+    color: var(--color-grey);
+  }
+
+  .contact__col {
+    display: flex;
+    flex-direction: column;
   }
 
   .contact__intro {
+    grid-column: 1 / 6;
+    gap: 2.4svh;
+  }
+
+  .contact__title {
+    margin: 0 0 1svh;
+    font-size: var(--text-order);
+    line-height: var(--text-order--line-height);
+    font-weight: var(--font-weight-regular);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .contact__text {
     max-width: 26em;
   }
 
-  .contact__group {
+  .contact__block {
     display: flex;
     flex-direction: column;
+    gap: 0.6em;
   }
 
-  .contact__list--not li {
-    text-decoration: line-through;
+  .contact__reach {
+    margin-top: auto;
+  }
+
+  .contact__gap {
+    margin-top: 0.8em;
+  }
+
+  .contact__inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.4em;
+  }
+
+  .contact__link {
+    color: inherit;
   }
 
   .contact__form {
-    grid-column: 3 / 5;
+    grid-column: 7 / 13;
     display: flex;
     flex-direction: column;
-    gap: 3svh;
+    gap: 4svh;
+  }
+
+  .contact__status-line {
+    align-self: flex-end;
+  }
+
+  .contact__trap {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
   }
 
   .contact__field {
     display: flex;
     flex-direction: column;
+    gap: 0.8em;
   }
 
   .contact__input {
     width: 100%;
-    padding: 0 0 0.1em;
+    padding: 0 0 0.25em;
     border: 0;
-    border-bottom: 2px solid var(--color-black);
+    border-bottom: 1px solid var(--color-black);
     border-radius: 0;
     background: transparent;
     color: var(--color-black);
     font: inherit;
     font-size: var(--text-mid);
-    line-height: 1.05;
+    line-height: 1.1;
     outline: none;
     resize: none;
+    transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .contact__input::placeholder {
-    color: var(--color-black);
+    color: var(--color-grey-light);
     opacity: 1;
+    transition: color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .contact__input:focus::placeholder {
-    opacity: 0.25;
+    color: transparent;
   }
 
   .contact__input.is-wrong {
     border-bottom-color: var(--color-grey);
   }
 
+  .contact__area {
+    line-height: 1.15;
+  }
+
   .contact__actions {
     display: flex;
     align-items: center;
     gap: 2vw;
+    margin-top: auto;
   }
 
   .contact__send {
@@ -209,7 +230,7 @@ const email = socials.find((social) => social.id === "email");
     fill: none;
     stroke: currentColor;
     stroke-width: 9;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .contact__send:hover svg {
@@ -217,32 +238,36 @@ const email = socials.find((social) => social.id === "email");
   }
 
   @media (max-width: 767px) {
-    .contact__head {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .contact__status {
-      text-align: left;
-    }
-
-    .contact__body {
-      grid-template-columns: 1fr;
+    .contact {
+      grid-template-columns: minmax(0, 1fr);
       row-gap: 6svh;
     }
 
+    .contact__intro,
     .contact__form {
-      grid-column: auto;
+      grid-column: 1 / -1;
+    }
+
+    .contact__status-line {
+      align-self: flex-start;
     }
   }
 </style>
 
 <script>
+  import { gsap } from "gsap";
+
   const form = document.querySelector<HTMLFormElement>("[data-form]");
   const status = form?.querySelector<HTMLElement>("[data-status]");
+  const contact = document.querySelector<HTMLElement>("[data-contact]");
+
+  if (contact && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    gsap.from(contact.querySelector("[data-title]"), { yPercent: 40, opacity: 0, filter: "blur(8px)", duration: 1.1, ease: "expo.out", delay: 0.1 });
+    gsap.from(contact.querySelectorAll("[data-reveal]"), { y: 20, opacity: 0, duration: 1, ease: "expo.out", stagger: 0.06, delay: 0.25 });
+  }
 
   if (form && status) {
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea"));
       let valid = true;
@@ -259,9 +284,43 @@ const email = socials.find((social) => social.id === "email");
       }
 
       const data = new FormData(form);
-      const body = `${data.get("message")}\n\n${data.get("name")} — ${data.get("email")}`;
-      window.location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(form.dataset.subject ?? "")}&body=${encodeURIComponent(body)}`;
-      status.textContent = form.dataset.opening ?? "";
+      const key = form.dataset.key ?? "";
+
+      if (!key) {
+        const body = `${data.get("message")}\n\n${data.get("name")} — ${data.get("email")}`;
+        window.location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(form.dataset.subject ?? "")}&body=${encodeURIComponent(body)}`;
+        status.textContent = form.dataset.opening ?? "";
+        return;
+      }
+
+      if (data.get("botcheck")) return;
+      const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
+      if (button) button.disabled = true;
+      status.textContent = form.dataset.sending ?? "";
+
+      try {
+        const response = await fetch(form.dataset.endpoint ?? "", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: key,
+            subject: `${form.dataset.subject ?? ""} — ${data.get("name")}`,
+            from_name: "sidus portfolio",
+            name: data.get("name"),
+            email: data.get("email"),
+            replyto: data.get("email"),
+            message: data.get("message")
+          })
+        });
+        const result = await response.json().catch(() => ({ success: false }));
+        if (!response.ok || !result.success) throw new Error("failed");
+        form.reset();
+        status.textContent = form.dataset.sent ?? "";
+      } catch {
+        status.textContent = form.dataset.error ?? "";
+      } finally {
+        if (button) button.disabled = false;
+      }
     });
   }
 </script>

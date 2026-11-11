@@ -1,0 +1,27 @@
+order: 12
+name: "Red eyes"
+category: posters
+home: true
+year: "2026"
+tools: "photoshop, affinity"
+context:
+  fr: "affiche / couleur"
+  en: "poster / colour"
+vision:
+  fr: "des bandes rouges qui recadrent un regard, comme un écran qui ne montre que l’essentiel."
+  en: "red bands reframing a gaze, like a screen that only shows what matters."
+cover: ./cover.jpg
+frames:
+  - image: ./cover.jpg
+  - label:
+      fr: "(le regard)"
+      en: "(the gaze)"
+    text:
+      fr: "seuls les yeux restent visibles, enfermés dans un bandeau rouge. ils deviennent le seul point de contact avec celui qui regarde l’affiche."
+      en: "only the eyes stay visible, locked inside a red band. they become the only point of contact with whoever looks at the poster."
+  - label:
+      fr: "(le rouge)"
+      en: "(the red)"
+    text:
+      fr: "le rouge est posé en aplats francs et en traits fins de fleurs qui débordent. c’est la seule couleur, et elle prend toute la place."
+      en: "the red is laid down as solid blocks and thin flower lines spilling over. it is the only colour, and it takes all the space."

@@ -1,5 +1,7 @@
 @import "tailwindcss";
-@import "@fontsource-variable/roboto";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/400-italic.css";
+@import "@fontsource/ibm-plex-mono/700.css";
 
 @theme static {
   --color-*: initial;
@@ -15,25 +17,25 @@
   --color-coral: #eb6c3a;
   --color-silver: #d3d3d3;
 
-  --font-sans: "Roboto Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-weight-thin: 100;
   --font-weight-regular: 400;
   --font-weight-bold: 700;
   --font-weight-black: 900;
 
-  --text-small: 1.25rem;
-  --text-small--line-height: 1.15;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.3;
   --text-copy: var(--text-small);
   --text-copy--line-height: var(--text-small--line-height);
-  --text-giant: 11vw;
+  --text-giant: 8vw;
   --text-giant--line-height: 0.8;
   --gutter: 1.75rem;
-  --text-order: min(8.4vw, 11.5svh);
+  --text-order: min(5.4vw, 7.6svh);
   --text-order--line-height: 0.9;
-  --text-mid: min(4.4vw, 6.4svh);
+  --text-mid: min(3vw, 4.4svh);
   --text-body: clamp(0.95rem, 0.4rem + 1vw, 1.2rem);
   --text-body--line-height: 1.2;
-  --text-statement: clamp(2rem, 6.2vw, 6.5rem);
+  --text-statement: clamp(1.6rem, 4.4vw, 4.6rem);
   --text-statement--line-height: 0.9;
   --text-stage: 1.875cqw;
   --text-stage--line-height: 0.8;
@@ -77,6 +79,22 @@
 
   html.cursor-off .cursor {
     opacity: 0;
+  }
+
+  .cursor__label {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 0.6rem);
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(-50%);
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .cursor.is-label .cursor__label {
+    opacity: 1;
   }
 
   .cursor svg {
@@ -131,3 +149,29 @@
     --page-fg: var(--color-black);
   }
 }
+
+.roll {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.roll__line {
+  display: block;
+  white-space: pre;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.roll__line--back {
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+[data-roll]:hover .roll__line,
+[data-roll]:focus-visible .roll__line {
+  transform: translateY(-100%);
+}
+
+
