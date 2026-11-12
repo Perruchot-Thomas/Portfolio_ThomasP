@@ -241,7 +241,7 @@ const items = await Promise.all(
     pointer-events: none;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 767px) and (orientation: portrait) {
     .me {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       grid-template-areas:
@@ -300,10 +300,16 @@ const items = await Promise.all(
     }
   }
 
-  @media (max-width: 767px) and (max-height: 700px) {
+  @media (max-width: 767px) and (orientation: portrait) and (max-height: 700px) {
     .me {
       gap: 2svh 1.25rem;
       padding-top: 9svh;
+    }
+  }
+
+  @media (orientation: landscape) and (max-height: 520px) {
+    .me {
+      padding-top: 15svh;
     }
   }
 </style>
@@ -319,7 +325,7 @@ const items = await Promise.all(
 
   if (me) {
     const photos = Array.from(me.querySelectorAll<HTMLElement>("[data-photo]"));
-    const spread = () => (window.innerWidth < 768 ? 0.62 : 1);
+    const spread = () => (window.innerWidth < 768 && window.innerHeight > window.innerWidth ? 0.62 : 1);
     const place = (photo: HTMLElement) => ({
       x: (Number(photo.dataset.x) / 100) * window.innerWidth * spread(),
       y: (Number(photo.dataset.y) / 100) * window.innerHeight * spread(),

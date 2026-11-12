@@ -309,7 +309,7 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
     }
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 767px) and (orientation: portrait) {
     .work {
       display: block;
       height: auto;
@@ -381,6 +381,34 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
       overflow-x: auto;
     }
   }
+
+  @media (orientation: landscape) and (max-height: 520px) {
+    .work {
+      grid-template-columns: minmax(0, 34vw) minmax(0, 1fr);
+    }
+
+    .work__side {
+      gap: 2svh;
+      padding: 14svh 2vw 2svh var(--gutter);
+    }
+
+    .work__head {
+      gap: 0.6svh;
+    }
+
+    .work__meta {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.6svh 1.2rem;
+    }
+
+    .work__track {
+      padding-top: 15svh;
+    }
+
+    .work__frame {
+      height: 58svh;
+    }
+  }
 </style>
 
 <script>
@@ -398,7 +426,7 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
     const distance = () => Math.max(0, track.scrollWidth - view.clientWidth);
     const media = gsap.matchMedia();
 
-    media.add("(min-width: 768px)", () => {
+    media.add("(min-width: 768px), (orientation: landscape)", () => {
       gsap.to(track, {
         x: () => -distance(),
         ease: "none",

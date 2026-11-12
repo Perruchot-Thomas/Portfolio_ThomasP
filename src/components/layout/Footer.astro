@@ -159,7 +159,7 @@ const networks = socials.filter((social) => social.id !== "email");
     justify-self: end;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 767px) and (orientation: portrait) {
     .footer__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       row-gap: 4svh;

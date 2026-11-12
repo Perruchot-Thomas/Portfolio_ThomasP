@@ -106,7 +106,7 @@ const sections = [
     overflow-wrap: anywhere;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 767px) and (orientation: portrait) {
     .legal {
       grid-template-columns: minmax(0, 1fr);
       row-gap: 6svh;
@@ -121,6 +121,12 @@ const sections = [
 
     .legal__list {
       grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (orientation: landscape) and (max-height: 520px) {
+    .legal {
+      padding-top: 15svh;
     }
   }
 </style>
