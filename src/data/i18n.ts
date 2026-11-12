@@ -89,7 +89,10 @@ const en = {
   },
   turn: {
     label: "(landscape)",
-    text: "Turn your phone sideways to see the portfolio."
+    text: "Turn your phone sideways to see the portfolio.",
+    skip: "view anyway",
+    install: "full screen",
+    ios: "For full screen: Share, then Add to Home Screen."
   },
   notFound: {
     label: "(lost)",
@@ -320,7 +323,10 @@ const fr: typeof en = {
   },
   turn: {
     label: "(paysage)",
-    text: "Tourne ton téléphone pour voir le portfolio."
+    text: "Tourne ton téléphone pour voir le portfolio.",
+    skip: "voir quand même",
+    install: "plein écran",
+    ios: "Pour le plein écran : Partager, puis Sur l’écran d’accueil."
   },
   notFound: {
     label: "(perdu)",
