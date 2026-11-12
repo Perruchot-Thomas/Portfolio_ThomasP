@@ -33,12 +33,19 @@ const titleStyle =
     <link rel="icon" href="/favicon-32.png?v=2" type="image/png" sizes="32x32" />
     <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="sidus" />
     <link rel="preload" href={plexRegular} as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     <script is:inline>
       (function () {
         if (!sessionStorage.getItem("intro-seen") && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.setAttribute("data-intro", "");
         try {
+          if (sessionStorage.getItem("turn-skip")) document.documentElement.classList.add("turn-skip");
           if (sessionStorage.getItem("wipe") && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.setAttribute("data-wipe", "");
         } catch (error) {}
       })();
@@ -60,6 +67,11 @@ const titleStyle =
       </svg>
       <p class="turn__small turn__grey">{turn.label}</p>
       <p class="turn__small">{turn.text}</p>
+      <div class="turn__actions">
+        <button class="turn__small turn__button" type="button" data-install hidden>[ {turn.install} ↗ ]</button>
+        <button class="turn__small turn__button" type="button" data-turn-skip>[ {turn.skip} ]</button>
+      </div>
+      <p class="turn__small turn__grey turn__ios" data-ios hidden>{turn.ios}</p>
     </div>
     <Header lang={lang}>
       <slot name="header-extra" />
@@ -81,6 +93,35 @@ const titleStyle =
       initCursor();
       initRoll();
       initWipe();
+
+      const html = document.documentElement;
+      const skip = document.querySelector<HTMLButtonElement>("[data-turn-skip]");
+      const install = document.querySelector<HTMLButtonElement>("[data-install]");
+      const ios = document.querySelector<HTMLElement>("[data-ios]");
+      const standalone = window.matchMedia("(display-mode: fullscreen), (display-mode: standalone)").matches || (navigator as Navigator & { standalone?: boolean }).standalone === true;
+      let prompt: (Event & { prompt: () => Promise<void> }) | null = null;
+
+      skip?.addEventListener("click", () => {
+        html.classList.add("turn-skip");
+        try {
+          sessionStorage.setItem("turn-skip", "1");
+        } catch {}
+      });
+
+      if (ios && !standalone && /iPhone|iPod/.test(navigator.userAgent)) ios.hidden = false;
+
+      window.addEventListener("beforeinstallprompt", (event) => {
+        event.preventDefault();
+        prompt = event as Event & { prompt: () => Promise<void> };
+        if (install) install.hidden = false;
+      });
+
+      install?.addEventListener("click", async () => {
+        if (!prompt) return;
+        await prompt.prompt();
+        prompt = null;
+        install.hidden = true;
+      });
     </script>
   </body>
 </html>

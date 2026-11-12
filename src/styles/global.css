@@ -196,7 +196,7 @@
 }
 
 @media (max-width: 767px) and (orientation: portrait) and (pointer: coarse) {
-  .turn {
+  html:not(.turn-skip) .turn {
     position: fixed;
     inset: 0;
     z-index: 300;
@@ -211,10 +211,38 @@
     text-align: center;
   }
 
-  html,
-  body {
+  html:not(.turn-skip),
+  html:not(.turn-skip) body {
     overflow: hidden;
   }
+}
+
+.turn__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem 1.2rem;
+  margin-top: 1.2rem;
+}
+
+.turn__button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-black);
+  font: inherit;
+  font-size: var(--text-small);
+  cursor: pointer;
+}
+
+.turn__button[hidden],
+.turn__ios[hidden] {
+  display: none;
+}
+
+.turn__ios {
+  max-width: 22em;
+  margin-top: 0.6rem;
 }
 
 .turn__icon {
