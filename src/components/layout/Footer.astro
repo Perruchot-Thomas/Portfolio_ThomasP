@@ -160,28 +160,86 @@ const networks = socials.filter((social) => social.id !== "email");
   }
 
   @media (max-width: 767px) {
-    .footer__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      row-gap: 4svh;
+    .footer {
+      gap: 0;
+      padding: 10svh var(--gutter) calc(env(safe-area-inset-bottom) + 1.5rem);
     }
 
-    .footer__cell:nth-child(3) {
-      grid-column: 1 / -1;
+    .footer__giant {
+      align-self: flex-start;
+      margin-bottom: 6svh;
+    }
+
+    .footer__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .footer__cell {
+      align-items: stretch;
+      padding: 1.4rem 0 0.6rem;
+      border-top: 1px solid rgb(255 255 255 / 0.22);
+    }
+
+    .footer__cell--end {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1.4rem;
+    }
+
+    .footer__cell--end .footer__head {
+      margin: 0;
+    }
+
+    .footer__head--gap {
+      margin-top: 1.4rem;
+    }
+
+    .footer__cell > .footer__small:not(.footer__link):not(.footer__list):not(.footer__lang) {
+      margin-bottom: 0.8rem;
     }
 
     .footer__link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 48px;
+      border-bottom: 1px solid rgb(255 255 255 / 0.12);
       overflow-wrap: anywhere;
     }
 
-    .footer__bottom {
-      grid-template-columns: 1fr;
-      gap: 0.8em;
-      margin-top: 4svh;
+    .footer__list li:last-child .footer__link,
+    .footer__cell > .footer__link:last-child {
+      border-bottom: 0;
     }
 
+    .footer__more {
+      margin-top: 0;
+    }
+
+    .footer__bottom {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+      margin-top: 0;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgb(255 255 255 / 0.22);
+    }
+
+    .footer__bottom > p {
+      order: 3;
+      padding-top: 1.2rem;
+      color: var(--color-grey);
+    }
 
     .footer__top {
-      justify-self: start;
+      justify-self: stretch;
+      justify-content: center;
+      margin-top: 0.8rem;
+      border: 1px solid rgb(255 255 255 / 0.4);
+      border-bottom: 1px solid rgb(255 255 255 / 0.4);
     }
   }
 </style>

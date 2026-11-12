@@ -5,6 +5,8 @@ export const defaultLang: Lang = "en";
 const en = {
   handle: "@sidus",
   menuLabel: "Menu",
+  menuOpen: "menu",
+  menuClose: "close",
   nav: {
     home: "Home",
     about: "About me",
@@ -56,6 +58,7 @@ const en = {
     method: "Each project begins with research, then takes shape through textural identity, visual experimentation and bold typography, always guided by art direction."
   },
   showcase: {
+    swipe: "swipe",
     views: ["showcase", "list", "slider"],
     identity: ["(sidus)", "Portfolio of Thomas Perruchot: textural identity, raw images and bold type."],
     jobs: ["(roles)", "Graphic designer · Art director"],
@@ -232,6 +235,8 @@ const en = {
 const fr: typeof en = {
   handle: "@sidus",
   menuLabel: "Menu",
+  menuOpen: "menu",
+  menuClose: "fermer",
   nav: {
     home: "Accueil",
     about: "À propos",
@@ -283,6 +288,7 @@ const fr: typeof en = {
     method: "Chaque projet commence par la recherche, puis prend forme grâce à l'identité texturale, l'expérimentation visuelle et la typographie affirmée, toujours guidé par la direction artistique."
   },
   showcase: {
+    swipe: "glisser",
     views: ["showcase", "liste", "slider"],
     identity: ["(sidus)", "Portfolio de Thomas Perruchot : identité texturale, images brutes et typographie affirmée."],
     jobs: ["(métiers)", "Graphiste · Directeur artistique"],

@@ -11,15 +11,16 @@ const { lang } = Astro.props;
 const ui = useUi(lang);
 ---
 
-<header class="pointer-events-none fixed inset-x-0 top-0 z-50 text-white mix-blend-difference flex items-start justify-between px-5 py-4 md:px-7 md:py-6">
+<header data-header class="site-header pointer-events-none fixed inset-x-0 top-0 z-50 text-white mix-blend-difference flex items-center justify-between px-5 pt-[max(0.25rem,env(safe-area-inset-top))] pb-1 md:items-start md:px-7 md:py-6">
   <a
     href={localePath(lang)}
-    class="pointer-events-auto text-small font-normal transition-opacity hover:opacity-60"
+    class="pointer-events-auto text-small font-normal transition-opacity hover:opacity-60 max-md:inline-flex max-md:min-h-11 max-md:items-center"
   >
     <span data-scramble>{ui.handle}</span>
   </a>
-  <div class="pointer-events-auto flex items-center gap-6">
+  <div class="pointer-events-auto flex items-center gap-5 md:gap-6">
     <slot />
+    <button class="text-small font-normal md:hidden min-h-11 inline-flex items-center" type="button" data-menu-open aria-controls="menu">[ {ui.menuOpen} ]</button>
     <LangSwitch lang={lang} />
   </div>
 </header>

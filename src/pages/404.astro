@@ -138,6 +138,21 @@ import { localePath, useUi } from "../lib/i18n";
       font-size: calc(var(--text-giant) * 3.6);
     }
   }
+
+  @media (max-width: 767px) {
+    .lost {
+      padding-top: calc(env(safe-area-inset-top) + 5rem);
+      padding-bottom: calc(env(safe-area-inset-bottom) + 2.4rem);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .lost__actions a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
+  }
 </style>
 
 <script>
