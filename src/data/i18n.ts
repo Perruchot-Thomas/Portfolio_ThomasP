@@ -5,8 +5,6 @@ export const defaultLang: Lang = "en";
 const en = {
   handle: "@sidus",
   menuLabel: "Menu",
-  menuOpen: "menu",
-  menuClose: "close",
   nav: {
     home: "Home",
     about: "About me",
@@ -235,8 +233,6 @@ const en = {
 const fr: typeof en = {
   handle: "@sidus",
   menuLabel: "Menu",
-  menuOpen: "menu",
-  menuClose: "fermer",
   nav: {
     home: "Accueil",
     about: "À propos",

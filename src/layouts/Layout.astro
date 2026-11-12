@@ -69,23 +69,6 @@ const titleStyle =
       initCursor();
       initRoll();
       initWipe();
-
-      const header = document.querySelector<HTMLElement>("[data-header]");
-      if (header) {
-        let last = window.scrollY;
-        window.addEventListener(
-          "scroll",
-          () => {
-            const y = window.scrollY;
-            const phone = window.matchMedia("(max-width: 767px)").matches;
-            const open = document.documentElement.classList.contains("menu-open");
-            if (!phone || open || y <= 80 || y < last - 4) header.classList.remove("is-hidden");
-            else if (y > last + 4) header.classList.add("is-hidden");
-            if (Math.abs(y - last) > 4) last = y;
-          },
-          { passive: true }
-        );
-      }
     </script>
   </body>
 </html>
