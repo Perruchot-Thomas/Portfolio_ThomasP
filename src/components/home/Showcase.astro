@@ -62,7 +62,7 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
     <div class="show__ring" data-ring>
       {
         items.map((item, index) => (
-          <figure class:list={["show__card", item.category === "gallery" && "show__card--folder"]} data-card data-magnet data-category={item.category} data-label={item.category === "gallery" ? `[ ${ui.artGallery.open} ↗ ]` : `[ ${copy.go} ↗ ]`} data-href={item.href} data-kind={item.kind} data-name={item.name} data-ratio={(item.image.width / item.image.height).toFixed(4)} style={`--ratio:${(item.image.width / item.image.height).toFixed(4)}`}>
+          <figure class:list={["show__card", item.category === "gallery" && "show__card--folder"]} data-card data-category={item.category} data-label={item.category === "gallery" ? `[ ${ui.artGallery.open} ↗ ]` : `[ ${copy.go} ↗ ]`} data-href={item.href} data-kind={item.kind} data-name={item.name} data-ratio={(item.image.width / item.image.height).toFixed(4)} style={`--ratio:${(item.image.width / item.image.height).toFixed(4)}`}>
             <img src={item.image.src} width={item.image.width} height={item.image.height} alt={item.name} draggable="false" loading={index < 6 ? "eager" : "lazy"} />
           </figure>
         ))

@@ -83,7 +83,7 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
           frame.kind === "image" ? (
             <figure class="work__frame" data-frame>
               {frame.href ? (
-                <a class="work__link" href={frame.href} target="_blank" rel="noopener noreferrer" data-magnet data-label={`[ ${copy.site} ↗ ]`}>
+                <a class="work__link" href={frame.href} target="_blank" rel="noopener noreferrer" data-label={`[ ${copy.site} ↗ ]`}>
                   <Image src={frame.image} alt={name} width={1600} format="webp" quality={82} loading={frame.number === "01" ? "eager" : "lazy"} draggable="false" />
                 </a>
               ) : (
