@@ -5,7 +5,6 @@ import Header from "../components/layout/Header.astro";
 import MenuOverlay from "../components/layout/MenuOverlay.astro";
 import Footer from "../components/layout/Footer.astro";
 import Wipe from "../components/layout/Wipe.astro";
-import { useUi } from "../lib/i18n";
 import plexRegular from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url";
 
 interface Props {
@@ -18,7 +17,6 @@ interface Props {
 }
 
 const { lang, title = "sidus - Thomas Perruchot", description = "Portfolio de Thomas Perruchot, graphiste et étudiant MMI.", theme = "white", footer = true } = Astro.props;
-const turn = useUi(lang).turn;
 const titleStyle =
   lang === "fr" ? "--title-fit:21.61vw;--title-cap:18.7svh;--about-length:4.748;--proj-length:4.1274" : "--title-fit:18.76vw;--title-cap:65svh;--about-length:3.2085;--proj-length:4.7544";
 ---
@@ -50,16 +48,6 @@ const titleStyle =
         <path d="M0 -12V12M-10.4 -6L10.4 6M-10.4 6L10.4 -6" />
       </svg>
       <span class="cursor__label" data-cursor-label></span>
-    </div>
-    <div class="turn" role="status">
-      <svg class="turn__icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-        <rect x="22" y="8" width="20" height="36" rx="3" />
-        <path d="M30 39h4" />
-        <path d="M12 46c3 6 9 10 16 10" />
-        <path d="M24 52l4 4-4 4" />
-      </svg>
-      <p class="turn__small turn__grey">{turn.label}</p>
-      <p class="turn__small">{turn.text}</p>
     </div>
     <Header lang={lang}>
       <slot name="header-extra" />

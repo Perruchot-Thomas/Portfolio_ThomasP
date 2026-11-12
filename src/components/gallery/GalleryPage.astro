@@ -218,7 +218,7 @@ const filters = [{ key: "all", label: copy.all }, ...galleryTypes.map((type) => 
     }
   }
 
-  @media (max-width: 767px) and (orientation: portrait) {
+  @media (max-width: 767px) {
     .gal {
       display: block;
       height: auto;
@@ -276,29 +276,6 @@ const filters = [{ key: "all", label: copy.all }, ...galleryTypes.map((type) => 
       overflow-x: auto;
     }
   }
-
-  @media (orientation: landscape) and (max-height: 520px) {
-    .gal {
-      grid-template-columns: minmax(0, 34vw) minmax(0, 1fr);
-    }
-
-    .gal__side {
-      gap: 2.4svh;
-      padding: 15svh 2vw 4svh var(--gutter);
-    }
-
-    .gal__head {
-      gap: 0.6svh;
-    }
-
-    .gal__track {
-      padding-top: 15svh;
-    }
-
-    .gal__piece {
-      height: 54svh;
-    }
-  }
 </style>
 
 <script>
@@ -320,7 +297,7 @@ const filters = [{ key: "all", label: copy.all }, ...galleryTypes.map((type) => 
 
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       const media = gsap.matchMedia();
-      media.add("(min-width: 768px), (orientation: landscape)", () => {
+      media.add("(min-width: 768px)", () => {
         gsap.to(track, {
           x: () => -distance(),
           ease: "none",
