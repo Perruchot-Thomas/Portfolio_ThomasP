@@ -47,7 +47,7 @@ const filters = [{ key: "all", label: copy.all }, ...galleryTypes.map((type) => 
       {
         galleryPieces.map((piece, index) => (
           <figure class="gal__piece" data-piece data-type={piece.type}>
-            <Image src={piece.image} alt={piece.name} widths={[600, 1000]} sizes="(max-width: 767px) 90vw, 50vw" format="webp" quality={80} loading={index < 4 ? "eager" : "lazy"} draggable="false" />
+            <Image src={piece.image} alt={piece.name} width={1000} widths={[600, 1000]} sizes="(max-width: 767px) 90vw, 50vw" format="webp" quality={80} loading={index < 4 ? "eager" : "lazy"} draggable="false" />
             <figcaption class="gal__small">
               <span><span class="gal__grey">({pad(index + 1)})</span> {piece.name}</span>
               <span class="gal__grey">{copy.types[piece.type]}</span>
