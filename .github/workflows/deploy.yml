@@ -1,0 +1,57 @@
+name: Deploy AstroJS
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deploy on Debian server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          command_timeout: 15m
+
+          script: |
+            set -e
+
+            echo "======================================"
+            echo "Début du déploiement"
+            echo "======================================"
+
+            cd /var/www/portfolio/Portfolio_ThomasP
+
+            echo "Mise à jour du code..."
+            git pull origin main
+
+            echo "Installation des dépendances..."
+            /home/etudiant/.bun/bin/bun install --frozen-lockfile
+
+            echo "Compilation Astro..."
+            /home/etudiant/.bun/bin/bun run --bun build
+
+            echo "Redémarrage de l'application..."
+            sudo systemctl restart sidus
+
+            echo "Vérification du service..."
+            sudo systemctl status sidus | head -n 5
+
+            echo "Health check..."
+            sleep 5
+            curl --fail --silent --show-error --output /dev/null http://localhost:3001/fr/
+
+            echo "======================================"
+            echo "Déploiement terminé"
+            echo "======================================"
