@@ -37,7 +37,7 @@ items.push({
 });
 
 const start = Math.min(2, items.length - 1);
-const categories = (["posters", "covers", "web", "experiments"] as const).filter((category) => items.some((item) => item.category === category));
+const categories = (["posters", "covers", "web"] as const).filter((category) => items.some((item) => item.category === category));
 const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((category) => ({ key: category, label: ui.projectsPage[category] }))];
 ---
 
@@ -148,11 +148,6 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
 
   .show__unlock {
     cursor: pointer;
-    transition: opacity 0.25s ease;
-  }
-
-  .show__unlock:hover {
-    opacity: 0.5;
   }
 
   :global(html.is-locked),
