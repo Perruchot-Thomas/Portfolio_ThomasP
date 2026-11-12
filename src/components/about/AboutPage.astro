@@ -1,4 +1,5 @@
 ---
+import { getImage } from "astro:assets";
 import type { Lang } from "../../data/i18n";
 import selfie from "../../assets/photos/IMG_9852.jpeg";
 import blur from "../../assets/photos/imagemoi copie.avif";
@@ -48,10 +49,14 @@ const offsets = [
   [30, 30, -1],
   [0, -2, 4]
 ];
-const items = photos.map((image, index) => {
-  const [x, y, turn] = offsets[index % offsets.length];
-  return { image, x, y, turn };
-});
+const items = await Promise.all(
+  photos.map(async (source, index) => {
+    const [x, y, turn] = offsets[index % offsets.length];
+    const optimized = await getImage({ src: source, width: 900, format: "webp", quality: 78 });
+    const image = { src: optimized.src, width: Number(optimized.attributes.width), height: Number(optimized.attributes.height) };
+    return { image, x, y, turn };
+  })
+);
 ---
 
 <section class="me" data-me>
