@@ -115,7 +115,7 @@ import { localePath, useUi } from "../lib/i18n";
     cursor: default;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 767px) and (orientation: portrait) {
     .lost__copy {
       grid-template-columns: minmax(0, 1fr);
     }
@@ -136,6 +136,26 @@ import { localePath, useUi } from "../lib/i18n";
 
     .lost__code {
       font-size: calc(var(--text-giant) * 3.6);
+    }
+  }
+
+  @media (orientation: landscape) and (max-width: 900px) {
+    .lost__block:first-child {
+      grid-column: 1 / 6;
+    }
+
+    .lost__block:nth-child(2) {
+      grid-column: 6 / 9;
+    }
+
+    .lost__actions {
+      grid-column: 9 / 13;
+    }
+  }
+
+  @media (orientation: landscape) and (max-height: 520px) {
+    .lost {
+      padding-top: 15svh;
     }
   }
 </style>

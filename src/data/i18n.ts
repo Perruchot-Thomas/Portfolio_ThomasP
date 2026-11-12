@@ -87,6 +87,10 @@ const en = {
     loading: "Loading",
     year: "2026"
   },
+  turn: {
+    label: "(landscape)",
+    text: "Turn your phone sideways to see the portfolio."
+  },
   notFound: {
     label: "(lost)",
     text: "This page doesn't exist, or not anymore. Maybe it was moved, maybe it never existed.",
@@ -313,6 +317,10 @@ const fr: typeof en = {
     role: "Graphiste",
     loading: "Chargement",
     year: "2026"
+  },
+  turn: {
+    label: "(paysage)",
+    text: "Tourne ton téléphone pour voir le portfolio."
   },
   notFound: {
     label: "(perdu)",
