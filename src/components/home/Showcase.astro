@@ -73,6 +73,7 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
       <span class="show__grey" data-caption-num>({pad(start + 1)})</span>
       <span data-caption-name>{items[start]?.name}</span>
     </p>
+    <p class="show__small show__grey show__swipe" aria-hidden="true">[ ← {copy.swipe} → ]</p>
   </div>
 
   <div class="show__foot">
@@ -275,31 +276,78 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
     }
   }
 
+  .show__swipe {
+    display: none;
+  }
+
   @media (max-width: 767px) {
     .show {
-      padding-top: 10svh;
+      padding: calc(env(safe-area-inset-top) + 4.4rem) var(--gutter) calc(env(safe-area-inset-bottom) + 1.2rem);
     }
 
     .show__top {
       grid-template-columns: minmax(0, 1fr);
-      gap: 1.2svh;
+      gap: 0.4rem;
     }
 
     .show__filters {
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       justify-content: flex-start;
-      gap: 0.4em 0.9em;
+      gap: 0 1.1rem;
+      margin: 0 calc(var(--gutter) * -1);
+      padding: 0 var(--gutter);
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .show__filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .show__filter {
+      flex-shrink: 0;
+      min-height: 44px;
     }
 
     .show__caption {
       width: calc(100vw - var(--gutter) * 2);
     }
 
+    .show__swipe {
+      position: absolute;
+      left: 50%;
+      top: calc(50% + var(--case) / 2 + 3.6em);
+      transition: top 0.9s cubic-bezier(0.45, 0, 0.15, 1);
+      z-index: 5;
+      display: block;
+      margin: 0;
+      white-space: nowrap;
+      pointer-events: none;
+      transform: translateX(-50%);
+    }
+
     .show__foot {
-      flex-direction: column;
-      align-items: flex-start;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 0.5rem 1rem;
+    }
+
+    .show__talk {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+    }
+
+    .show__unlock {
+      min-height: 44px;
+      text-align: left;
     }
   }
+
 </style>
 
 <script>
@@ -349,7 +397,7 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
     const measure = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
-      size = width < 768 ? Math.min(width * 0.52, height * 0.34) : height > width ? Math.min(width * 0.4, height * 0.3) : 270 * clamp(Math.min(width / 1440, height / 850), 0.6, 1.6);
+      size = width < 768 ? Math.min(width * 0.76, height * 0.38) : height > width ? Math.min(width * 0.4, height * 0.3) : 270 * clamp(Math.min(width / 1440, height / 850), 0.6, 1.6);
       radius = size * (720 / 270) * clamp(count / 12, 0.45, 1.4);
       step = size * (275 / 270);
       show.style.setProperty("--case", `${size.toFixed(1)}px`);

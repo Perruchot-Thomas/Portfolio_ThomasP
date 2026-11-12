@@ -25,7 +25,7 @@ const titleStyle =
 <html lang={lang} style={titleStyle}>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.ico?v=2" sizes="48x48" />
     <link rel="icon" href="/favicon-32.png?v=2" type="image/png" sizes="32x32" />
@@ -69,6 +69,23 @@ const titleStyle =
       initCursor();
       initRoll();
       initWipe();
+
+      const header = document.querySelector<HTMLElement>("[data-header]");
+      if (header) {
+        let last = window.scrollY;
+        window.addEventListener(
+          "scroll",
+          () => {
+            const y = window.scrollY;
+            const phone = window.matchMedia("(max-width: 767px)").matches;
+            const open = document.documentElement.classList.contains("menu-open");
+            if (!phone || open || y <= 80 || y < last - 4) header.classList.remove("is-hidden");
+            else if (y > last + 4) header.classList.add("is-hidden");
+            if (Math.abs(y - last) > 4) last = y;
+          },
+          { passive: true }
+        );
+      }
     </script>
   </body>
 </html>

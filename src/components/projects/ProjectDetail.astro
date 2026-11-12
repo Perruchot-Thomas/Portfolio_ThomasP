@@ -317,12 +317,31 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
     }
 
     .work__side {
-      gap: 3.2svh;
-      padding: 10svh var(--gutter) 6svh;
+      gap: 1.8rem;
+      padding: calc(env(safe-area-inset-top) + 5rem) var(--gutter) 2.4rem;
+    }
+
+    .work__title {
+      font-size: var(--text-order);
+      line-height: var(--text-order--line-height);
     }
 
     .work__meta {
-      gap: 2.4svh 1.25rem;
+      gap: 1.2rem 1.25rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--color-grey-light);
+    }
+
+    .work__foot {
+      flex-wrap: wrap;
+      gap: 0 1.4rem;
+      margin-top: -0.6rem;
+    }
+
+    .work__foot a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
     }
 
     .work__view {
@@ -332,7 +351,7 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
     .work__track {
       flex-direction: column;
       align-items: stretch;
-      gap: 6svh;
+      gap: 2.8rem;
       width: auto;
       height: auto;
       padding: 0 var(--gutter);
@@ -360,15 +379,37 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
     .work__note {
       width: auto;
       max-width: 32em;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--color-grey-light);
+    }
+
+    .work .work__caption-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
     }
 
     .work__next {
+      gap: 1.2rem;
       min-width: 0;
       height: auto;
-      margin: 4svh calc(var(--gutter) * -1) 0;
-      padding: 8svh var(--gutter) 10svh;
-      border-top: 1px solid var(--color-grey-light);
+      margin: 2rem calc(var(--gutter) * -1) 0;
+      padding: 3.2rem var(--gutter) calc(env(safe-area-inset-bottom) + 3.6rem);
       border-left: 0;
+      background: var(--color-black);
+    }
+
+    .work .work__next {
+      color: var(--color-white);
+    }
+
+    .work__next-name {
+      font-size: calc(var(--text-order) * 1.25);
+      overflow-wrap: anywhere;
+    }
+
+    .work .work__next:hover .work__next-name {
+      color: var(--color-white);
     }
 
     .work__rail {

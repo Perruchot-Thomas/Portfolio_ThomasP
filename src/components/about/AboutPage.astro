@@ -89,7 +89,7 @@ const items = await Promise.all(
   <div class="me__area me__area--status">
     <p class="me__small me__grey">{ui.showcase.status[0]}</p>
     <p class="me__small">{ui.showcase.status[1]}</p>
-    <a class="me__small" href={localePath(lang, "/contact")}>[ {ui.footer.internshipLink} ↗ ]</a>
+    <a class="me__small me__cta" href={localePath(lang, "/contact")}>[ {ui.footer.internshipLink} ↗ ]</a>
     {email && <a class="me__small me__grey" href={email.href}>{email.label}</a>}
   </div>
 
@@ -247,14 +247,20 @@ const items = await Promise.all(
       grid-template-areas:
         "name name"
         "identity identity"
+        "pile pile"
         "path path"
         "jobs tools"
         "status status";
-      grid-template-rows: auto auto auto auto 1fr;
-      gap: 3.2svh 1.25rem;
+      grid-template-rows: none;
+      gap: 2rem 1.25rem;
       height: auto;
-      min-height: 100svh;
-      padding: 10svh var(--gutter) 4svh;
+      min-height: 0;
+      padding: calc(env(safe-area-inset-top) + 5rem) var(--gutter) calc(env(safe-area-inset-bottom) + 3rem);
+      overflow: visible;
+    }
+
+    .me__name {
+      font-size: calc(var(--text-order) * 1.15);
     }
 
     .me__area--identity {
@@ -264,28 +270,23 @@ const items = await Promise.all(
     }
 
     .me__area--path,
-    .me__area--jobs {
+    .me__area--jobs,
+    .me__area--tools,
+    .me__area--status {
       align-self: start;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--color-grey-light);
     }
 
     .me__list {
-      columns: 2;
-      column-gap: 1.25rem;
+      columns: 1;
     }
 
     .me__list li {
       break-inside: avoid;
     }
 
-    .me__area--jobs {
-      align-items: flex-start;
-      text-align: left;
-    }
-
-    .me__area--tools {
-      align-self: start;
-    }
-
+    .me__area--jobs,
     .me__area--status {
       align-items: flex-start;
       text-align: left;
@@ -295,17 +296,63 @@ const items = await Promise.all(
       display: none;
     }
 
+    .me__pile {
+      position: static;
+      grid-area: pile;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      width: auto;
+      height: auto;
+      margin: 0 calc(var(--gutter) * -1);
+      padding: 0 var(--gutter);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding: 0 var(--gutter);
+      scrollbar-width: none;
+      pointer-events: auto;
+    }
+
+    .me__pile::-webkit-scrollbar {
+      display: none;
+    }
+
     .me__photo {
-      width: 38vw;
+      position: relative;
+      flex: 0 0 auto;
+      width: auto;
+      height: 62vw;
+      scroll-snap-align: start;
+    }
+
+    .me__photo img {
+      width: auto;
+      height: 100%;
+    }
+
+    .me__cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: stretch;
+      min-height: 52px;
+      margin-top: 0.6rem;
+      background: var(--color-black);
+      color: var(--color-white);
+    }
+
+    .me .me__cta {
+      color: var(--color-white);
+    }
+
+    .me__area--status a:last-child {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
     }
   }
 
-  @media (max-width: 767px) and (max-height: 700px) {
-    .me {
-      gap: 2svh 1.25rem;
-      padding-top: 9svh;
-    }
-  }
+
 </style>
 
 <script>
@@ -319,24 +366,27 @@ const items = await Promise.all(
 
   if (me) {
     const photos = Array.from(me.querySelectorAll<HTMLElement>("[data-photo]"));
-    const spread = () => (window.innerWidth < 768 ? 0.62 : 1);
     const place = (photo: HTMLElement) => ({
-      x: (Number(photo.dataset.x) / 100) * window.innerWidth * spread(),
-      y: (Number(photo.dataset.y) / 100) * window.innerHeight * spread(),
+      x: (Number(photo.dataset.x) / 100) * window.innerWidth,
+      y: (Number(photo.dataset.y) / 100) * window.innerHeight,
       turn: Number(photo.dataset.turn)
     });
+    const media = gsap.matchMedia();
 
-    photos.forEach((photo, index) => {
-      photo.style.zIndex = String(index + 1);
-      gsap.set(photo, { xPercent: -50, yPercent: -50 });
-    });
-
-    if (reduced) {
-      photos.forEach((photo) => {
-        const spot = place(photo);
-        gsap.set(photo, { x: spot.x, y: spot.y, rotation: spot.turn });
+    media.add("(min-width: 768px)", () => {
+      photos.forEach((photo, index) => {
+        photo.style.zIndex = String(index + 1);
+        gsap.set(photo, { xPercent: -50, yPercent: -50 });
       });
-    } else {
+
+      if (reduced) {
+        photos.forEach((photo) => {
+          const spot = place(photo);
+          gsap.set(photo, { x: spot.x, y: spot.y, rotation: spot.turn });
+        });
+        return;
+      }
+
       const timeline = gsap.timeline({
         scrollTrigger: {
           trigger: me,
@@ -366,6 +416,6 @@ const items = await Promise.all(
           index * 0.6
         );
       });
-    }
+    });
   }
 </script>
