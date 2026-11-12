@@ -1,73 +1,73 @@
 # Journal de bord – Portfolio
 
-## État actuel
+Ce journal raconte l'avancée de mon portfolio, semaine par semaine : ce que j'ai fait et ce que j'ai changé en cours de route.
 
-Je suis parti sur une direction artistique différente de ma maquette d'origine. Je refais donc toute la maquette, et je reconstruis en parallèle la page d'accueil en code. Cette phase me sert aussi à tester les librairies d'animation avant de figer les choix techniques.
+## Semaine du 12 au 18 octobre 2026
 
-## Stack
+- J'ai commencé la page d'accueil en code, à partir de ma première maquette Figma.
+- J'ai testé plusieurs librairies d'animation : GSAP pour les animations et Lenis pour un défilement plus fluide.
+- J'ai fait un premier hero avec mon lettrage et des images que l'on peut déplacer à la souris.
+- J'ai ajouté un header, un menu en verre qui se tire depuis le haut (« Pull me ») et un bouton pour passer du français à l'anglais.
+- J'ai fait une première section about, une section projets et un premier carrousel sur l'accueil.
+- J'ai réalisé le footer et la page contact.
+- J'ai retravaillé le hero et la partie about.
 
-- Astro 7 (site statique, routes `/en` et `/fr`)
-- Tailwind CSS 4 (tokens de design dans `global.css`)
-- GSAP 3 (ScrollTrigger, Draggable, Inertia, ScrambleText)
-- Lenis (défilement fluide synchronisé avec ScrollTrigger)
-- Bun comme gestionnaire de paquets
+## Semaine du 19 au 25 octobre 2026
 
-## Librairies testées
+- J'ai changé plusieurs images du site.
 
-- **GSAP + ScrollTrigger** : épinglage de la section About, pixellisation progressive de la photo liée au scroll.
-- **GSAP Draggable + Inertia** : images du hero déplaçables avec inertie et parallaxe de profondeur.
-- **GSAP ScrambleText** : effet de brouillage sur le @sidus du header et le loader.
-- **GSAP quickTo / delayedCall** : curseur personnalisé et défilement automatique des photos de la section Projets.
-- **Lenis** : défilement fluide, branché sur le ticker de GSAP.
-- **CSS** : `mix-blend-mode: difference` (curseur, header, images du hero), clip-path, container queries, texte vertical.
+## Semaine du 9 au 15 novembre 2026
 
-## Avancement de la page d'accueil
+### Nouvelle structure
 
-- [x] Header, menu déroulant en verre depuis le haut, bascule EN/FR
-- [x] Loader d'intro
-- [x] Hero : lettrage vectoriel issu de la maquette, 10 images déplaçables en mélange inversé
-- [x] About : colonne photo épinglée avec pixellisation progressive, ABOUT vertical géant, bord déchiré, texte biographique élargi jusqu'à la photo
-- [x] Projets : écran unique avec cadre orange, PROJECTS en haut et en bas, photos de projets attachées au curseur qui défilent automatiquement sans transition
-- [ ] Pages About, Projets et Contact (encore vides)
-- [ ] Maquette Figma refaite en entier
-- [ ] Contenu final des projets
+- J'ai gardé la même direction artistique : noir, blanc et gris, crochets pour les actions, parenthèses pour les intitulés.
+- J'ai changé toute la structure du site pour que l'on trouve les informations plus vite.
+- J'ai refait ma maquette Figma en entier sur une nouvelle page, « Site v2 ».
+- Je suis passé de Roboto à IBM Plex Mono, avec des textes plus petits et moins de texte en général.
+- J'ai étudié plusieurs sites pour m'inspirer.
 
-## Règles que je me fixe
+### Accueil
 
-- Deux styles de texte seulement, tous deux en Roboto : petit en casse normale, grand en majuscules
-- Animations légères, pas de librairie lourde
+- L'accueil est devenu un seul écran avec un carrousel de projets en 3D qui tourne à la molette.
+- Au début, il y avait trois vues (showcase, liste et slider). Je n'ai gardé que le showcase.
+- J'ai remplacé les vues par des filtres par type : tout, affiches, covers et sites web.
+- J'ai enlevé le filtre expérimentations et rangé ses projets dans les affiches.
+- Quand le curseur passe sur un projet, il est attiré vers son centre et affiche « voir le projet ».
 
-## Mise à jour du 10 novembre 2026 — nouvelle structure
+### Pages projets
 
-J'ai modifié toute la structure de ma maquette et du site. La direction artistique reste la même (noir, blanc et gris, petit texte en casse normale et grand texte en majuscules, crochets pour les actions, parenthèses pour les intitulés, vectoriel déchiré noir). Ce qui change, c'est la manière d'aller sur les informations : je veux que tout soit trouvé clairement et vite, sans avoir à chercher dans de longues pages.
+- Chaque projet a maintenant sa propre page, avec un défilement horizontal.
+- J'ai d'abord mis des effets d'apparition et de zoom sur les images, puis je les ai enlevés pour rester simple et sobre.
+- Les titres des projets ne sont plus traduits en anglais.
+- J'ai rangé chaque projet dans son propre dossier pour pouvoir en ajouter facilement.
+- J'ai ajouté le projet TiK•TaK, un site de montres que j'ai conçu et développé : charte graphique, maquettes et site en ligne.
+- J'ai remis le projet Corbeau sur l'accueil et ajouté le lien vers son clip.
+- J'ai retiré le projet Bug fille.
 
-### Ce qui a changé dans la façon de naviguer
+### Page about
 
-- **Accueil** : la page d'accueil devient un seul écran fixe avec un carrousel de mes 12 projets, inspiré d'avea.studio. La molette fait tourner les projets au lieu de faire défiler la page. Trois vues des mêmes projets : [ showcase ] (anneau en 3D avec élan et inclinaison selon la vitesse), [ liste ] (noms à gauche, images au centre) et [ slider ] (bande horizontale). Les images gardent leur format d'origine et sont centrées sur leur milieu. Un clic sur le projet au centre ouvre sa page.
-- **Projets** : seulement les filtres en haut (Tout, Affiches, Covers, Expérimentations). Deux vues : [ pile ], les images posées et déplaçables à la souris, et [ index ], une liste avec un aperçu de l'image qui suit le curseur.
-- **Pages projets** (tought, corbeau, urbanization) : même mise en page que la page contact. Grand titre, infos rangées en colonnes (projet, par, outils, contexte, vision), affiche, puis moodboard et dissection.
-- **About** : quatre parties avec chacune sa disposition : présentation avec mes photos qui défilent, chiffres (années, projets, outils, étapes), parcours en lignes qui passent au noir au survol avec un vectoriel qui se dessine, outils en très grand. Des bandeaux qui défilent font le lien entre les parties.
-- **Contact** : formulaire visible en entier sans scroller.
-- **Transitions** : entre chaque page, le vectoriel déchiré monte avec le nom de la page entre crochets au centre, puis repart par le haut. Depuis une zone noire, la transition est blanche.
-- **Intro** : compteur 000 → 100 % en très grand au premier chargement.
-- **Menu** : le menu « Pull me » en verre reste le même sur toutes les pages.
+- J'ai mis mes photos en pile : elles montent au scroll et se posent sur le texte.
+- J'ai retiré quelques photos et agrandi les autres.
+- J'ai passé toutes les photos en noir et blanc avec beaucoup de grain.
+- J'ai corrigé ma ville : je suis étudiant en MMI à Montbéliard.
 
-### Typographie et texte
+### Galerie artistique
 
-- Passage de Roboto à **IBM Plex Mono** sur tout le site.
-- Typos plus petites (texte courant à 14 px, grands titres réduits d'environ 30 %) et moins de texte en général : j'ai retiré les phrases qui se répétaient d'une page à l'autre.
+- J'ai ajouté un dossier argenté dans le carrousel de l'accueil.
+- Il ouvre une galerie avec mes dessins, peintures, pastels et œuvres digitales, qui viennent de mon ancien portfolio.
+- La galerie défile à l'horizontale et se filtre par type.
 
-### Inspirations et outils
+### Contact et réseaux
 
-- Sites étudiés : Obscura Studio, Kalinsky, Nexola et avea.studio.
-- Création d'un skill qui copie le code d'un site public dans `inspirations/` et en fait une fiche d'analyse, pour comprendre comment un site est construit avant de m'en inspirer (le dossier n'est pas mis en ligne avec le portfolio).
-- Maquette Figma refaite en entier sur la page « Site v2 » : accueil, projets, about, contact, menu et les trois pages projets. Elle ne reflète pas encore le nouveau carrousel d'accueil.
+- Le formulaire de contact m'envoie vraiment les messages par mail.
+- J'ai relié mes réseaux : Instagram, TikTok et LinkedIn.
 
-### Avancement
+### Finitions
 
-- [x] Pages About, Projets, Contact et pages projets
-- [x] Transitions entre les pages et compteur d'intro
-- [x] Nouvelle page d'accueil avec carrousel en trois vues
-- [x] Maquette Figma « Site v2 »
-- [ ] Reporter le carrousel d'accueil, l'IBM Plex Mono et les nouvelles tailles dans Figma
-- [ ] Contenu final des autres projets
+- J'ai refait la transition entre les pages : un voile blanc qui devient opaque, avec le nom de la page au centre.
+- J'ai arrondi la languette du menu.
+- J'ai ajouté les mentions légales et une page 404.
+- J'ai adapté tout le site au téléphone et à la tablette.
+- J'ai mis mon logo « sidus » comme icône d'onglet.
+- J'ai corrigé l'animation du texte au survol, qui coupait certains accents.
+
