@@ -237,7 +237,7 @@ const networks = socials.filter((social) => social.id !== "email");
     transform: translate(0.06em, -0.06em);
   }
 
-  @media (max-width: 767px) and (orientation: portrait) {
+  @media (max-width: 767px) {
     .contact {
       grid-template-columns: minmax(0, 1fr);
       row-gap: 6svh;
@@ -270,12 +270,6 @@ const networks = socials.filter((social) => social.id !== "email");
 
     .contact__actions {
       gap: 1.25rem;
-    }
-  }
-
-  @media (orientation: landscape) and (max-height: 520px) {
-    .contact {
-      padding-top: 15svh;
     }
   }
 </style>

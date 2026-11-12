@@ -480,7 +480,7 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
     pointer-events: none;
   }
 
-  @media (max-width: 767px) and (orientation: portrait) {
+  @media (max-width: 767px) {
     .menu {
       --sheet-h: min(100svh, max(78svh, 30rem));
     }
@@ -554,7 +554,7 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
   const handle = document.querySelector<HTMLElement>("[data-menu-handle]");
 
   if (menu && sheet && handle) {
-    const maxHeight = () => Math.min(window.innerHeight, window.innerWidth < 768 && window.innerHeight > window.innerWidth ? Math.max(window.innerHeight * 0.78, 480) : Math.max(window.innerHeight * 0.7, 384));
+    const maxHeight = () => Math.min(window.innerHeight, window.innerWidth < 768 ? Math.max(window.innerHeight * 0.78, 480) : Math.max(window.innerHeight * 0.7, 384));
     const openHeight = () => maxHeight();
     let height = 0;
     let dragStart = 0;
@@ -564,7 +564,7 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
     const shape = (value: number) => {
       const width = window.innerWidth;
       const center = width / 2;
-      const half = width < 768 && window.innerHeight > width ? 92 : 118;
+      const half = width < 768 ? 92 : 118;
       const curve = 30;
       const tab = 46;
       const h = Math.max(0, value);

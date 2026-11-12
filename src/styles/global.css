@@ -182,60 +182,11 @@
 
 
 
-@media (max-width: 767px) and (orientation: portrait) {
+@media (max-width: 767px) {
   :root {
     --gutter: 1.25rem;
     --text-mid: min(7.2vw, 4.4svh);
     --text-order: min(10.4vw, 7.6svh);
     --text-giant: 13vw;
-  }
-}
-
-.turn {
-  display: none;
-}
-
-@media (max-width: 767px) and (orientation: portrait) and (pointer: coarse) {
-  .turn {
-    position: fixed;
-    inset: 0;
-    z-index: 300;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    padding: 0 var(--gutter);
-    color: var(--color-black);
-    background: var(--color-white);
-    text-align: center;
-  }
-
-  html,
-  body {
-    overflow: hidden;
-  }
-}
-
-.turn__icon {
-  width: 3.5rem;
-  height: 3.5rem;
-  margin-bottom: 0.6rem;
-}
-
-.turn__small {
-  margin: 0;
-  font-size: var(--text-small);
-  line-height: var(--text-small--line-height);
-}
-
-.turn__grey {
-  color: var(--color-grey);
-}
-
-@media (orientation: landscape) and (max-height: 520px) {
-  :root {
-    --text-small: 0.75rem;
-    --gutter: 1.25rem;
   }
 }
