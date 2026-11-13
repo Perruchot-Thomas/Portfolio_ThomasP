@@ -510,8 +510,11 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
       align-items: center;
     }
 
+    .menu__nav li:nth-child(even) {
+      justify-content: flex-end;
+    }
+
     .menu__info {
-      justify-self: start;
       min-height: 32px;
     }
 
@@ -524,6 +527,14 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0 1.5rem;
+    }
+
+    .menu__socials li {
+      display: flex;
+    }
+
+    .menu__socials li:nth-child(even) {
+      justify-content: flex-end;
     }
 
     .menu__socials a {

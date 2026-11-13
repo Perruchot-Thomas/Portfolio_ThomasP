@@ -157,6 +157,23 @@ import { localePath, useUi } from "../lib/i18n";
   :global(#top) .lost__actions a.back-button {
     align-self: auto;
   }
+
+  @media (max-width: 767px) {
+    .lost__actions {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.4rem;
+    }
+
+    .lost__actions a {
+      justify-content: center;
+    }
+
+    :global(#top) .lost__actions a.back-button {
+      align-self: stretch;
+      justify-content: center;
+    }
+  }
 </style>
 
 <script>
