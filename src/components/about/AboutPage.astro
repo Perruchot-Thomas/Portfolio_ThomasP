@@ -297,37 +297,21 @@ const items = await Promise.all(
     }
 
     .me__pile {
-      position: static;
+      position: relative;
+      top: auto;
+      left: auto;
       grid-area: pile;
-      display: flex;
-      align-items: center;
-      gap: 0.9rem;
       width: auto;
-      height: auto;
+      height: 100svh;
       margin: 0 calc(var(--gutter) * -1);
-      padding: 0 var(--gutter);
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-padding: 0 var(--gutter);
-      scrollbar-width: none;
-      pointer-events: auto;
-    }
-
-    .me__pile::-webkit-scrollbar {
-      display: none;
+      overflow: hidden;
     }
 
     .me__photo {
-      position: relative;
-      flex: 0 0 auto;
-      width: auto;
-      height: 62vw;
-      scroll-snap-align: start;
-    }
-
-    .me__photo img {
-      width: auto;
-      height: 100%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 46vw;
     }
 
     .me__cta {
@@ -373,7 +357,7 @@ const items = await Promise.all(
     });
     const media = gsap.matchMedia();
 
-    media.add("(min-width: 768px)", () => {
+    const build = (trigger: HTMLElement, spot: (photo: HTMLElement) => { x: number; y: number; turn: number }, from: () => number, step: number) => {
       photos.forEach((photo, index) => {
         photo.style.zIndex = String(index + 1);
         gsap.set(photo, { xPercent: -50, yPercent: -50 });
@@ -381,17 +365,17 @@ const items = await Promise.all(
 
       if (reduced) {
         photos.forEach((photo) => {
-          const spot = place(photo);
-          gsap.set(photo, { x: spot.x, y: spot.y, rotation: spot.turn });
+          const at = spot(photo);
+          gsap.set(photo, { x: at.x, y: at.y, rotation: at.turn });
         });
         return;
       }
 
       const timeline = gsap.timeline({
         scrollTrigger: {
-          trigger: me,
+          trigger,
           start: "top top",
-          end: () => `+=${window.innerHeight * photos.length * 0.32}`,
+          end: () => `+=${window.innerHeight * photos.length * step}`,
           pin: true,
           scrub: 0.8,
           invalidateOnRefresh: true
@@ -402,20 +386,35 @@ const items = await Promise.all(
         timeline.fromTo(
           photo,
           {
-            x: () => place(photo).x * 0.4,
-            y: () => window.innerHeight * 0.95,
-            rotation: () => place(photo).turn * 3
+            x: () => spot(photo).x * 0.4,
+            y: from,
+            rotation: () => spot(photo).turn * 3
           },
           {
-            x: () => place(photo).x,
-            y: () => place(photo).y,
-            rotation: () => place(photo).turn,
+            x: () => spot(photo).x,
+            y: () => spot(photo).y,
+            rotation: () => spot(photo).turn,
             duration: 1,
             ease: "power3.out"
           },
           index * 0.6
         );
       });
+    };
+
+    media.add("(min-width: 768px)", () => {
+      build(me, place, () => window.innerHeight * 0.95, 0.32);
+    });
+
+    media.add("(max-width: 767px)", () => {
+      const pile = me.querySelector<HTMLElement>("[data-pile]");
+      if (!pile) return;
+      const phone = (photo: HTMLElement) => ({
+        x: (Number(photo.dataset.x) / 100) * window.innerWidth * 0.9,
+        y: (Number(photo.dataset.y) / 100) * window.innerHeight * 0.9,
+        turn: Number(photo.dataset.turn)
+      });
+      build(pile, phone, () => window.innerHeight * 0.75, 0.22);
     });
   }
 </script>
