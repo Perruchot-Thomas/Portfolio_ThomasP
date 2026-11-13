@@ -58,7 +58,7 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
 
 
     <div class="work__foot">
-      <a class="work__small" href={localePath(lang, "")}>[ ← {copy.back} ]</a>
+      <a class="work__small back-button" href={localePath(lang, "")}>[ ← {copy.back} ]</a>
       {
         project.site && (
           <a class="work__small" href={project.site} target="_blank" rel="noopener noreferrer">

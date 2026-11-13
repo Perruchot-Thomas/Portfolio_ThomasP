@@ -190,3 +190,18 @@
     --text-giant: 13vw;
   }
 }
+
+#top a.back-button {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 0.5em 0.8em;
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+@media (max-width: 767px) {
+  #top a.back-button {
+    min-height: 44px;
+  }
+}
