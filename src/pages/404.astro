@@ -21,7 +21,7 @@ import { localePath, useUi } from "../lib/i18n";
               <p class="lost__small lost__path" data-path>/</p>
             </div>
             <div class="lost__actions">
-              <a class="lost__small" href={localePath(lang, "")}>[ ← {copy.home} ]</a>
+              <a class="lost__small back-button" href={localePath(lang, "")}>[ ← {copy.home} ]</a>
               <a class="lost__small" href={localePath(lang, "/contact")}>[ {copy.contact} ↗ ]</a>
             </div>
           </div>
@@ -152,6 +152,10 @@ import { localePath, useUi } from "../lib/i18n";
       align-items: center;
       min-height: 44px;
     }
+  }
+
+  :global(#top) .lost__actions a.back-button {
+    align-self: auto;
   }
 </style>
 
