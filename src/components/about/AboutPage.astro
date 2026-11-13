@@ -60,12 +60,26 @@ const items = await Promise.all(
 ---
 
 <section class="me" data-me>
-  <div class="me__area me__area--name">
-    <p class="me__small me__grey">{copy.sections[0]}</p>
-    <h1 class="me__name">{ui.cta.first}<br />{ui.cta.last}</h1>
-  </div>
+  <div class="me__hero" data-hero>
+    <div class="me__area me__area--name">
+      <p class="me__small me__grey">{copy.sections[0]}</p>
+      <h1 class="me__name">{ui.cta.first}<br />{ui.cta.last}</h1>
+    </div>
 
-  <p class="me__area me__area--identity me__small">{ui.showcase.identity[1]}</p>
+    <p class="me__area me__area--identity me__small">{ui.showcase.identity[1]}</p>
+
+    <p class="me__area me__area--hint me__small me__grey">[ {ui.hero.scroll} ↓ ]</p>
+
+    <div class="me__pile" data-pile aria-hidden="true">
+      {
+        items.map((item) => (
+          <figure class="me__photo" data-photo data-x={item.x} data-y={item.y} data-turn={item.turn}>
+            <img src={item.image.src} width={item.image.width} height={item.image.height} alt="" loading="eager" draggable="false" />
+          </figure>
+        ))
+      }
+    </div>
+  </div>
 
   <div class="me__area me__area--path">
     <p class="me__small me__grey">{copy.path}</p>
@@ -84,8 +98,6 @@ const items = await Promise.all(
     <p class="me__small">{ui.intro.tools.join(", ")}</p>
   </div>
 
-  <p class="me__area me__area--hint me__small me__grey">[ {ui.hero.scroll} ↓ ]</p>
-
   <div class="me__area me__area--status">
     <p class="me__small me__grey">{ui.showcase.status[0]}</p>
     <p class="me__small">{ui.showcase.status[1]}</p>
@@ -93,15 +105,6 @@ const items = await Promise.all(
     {email && <a class="me__small me__grey" href={email.href}>{email.label}</a>}
   </div>
 
-  <div class="me__pile" data-pile aria-hidden="true">
-    {
-      items.map((item) => (
-        <figure class="me__photo" data-photo data-x={item.x} data-y={item.y} data-turn={item.turn}>
-          <img src={item.image.src} width={item.image.width} height={item.image.height} alt="" loading="lazy" draggable="false" />
-        </figure>
-      ))
-    }
-  </div>
 </section>
 
 <style>
@@ -120,6 +123,10 @@ const items = await Promise.all(
     overflow: hidden;
     color: var(--color-black);
     background: var(--color-white);
+  }
+
+  .me__hero {
+    display: contents;
   }
 
   .me__small {
@@ -245,9 +252,7 @@ const items = await Promise.all(
     .me {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       grid-template-areas:
-        "name name"
-        "identity identity"
-        "pile pile"
+        "hero hero"
         "path path"
         "jobs tools"
         "status status";
@@ -255,8 +260,21 @@ const items = await Promise.all(
       gap: 2rem 1.25rem;
       height: auto;
       min-height: 0;
-      padding: calc(env(safe-area-inset-top) + 5rem) var(--gutter) calc(env(safe-area-inset-bottom) + 3rem);
+      padding: 0 var(--gutter) calc(env(safe-area-inset-bottom) + 3rem);
       overflow: visible;
+    }
+
+    .me__hero {
+      position: relative;
+      grid-area: hero;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      height: 100svh;
+      margin: 0 calc(var(--gutter) * -1);
+      padding: calc(env(safe-area-inset-top) + 5rem) var(--gutter) calc(env(safe-area-inset-bottom) + 1.6rem);
+      overflow: hidden;
+      background: var(--color-white);
     }
 
     .me__name {
@@ -265,8 +283,18 @@ const items = await Promise.all(
 
     .me__area--identity {
       justify-self: start;
-      max-width: none;
+      max-width: 24em;
       text-align: left;
+    }
+
+    .me__area--hint {
+      position: absolute;
+      left: 50%;
+      bottom: calc(env(safe-area-inset-bottom) + 1.4rem);
+      z-index: 3;
+      display: block;
+      white-space: nowrap;
+      transform: translateX(-50%);
     }
 
     .me__area--path,
@@ -278,12 +306,12 @@ const items = await Promise.all(
       border-top: 1px solid var(--color-grey-light);
     }
 
-    .me__list {
-      columns: 1;
+    .me__area--path {
+      margin-top: 1rem;
     }
 
-    .me__list li {
-      break-inside: avoid;
+    .me__list {
+      columns: 1;
     }
 
     .me__area--jobs,
@@ -292,26 +320,18 @@ const items = await Promise.all(
       text-align: left;
     }
 
-    .me__area--hint {
-      display: none;
-    }
-
     .me__pile {
-      position: relative;
-      top: auto;
-      left: auto;
-      grid-area: pile;
+      position: absolute;
+      inset: 0;
       width: auto;
-      height: 100svh;
-      margin: 0 calc(var(--gutter) * -1);
-      overflow: hidden;
+      height: auto;
     }
 
     .me__photo {
       position: absolute;
-      top: 50%;
+      top: 60%;
       left: 50%;
-      width: 46vw;
+      width: 44vw;
     }
 
     .me__cta {
@@ -337,6 +357,7 @@ const items = await Promise.all(
   }
 
 
+
 </style>
 
 <script>
@@ -357,7 +378,7 @@ const items = await Promise.all(
     });
     const media = gsap.matchMedia();
 
-    const build = (trigger: HTMLElement, spot: (photo: HTMLElement) => { x: number; y: number; turn: number }, from: () => number, step: number) => {
+    const build = (trigger: HTMLElement, spot: (photo: HTMLElement) => { x: number; y: number; turn: number }, from: () => number, step: number, ready = 0) => {
       photos.forEach((photo, index) => {
         photo.style.zIndex = String(index + 1);
         gsap.set(photo, { xPercent: -50, yPercent: -50 });
@@ -382,7 +403,12 @@ const items = await Promise.all(
         }
       });
 
-      photos.forEach((photo, index) => {
+      photos.slice(0, ready).forEach((photo) => {
+        const at = spot(photo);
+        gsap.set(photo, { x: at.x, y: at.y, rotation: at.turn });
+      });
+
+      photos.slice(ready).forEach((photo, index) => {
         timeline.fromTo(
           photo,
           {
@@ -407,14 +433,14 @@ const items = await Promise.all(
     });
 
     media.add("(max-width: 767px)", () => {
-      const pile = me.querySelector<HTMLElement>("[data-pile]");
-      if (!pile) return;
+      const hero = me.querySelector<HTMLElement>("[data-hero]");
+      if (!hero) return;
       const phone = (photo: HTMLElement) => ({
-        x: (Number(photo.dataset.x) / 100) * window.innerWidth * 0.9,
-        y: (Number(photo.dataset.y) / 100) * window.innerHeight * 0.9,
+        x: (Number(photo.dataset.x) / 100) * window.innerWidth * 0.75,
+        y: (Number(photo.dataset.y) / 100) * window.innerHeight * 0.55,
         turn: Number(photo.dataset.turn)
       });
-      build(pile, phone, () => window.innerHeight * 0.75, 0.22);
+      build(hero, phone, () => window.innerHeight * 0.7, 0.22, 1);
     });
   }
 </script>
