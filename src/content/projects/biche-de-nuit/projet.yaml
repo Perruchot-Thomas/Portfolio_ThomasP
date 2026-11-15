@@ -8,20 +8,36 @@ context:
   fr: "cover / exploration photo"
   en: "cover / photo exploration"
 vision:
-  fr: "une silhouette blanche découpée dans une forêt grise, comme une apparition dans les phares."
-  en: "a white silhouette cut into a grey forest, like something appearing in the headlights."
+  fr: "un cerf assis dans un bus, perdu entre la forêt et la ville : une anomalie qui interroge."
+  en: "a deer sitting on a bus, lost between the forest and the city: an anomaly that raises questions."
 cover: ./cover.jpg
 frames:
   - image: ./cover.jpg
   - label:
-      fr: "(la silhouette)"
-      en: "(the silhouette)"
+      fr: "(moodboard)"
+      en: "(moodboard)"
     text:
-      fr: "la biche est un aplat blanc pur, sans aucun détail. elle se lit comme un trou de lumière dans l’image, une présence qu’on devine plus qu’on ne la voit."
-      en: "the doe is a flat pure white shape, without any detail. it reads like a hole of light in the image, a presence you sense more than you see."
+      fr: "je suis parti de la forêt et des animaux, mais placés dans une ambiance totalement différente de leur lieu de vie. c’est ce décalage qui interroge, et c’est ce que je voulais transmettre : le pourquoi. autour, des lieux abandonnés, du verre brisé et des pixels pour installer une atmosphère froide, un peu irréelle."
+      en: "i started from the forest and animals, but placed in a setting completely different from where they live. this mismatch is what raises questions, and it is what i wanted to convey: the why. around it, abandoned places, broken glass and pixels set a cold, slightly unreal atmosphere."
+  - image: ./image-01.jpg
+  - image: ./image-02.jpg
+  - image: ./image-03.jpg
+  - image: ./image-04.jpg
   - label:
-      fr: "(la forêt)"
-      en: "(the forest)"
+      fr: "(détail 01)"
+      en: "(detail 01)"
     text:
-      fr: "les branches et le grain du fond sont superposés en plusieurs couches de gris pour construire une nuit épaisse, presque étouffante."
-      en: "the branches and the grain are stacked in several layers of grey to build a thick, almost suffocating night."
+      fr: "le décor mélange deux mondes : l’intérieur d’un bus et une forêt dans la brume, superposés en plusieurs couches de gris. on ne sait plus vraiment où l’on est, et c’est voulu : l’animal n’est pas à sa place."
+      en: "the setting mixes two worlds: the inside of a bus and a forest in the mist, stacked in several layers of grey. you no longer really know where you are, and that is the point: the animal is out of place."
+  - label:
+      fr: "(détail 02)"
+      en: "(detail 02)"
+    text:
+      fr: "le cerf est réduit à un aplat blanc pur, sans aucun détail. il se lit comme un trou de lumière dans l’image, une présence qu’on devine plus qu’on ne la voit."
+      en: "the deer is reduced to a flat pure white shape, without any detail. it reads like a hole of light in the image, a presence you sense more than you see."
+  - label:
+      fr: "(détail 03)"
+      en: "(detail 03)"
+    text:
+      fr: "en bas, la silhouette se défait en caractères ascii. ce côté digital vient signaler qu’il y a une anomalie, quelque chose qui diffère, comme une image qui bugge."
+      en: "at the bottom, the silhouette breaks down into ascii characters. this digital side signals that there is an anomaly, something that differs, like a glitching image."
