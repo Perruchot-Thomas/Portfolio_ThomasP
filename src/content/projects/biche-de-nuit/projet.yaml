@@ -21,20 +21,20 @@ frames:
       en: "i started from the forest and animals, but placed in a setting completely different from where they live. this mismatch is what raises questions, and it is what i wanted to convey: the why. around it, abandoned places, broken glass and pixels set a cold, slightly unreal atmosphere."
   - image: ./image-01.jpg
   - image: ./image-02.jpg
-  - image: ./image-03.jpg
-  - image: ./image-04.jpg
   - label:
       fr: "(détail 01)"
       en: "(detail 01)"
     text:
       fr: "le décor mélange deux mondes : l’intérieur d’un bus et une forêt dans la brume, superposés en plusieurs couches de gris. on ne sait plus vraiment où l’on est, et c’est voulu : l’animal n’est pas à sa place."
       en: "the setting mixes two worlds: the inside of a bus and a forest in the mist, stacked in several layers of grey. you no longer really know where you are, and that is the point: the animal is out of place."
+  - image: ./image-03.jpg
   - label:
       fr: "(détail 02)"
       en: "(detail 02)"
     text:
       fr: "le cerf est réduit à un aplat blanc pur, sans aucun détail. il se lit comme un trou de lumière dans l’image, une présence qu’on devine plus qu’on ne la voit."
       en: "the deer is reduced to a flat pure white shape, without any detail. it reads like a hole of light in the image, a presence you sense more than you see."
+  - image: ./image-04.jpg
   - label:
       fr: "(détail 03)"
       en: "(detail 03)"
