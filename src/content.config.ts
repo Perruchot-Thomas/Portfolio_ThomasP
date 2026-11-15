@@ -10,7 +10,7 @@ const projects = defineCollection({
     z.object({
       order: z.number(),
       name: z.string(),
-      category: z.enum(["posters", "covers", "experiments", "web"]),
+      category: z.enum(["posters", "covers", "experiments", "web", "apparel"]),
       home: z.boolean().default(true),
       year: z.coerce.string(),
       tools: z.string(),

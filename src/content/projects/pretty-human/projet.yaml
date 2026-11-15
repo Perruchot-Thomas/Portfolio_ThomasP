@@ -1,0 +1,44 @@
+order: 6
+name: "Pretty Human"
+category: apparel
+home: true
+year: "2026"
+tools: "photoshop"
+context:
+  fr: "design textile / t-shirt"
+  en: "apparel design / t-shirt"
+vision:
+  fr: "une étoile découpée dans un drapeau américain usé, signée d’une écriture fine : la douceur posée sur quelque chose de brut."
+  en: "a star cut out of a worn american flag, signed with a delicate script: softness placed on something raw."
+cover: ./cover.jpg
+frames:
+  - image: ./cover.jpg
+  - label:
+      fr: "(moodboard)"
+      en: "(moodboard)"
+    text:
+      fr: "je suis parti de l’étoile, pleine ou en contour, et du drapeau américain, avec des matières brutes autour : papier froissé, toile, une vis. en face, des écritures calligraphiées très fines, sweet thing, chaotic. tout le projet tient dans ce contraste entre le brut et le délicat."
+      en: "i started from the star, solid or outlined, and the american flag, with raw materials around it: creased paper, canvas, a screw. opposite them, very fine calligraphic scripts, sweet thing, chaotic. the whole project lives in this contrast between raw and delicate."
+  - image: ./moodboard.jpg
+  - image: ./variantes.jpg
+  - label:
+      fr: "(les variantes)"
+      en: "(the variants)"
+    text:
+      fr: "le motif est une étoile taillée dans un drapeau délavé, fixée par des vis comme une plaque, traversée par le script « pretty human ». seule la couleur de l’écriture change, blanc, rouge, rose ou lavande : une même base, plusieurs ambiances."
+      en: "the graphic is a star cut from a faded flag, fixed with screws like a plate, crossed by the “pretty human” script. only the colour of the writing changes, white, red, pink or lavender: one base, several moods."
+  - image: ./reseaux-affiche.jpg
+  - label:
+      fr: "(posté sur les réseaux)"
+      en: "(posted on social media)"
+    text:
+      fr: "pour annoncer la sortie, j’ai réalisé une affiche « new drop » à partir du shooting, avec l’adresse de mon site, pensée pour être postée sur les réseaux."
+      en: "to announce the release, i made a “new drop” poster from the shoot, with my website address, designed to be posted on social media."
+  - image: ./reseaux-porte-01.jpg
+  - label:
+      fr: "(porté)"
+      en: "(worn)"
+    text:
+      fr: "le t-shirt porté dans l’herbe, au pied d’un arbre. un cadre blanc entoure la silhouette pour mettre la pièce en avant, comme une image de lookbook."
+      en: "the t-shirt worn in the grass, at the foot of a tree. a white frame surrounds the figure to put the piece forward, like a lookbook image."
+  - image: ./reseaux-porte-02.jpg

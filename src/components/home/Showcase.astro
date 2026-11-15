@@ -37,7 +37,7 @@ items.push({
 });
 
 const start = Math.min(2, items.length - 1);
-const categories = (["posters", "covers", "web"] as const).filter((category) => items.some((item) => item.category === category));
+const categories = (["posters", "covers", "apparel", "web"] as const).filter((category) => items.some((item) => item.category === category));
 const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((category) => ({ key: category, label: ui.projectsPage[category] }))];
 ---
 

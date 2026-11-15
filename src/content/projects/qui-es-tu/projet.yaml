@@ -1,7 +1,7 @@
 order: 4
 name: "Who are you ?"
 category: posters
-home: false
+home: true
 year: "2026"
 tools: "photoshop"
 context:
@@ -14,14 +14,30 @@ cover: ./cover.jpg
 frames:
   - image: ./cover.jpg
   - label:
-      fr: "(les visages)"
-      en: "(the faces)"
+      fr: "(moodboard)"
+      en: "(moodboard)"
     text:
-      fr: "les portraits sont enfermés dans des formes noires taillées à la main, comme des masques. chaque visage regarde ailleurs, aucun ne répond."
-      en: "the portraits are locked inside hand-cut black shapes, like masks. every face looks somewhere else, none of them answers."
+      fr: "des formes low poly, comme dans les jeux ps1, et des portraits flous ou cassés. l’idée est de briser l’image qu’on se fait des gens, de montrer toute la complexité cachée dans la forme simple de l’humain. who are you appelle à l’introspection."
+      en: "low poly shapes, like in ps1 games, and blurred or broken portraits. the idea is to break the image we have of people, to show all the complexity hidden in the simple shape of a human. who are you calls for introspection."
+  - image: ./moodboard.jpg
+  - image: ./detail-01.jpg
   - label:
-      fr: "(la question)"
-      en: "(the question)"
+      fr: "(détail 01)"
+      en: "(detail 01)"
     text:
-      fr: "la phrase est éclatée sur toute l’image, à des tailles et dans des sens différents. on la lit par morceaux, comme une pensée qui revient en boucle."
-      en: "the sentence is scattered across the image, in different sizes and directions. you read it in pieces, like a thought on a loop."
+      fr: "les visages sont découpés dans des formes noires anguleuses, comme des modèles 3d à peu de polygones. réduits à quelques facettes, ils restent pourtant lisibles et expressifs."
+      en: "the faces are cut out of angular black shapes, like 3d models with few polygons. reduced to a few facets, they still remain readable and expressive."
+  - image: ./detail-02.jpg
+  - label:
+      fr: "(détail 02)"
+      en: "(detail 02)"
+    text:
+      fr: "en fond, une texture grise parcourue de fissures blanches. c’est la cassure : une surface lisse qui se fend, comme l’image qu’on a de quelqu’un quand on regarde de plus près."
+      en: "in the background, a grey texture crossed by white cracks. this is the break: a smooth surface that splits, like the image we have of someone when we look closer."
+  - image: ./detail-03.jpg
+  - label:
+      fr: "(détail 03)"
+      en: "(detail 03)"
+    text:
+      fr: "la question est éclatée en trois mots, étirés, doublés et floutés. on la lit par morceaux, comme une pensée qui revient en boucle et qu’on finit par se poser à soi-même."
+      en: "the question is split into three words, stretched, doubled and blurred. you read it in pieces, like a thought on a loop that you end up asking yourself."

@@ -9,7 +9,7 @@ export type Frame = { kind: "image"; image: ImageMetadata; href?: string } | { k
 export interface Project {
   slug: string;
   name: string;
-  category: "posters" | "covers" | "experiments" | "web";
+  category: "posters" | "covers" | "experiments" | "web" | "apparel";
   home: boolean;
   year: string;
   tools: string;
