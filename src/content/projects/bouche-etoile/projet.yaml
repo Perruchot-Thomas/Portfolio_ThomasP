@@ -1,7 +1,7 @@
-order: 6
+order: 5
 name: "Bouche étoile"
 category: covers
-home: false
+home: true
 year: "2026"
 tools: "photoshop"
 context:
@@ -14,14 +14,30 @@ cover: ./cover.jpg
 frames:
   - image: ./cover.jpg
   - label:
-      fr: "(le cri)"
-      en: "(the scream)"
+      fr: "(moodboard)"
+      en: "(moodboard)"
     text:
-      fr: "la bouche remplit tout le cadre. on ne sait pas si elle crie ou si elle chante, et c’est cette hésitation que je voulais garder pour une cover."
-      en: "the mouth fills the whole frame. you can’t tell if it screams or sings, and that hesitation is what i wanted to keep for a cover."
+      fr: "des bouches grandes ouvertes, des crocs, une étoile noire aux pointes acérées. en face, de la dentelle, des ornements anciens et des textures usées. je voulais mêler le cri et quelque chose de précieux, entre douceur et morsure."
+      en: "wide open mouths, fangs, a black star with sharp points. opposite them, lace, old ornaments and worn textures. i wanted to mix the scream with something precious, between softness and bite."
+  - image: ./moodboard.jpg
+  - image: ./detail-01.jpg
   - label:
-      fr: "(l’étoile)"
-      en: "(the star)"
+      fr: "(détail 01)"
+      en: "(detail 01)"
     text:
-      fr: "l’étoile posée sur la langue est mon signe : sidus veut dire astre en latin. elle devient la voix qu’on s’apprête à entendre."
-      en: "the star on the tongue is my sign: sidus means star in latin. it becomes the voice you are about to hear."
+      fr: "la bouche remplit tout le cadre, teintée de violet, avec deux crocs qui dépassent. on ne sait pas si elle crie ou si elle chante, et c’est cette hésitation que je voulais garder pour une cover."
+      en: "the mouth fills the whole frame, tinted purple, with two fangs sticking out. you can’t tell if it screams or sings, and that hesitation is what i wanted to keep for a cover."
+  - image: ./detail-02.jpg
+  - label:
+      fr: "(détail 02)"
+      en: "(detail 02)"
+    text:
+      fr: "en fond, une texture pâle où l’on devine des motifs de dentelle presque effacés. elle adoucit l’image et lui donne un côté ancien, comme un vieux papier."
+      en: "in the background, a pale texture where you can make out almost faded lace patterns. it softens the image and gives it an old feel, like aged paper."
+  - image: ./detail-03.jpg
+  - label:
+      fr: "(détail 03)"
+      en: "(detail 03)"
+    text:
+      fr: "l’étoile argentée, en relief, est mon signe : sidus veut dire astre en latin. posée dans la bouche, elle devient la voix qu’on s’apprête à entendre."
+      en: "the embossed silver star is my sign: sidus means star in latin. placed in the mouth, it becomes the voice you are about to hear."
