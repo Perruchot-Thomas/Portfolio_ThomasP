@@ -1,7 +1,7 @@
 order: 9
 name: "Flowers in mind"
 category: posters
-home: true
+home: false
 year: "2026"
 tools: "affinity, photoshop"
 context:

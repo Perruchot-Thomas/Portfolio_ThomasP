@@ -7,12 +7,12 @@ import { getProjects } from "../../../data/projects";
 import { getLang } from "../../../lib/i18n";
 
 export async function getStaticPaths() {
-  const projects = await getProjects();
+  const projects = (await getProjects()).filter((project) => project.home);
   return languages.flatMap((lang) => projects.map((project) => ({ params: { lang, slug: project.slug } })));
 }
 
 const lang = getLang(Astro.params.lang);
-const projects = await getProjects();
+const projects = (await getProjects()).filter((item) => item.home);
 const project = projects.find((item) => item.slug === Astro.params.slug);
 
 if (!project) {

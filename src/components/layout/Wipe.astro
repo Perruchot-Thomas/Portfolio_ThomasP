@@ -3,7 +3,7 @@ import { languages, ui } from "../../data/i18n";
 import { getProjects } from "../../data/projects";
 import { localePath } from "../../lib/i18n";
 
-const projects = await getProjects();
+const projects = (await getProjects()).filter((project) => project.home);
 const labels: Record<string, string> = {};
 languages.forEach((lang) => {
   const nav = ui[lang].nav;

@@ -1,7 +1,7 @@
 order: 11
 name: "Œuf"
 category: posters
-home: true
+home: false
 year: "2026"
 tools: "photoshop, affinity"
 context:
