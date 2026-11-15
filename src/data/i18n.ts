@@ -57,6 +57,8 @@ const en = {
   },
   showcase: {
     swipe: "swipe",
+    prev: "previous",
+    next: "next",
     views: ["showcase", "list", "slider"],
     identity: ["(sidus)", "Portfolio of Thomas Perruchot: textural identity, raw images and bold type."],
     jobs: ["(roles)", "Graphic designer · Art director"],
@@ -286,6 +288,8 @@ const fr: typeof en = {
   },
   showcase: {
     swipe: "glisser",
+    prev: "précédent",
+    next: "suivant",
     views: ["showcase", "liste", "slider"],
     identity: ["(sidus)", "Portfolio de Thomas Perruchot : identité texturale, images brutes et typographie affirmée."],
     jobs: ["(métiers)", "Graphiste · Directeur artistique"],

@@ -323,10 +323,20 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
       color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .menu__info:hover,
   .menu__info[aria-expanded="true"] {
     background: var(--color-black);
     color: var(--color-white);
+  }
+
+  @media (hover: hover) {
+    .menu__info:hover {
+      background: var(--color-black);
+      color: var(--color-white);
+    }
+
+    .menu__handle:hover .menu__pull {
+      opacity: 0.55;
+    }
   }
 
   .menu__about {
@@ -413,8 +423,10 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
     opacity: 0.55;
   }
 
-  .menu__nav ul:hover a:not(:hover) {
-    opacity: 0.35;
+  @media (hover: hover) {
+    .menu__nav ul:hover a:not(:hover) {
+      opacity: 0.35;
+    }
   }
 
   .menu__nav a[aria-current="page"] .menu__label {
@@ -431,8 +443,10 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
     line-height: var(--text-small--line-height);
   }
 
-  .menu__socials a:hover {
-    text-decoration: underline;
+  @media (hover: hover) {
+    .menu__socials a:hover {
+      text-decoration: underline;
+    }
   }
 
   .menu__handle {
@@ -463,7 +477,6 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
     transition: none;
   }
 
-  .menu__handle:hover .menu__pull,
   .menu__handle:focus-visible .menu__pull {
     opacity: 0.55;
   }
@@ -631,7 +644,10 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
 
     const toggle = () => render(height > 8 ? 0 : openHeight());
 
+    let touchDrag = false;
+
     handle.addEventListener("pointerdown", (event) => {
+      touchDrag = event.pointerType !== "mouse";
       handle.setPointerCapture(event.pointerId);
       menu.dataset.dragging = "true";
       dragStart = event.clientY;
@@ -651,6 +667,7 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
       menu.dataset.dragging = "false";
       if (handle.hasPointerCapture(event.pointerId)) handle.releasePointerCapture(event.pointerId);
       if (!moved) toggle();
+      else if (touchDrag) render(height > heightStart ? (height > maxHeight() * 0.25 ? openHeight() : 0) : height < maxHeight() * 0.75 ? 0 : openHeight());
       else if (height <= 48) render(0);
     };
 
@@ -673,6 +690,47 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
     });
 
     menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => render(0)));
+
+    document.addEventListener(
+      "click",
+      (event) => {
+        if (height <= 8) return;
+        const target = event.target as Node | null;
+        if (!target || menu.contains(target) || handle.contains(target)) return;
+        event.preventDefault();
+        event.stopPropagation();
+        render(0);
+      },
+      true
+    );
+
+    let swipeX = 0;
+    let swipeY = 0;
+    let swiping = false;
+
+    sheet.addEventListener(
+      "touchstart",
+      (event) => {
+        const point = event.touches[0];
+        swiping = event.touches.length === 1 && !(event.target as Element | null)?.closest("[data-story]");
+        swipeX = point.clientX;
+        swipeY = point.clientY;
+      },
+      { passive: true }
+    );
+
+    sheet.addEventListener(
+      "touchend",
+      (event) => {
+        if (!swiping) return;
+        swiping = false;
+        const point = event.changedTouches[0];
+        const dx = point.clientX - swipeX;
+        const dy = point.clientY - swipeY;
+        if (dy < -70 && Math.abs(dy) > Math.abs(dx) * 1.5) render(0);
+      },
+      { passive: true }
+    );
 
     const zoom = menu.querySelector<HTMLElement>(".menu__zoom");
     const zoomText = zoom?.querySelector<HTMLElement>("span");

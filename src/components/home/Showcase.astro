@@ -73,7 +73,11 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
       <span class="show__grey" data-caption-num>({pad(start + 1)})</span>
       <span data-caption-name>{items[start]?.name}</span>
     </p>
-    <p class="show__small show__grey show__swipe" aria-hidden="true">[ ← {copy.swipe} → ]</p>
+    <div class="show__swipe" data-nav>
+      <button class="show__small show__nav" type="button" data-prev aria-label={copy.prev}>[ ← ]</button>
+      <button class="show__small show__nav show__open" type="button" data-open>{items[start]?.category === "gallery" ? `[ ${ui.artGallery.open} ↗ ]` : `[ ${copy.go} ↗ ]`}</button>
+      <button class="show__small show__nav" type="button" data-next aria-label={copy.next}>[ → ]</button>
+    </div>
   </div>
 
   <div class="show__foot">
@@ -142,9 +146,14 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
     transition: color 0.3s ease;
   }
 
-  .show__filter:hover,
   .show__filter.is-active {
     color: var(--color-black);
+  }
+
+  @media (hover: hover) {
+    .show__filter:hover {
+      color: var(--color-black);
+    }
   }
 
   .show__unlock {
@@ -316,15 +325,31 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
 
     .show__swipe {
       position: absolute;
-      left: 50%;
-      top: calc(50% + var(--case) / 2 + 3.6em);
+      left: var(--gutter);
+      right: var(--gutter);
+      top: calc(50% + var(--case) / 2 + 2.8em);
       transition: top 0.9s cubic-bezier(0.45, 0, 0.15, 1);
       z-index: 5;
-      display: block;
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
       margin: 0;
       white-space: nowrap;
-      pointer-events: none;
-      transform: translateX(-50%);
+    }
+
+    .show__nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      min-height: 44px;
+      color: var(--color-grey);
+      cursor: pointer;
+    }
+
+    .show__open {
+      padding: 0 0.8em;
+      color: var(--color-black);
     }
 
     .show__foot {
@@ -412,6 +437,8 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
       if (current) current.textContent = pad(index + 1);
       if (captionNum) captionNum.textContent = `(${pad(index + 1)})`;
       if (captionName) captionName.textContent = card.dataset.name ?? "";
+      const openButton = show.querySelector<HTMLElement>("[data-open]");
+      if (openButton) openButton.textContent = card.dataset.label ?? "";
     };
 
     const setFilter = (key: string) => {
@@ -525,8 +552,12 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
       { passive: false }
     );
 
+    let touch = false;
+
     stage.addEventListener("pointerdown", (event) => {
       if (!locked) return;
+      if ((event.target as Element | null)?.closest("[data-nav]")) return;
+      touch = event.pointerType !== "mouse";
       dragging = true;
       moved = 0;
       goal = null;
@@ -547,6 +578,11 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
       moved = Math.max(moved, Math.abs(dx), Math.abs(dy));
       lastMove = event.clientX - lastX;
       lastX = event.clientX;
+      if (touch) {
+        if (Math.abs(dy) > Math.abs(dx)) return;
+        pos = startPos - dx / step;
+        return;
+      }
       pos = startPos - dx / (step * 1.6);
       tilt = clamp(startTilt - dy * 0.03, -14, 14);
     });
@@ -556,6 +592,20 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
       dragging = false;
       stage.classList.remove("is-dragging");
       if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
+      if (touch && moved > 6) {
+        const dx = event.clientX - startX;
+        const dy = event.clientY - startY;
+        velocity = 0;
+        if (Math.abs(dy) > Math.abs(dx)) {
+          if (dy < -60) openFooter();
+          goal = Math.round(startPos);
+          return;
+        }
+        let target = Math.round(pos);
+        if (target === Math.round(startPos) && (Math.abs(lastMove) > 2 || Math.abs(dx) > step * 0.25)) target += dx < 0 ? 1 : -1;
+        goal = target;
+        return;
+      }
       velocity = -lastMove / (step * 1.6);
       if (moved > 6) return;
       const card = (document.elementFromPoint(event.clientX, event.clientY) as Element | null)?.closest<HTMLElement>("[data-card]");
@@ -584,6 +634,14 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
       } else if (event.key === "Enter" && deck[active]?.dataset.href) {
         goFrom(deck[active], deck[active].dataset.href ?? "");
       }
+    });
+
+    const open = show.querySelector<HTMLButtonElement>("[data-open]");
+    show.querySelector("[data-prev]")?.addEventListener("click", () => goTo(Math.round(goal ?? pos) - 1));
+    show.querySelector("[data-next]")?.addEventListener("click", () => goTo(Math.round(goal ?? pos) + 1));
+    open?.addEventListener("click", () => {
+      const card = deck[active];
+      if (card?.dataset.href) goFrom(card, card.dataset.href);
     });
 
     filters.forEach((filter) => filter.addEventListener("click", () => setFilter(filter.dataset.filter ?? "all")));

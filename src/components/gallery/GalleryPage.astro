@@ -138,9 +138,14 @@ const filters = [{ key: "all", label: copy.all }, ...galleryTypes.map((type) => 
     transition: color 0.3s ease;
   }
 
-  .gal__filter:hover,
   .gal__filter.is-active {
     color: var(--color-black);
+  }
+
+  @media (hover: hover) {
+    .gal__filter:hover {
+      color: var(--color-black);
+    }
   }
 
   .gal__foot {

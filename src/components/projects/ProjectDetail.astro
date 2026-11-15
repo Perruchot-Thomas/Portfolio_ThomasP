@@ -274,8 +274,10 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
     transition: color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .work__next:hover .work__next-name {
-    color: var(--color-grey);
+  @media (hover: hover) {
+    .work__next:hover .work__next-name {
+      color: var(--color-grey);
+    }
   }
 
   .work__rail {
@@ -410,9 +412,6 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
       overflow-wrap: anywhere;
     }
 
-    .work .work__next:hover .work__next-name {
-      color: var(--color-white);
-    }
 
     .work__rail {
       display: none;
