@@ -14,12 +14,32 @@ const ui = useUi(lang);
 <header class="pointer-events-none fixed inset-x-0 top-0 z-50 text-white mix-blend-difference flex items-start justify-between px-5 py-4 md:px-7 md:py-6">
   <a
     href={localePath(lang)}
-    class="pointer-events-auto text-small font-normal transition-opacity hover:opacity-60 max-md:-my-[13px] max-md:py-[13px] max-md:pr-4"
+    class="header__logo pointer-events-auto transition-opacity hover:opacity-60 max-md:-my-[13px] max-md:py-[13px] max-md:pr-4"
+    aria-label={`sidus, ${ui.nav.home}`}
   >
-    <span data-scramble>{ui.handle}</span>
+    <span class="header__mark" aria-hidden="true"></span>
   </a>
   <div class="pointer-events-auto flex items-center gap-6">
     <slot />
     <LangSwitch lang={lang} />
   </div>
 </header>
+
+<style>
+  .header__mark {
+    display: block;
+    width: 4.6rem;
+    aspect-ratio: 1756 / 1587;
+    margin-top: -0.9rem;
+    background: currentColor;
+    -webkit-mask: url("/logo.svg") center / contain no-repeat;
+    mask: url("/logo.svg") center / contain no-repeat;
+  }
+
+  @media (max-width: 767px) {
+    .header__mark {
+      width: 3.6rem;
+      margin-top: -0.5rem;
+    }
+  }
+</style>
