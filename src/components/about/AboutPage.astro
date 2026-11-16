@@ -52,7 +52,7 @@ const offsets = [
 const items = await Promise.all(
   photos.map(async (source, index) => {
     const [x, y, turn] = offsets[index % offsets.length];
-    const optimized = await getImage({ src: source, width: 900, format: "webp", quality: 78 });
+    const optimized = await getImage({ src: source, width: 640, format: "webp", quality: 74 });
     const image = { src: optimized.src, width: Number(optimized.attributes.width), height: Number(optimized.attributes.height) };
     return { image, x, y, turn };
   })

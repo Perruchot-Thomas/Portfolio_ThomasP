@@ -2,15 +2,22 @@ import type { Lang } from "./i18n";
 
 type Localized = Record<Lang, string>;
 
-export const host = {
-  name: "",
-  address: "",
-  url: ""
+export const host: Record<Lang, { name: string; address: string; url: string }> = {
+  fr: {
+    name: "serveur mis à disposition par l’IUT Nord Franche-Comté (université Marie et Louis Pasteur), département MMI, 4 place Tharradin, 25200 Montbéliard, france.",
+    address: "hébergement physique : SERVERD SAS, 10 rue de Penthièvre, 75008 Paris, france.",
+    url: "nom de domaine : Infomaniak Network SA, rue Eugène-Marziano 25, 1227 Genève, suisse."
+  },
+  en: {
+    name: "server provided by the IUT Nord Franche-Comté (université Marie et Louis Pasteur), MMI department, 4 place Tharradin, 25200 Montbéliard, france.",
+    address: "physical hosting: SERVERD SAS, 10 rue de Penthièvre, 75008 Paris, france.",
+    url: "domain name: Infomaniak Network SA, rue Eugène-Marziano 25, 1227 Geneva, switzerland."
+  }
 };
 
 export const legalUpdated: Localized = {
-  fr: "mis à jour le 11 novembre 2026",
-  en: "updated on 11 november 2026"
+  fr: "mis à jour le 16 novembre 2026",
+  en: "updated on 16 november 2026"
 };
 
 export const legalSections: { label: Localized; text: Localized }[] = [
@@ -45,8 +52,8 @@ export const legalSections: { label: Localized; text: Localized }[] = [
   {
     label: { fr: "(cookies)", en: "(cookies)" },
     text: {
-      fr: "aucun cookie ni outil de mesure d’audience. le site garde seulement dans votre navigateur la vue choisie sur l’accueil et l’état de l’animation d’entrée. ces informations ne quittent jamais votre appareil.",
-      en: "no cookies and no analytics. the website only keeps in your browser the view chosen on the home page and the state of the intro animation. this information never leaves your device."
+      fr: "aucun cookie ni outil de mesure d’audience. le site garde seulement, le temps de la visite, l’état de l’animation d’entrée et le nom de la page vers laquelle vous allez, pour la transition. ces informations restent dans votre navigateur et disparaissent quand vous fermez l’onglet.",
+      en: "no cookies and no analytics. for the length of your visit, the website only keeps the state of the intro animation and the name of the page you are going to, for the transition. this information stays in your browser and is erased when you close the tab.",
     }
   },
   {

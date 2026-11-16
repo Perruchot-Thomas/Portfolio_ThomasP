@@ -7,7 +7,7 @@
   --color-*: initial;
   --color-black: #000000;
   --color-white: #ffffff;
-  --color-grey: #8c8c8c;
+  --color-grey: #767676;
   --color-grey-light: #bec2c8;
   --color-blue: #2340f5;
   --color-blue-soft: #6085d6;
@@ -51,6 +51,11 @@
 }
 
 @layer base {
+  :focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 4px;
+  }
+
   html.has-cursor,
   html.has-cursor *,
   html.has-cursor *::before,

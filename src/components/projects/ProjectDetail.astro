@@ -20,7 +20,18 @@ const next = projects[(index + 1) % projects.length];
 const count = `(${pad(index + 1)}/${pad(projects.length)})`;
 const name = project.name;
 let figure = 0;
-const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...frame, number: pad(++figure) } : { ...frame, number: "" }));
+const describe = (position: number) => {
+  if (position === 0) return lang === "fr" ? "couverture" : "cover";
+  const after = project.frames[position + 1];
+  const before = project.frames.slice(0, position).reverse().find((item) => item.kind === "note");
+  const note = after?.kind === "note" ? after : before;
+  return note?.kind === "note" ? note.label[lang].replace(/[()]/g, "") : "";
+};
+const frames = project.frames.map((frame, position) =>
+  frame.kind === "image"
+    ? { ...frame, number: pad(++figure), alt: [name, describe(position)].filter(Boolean).join(", "), sizes: `(max-width: 767px) 92vw, ${Math.round((64 * frame.image.width) / frame.image.height)}vh` }
+    : { ...frame, number: "", alt: "", sizes: "" }
+);
 ---
 
 <article class="work" data-work>
@@ -84,10 +95,10 @@ const frames = project.frames.map((frame) => (frame.kind === "image" ? { ...fram
             <figure class="work__frame" data-frame>
               {frame.href ? (
                 <a class="work__link" href={frame.href} target="_blank" rel="noopener noreferrer" data-label={`[ ${copy.site} ↗ ]`}>
-                  <Image src={frame.image} alt={name} width={1600} format="webp" quality={82} loading={frame.number === "01" ? "eager" : "lazy"} draggable="false" />
+                  <Image src={frame.image} alt={frame.alt} widths={[480, 800, 1200, 1600]} sizes={frame.sizes} format="webp" quality={82} loading={frame.number === "01" ? "eager" : "lazy"} draggable="false" />
                 </a>
               ) : (
-                <Image src={frame.image} alt={name} width={1600} format="webp" quality={82} loading={frame.number === "01" ? "eager" : "lazy"} draggable="false" />
+                <Image src={frame.image} alt={frame.alt} widths={[480, 800, 1200, 1600]} sizes={frame.sizes} format="webp" quality={82} loading={frame.number === "01" ? "eager" : "lazy"} draggable="false" />
               )}
               <figcaption class="work__small work__grey">
                 ({copy.figure} {frame.number})

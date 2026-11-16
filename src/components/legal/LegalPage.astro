@@ -10,7 +10,7 @@ interface Props {
 const { lang } = Astro.props;
 const ui = useUi(lang);
 const copy = ui.footer;
-const hosting = host.name ? [host.name, host.address, host.url].filter(Boolean).join("\n") : copy.legalPending;
+const hosting = [host[lang].name, host[lang].address, host[lang].url].filter(Boolean).join("\n") || copy.legalPending;
 const sections = [
   ...legalSections.slice(0, 2).map((section) => ({ label: section.label[lang], text: section.text[lang] })),
   { label: copy.legalHost, text: hosting },

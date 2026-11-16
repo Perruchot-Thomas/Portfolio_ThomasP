@@ -42,14 +42,14 @@ const en = {
       "VISUAL EXPERIMENTATION,",
       "AND BOLD TYPOGRAPHY."
     ],
-    tools: ["Affinity", "Figma", "Photoshop", "Cavalery"]
+    tools: ["Affinity", "Figma", "Photoshop", "Cavalry"]
   },
   projects: {
     blurb: "how i build my projects, from first sketch to final texture and beyond.",
     name: "Thomas Perruchot",
     role: ", Graphic Designer and MMI student",
     focus: "My work focuses on art direction, textural identity, visual experimentation and bold typography.",
-    tools: ["Affinity", "Photoshop", "Cavalery", "Figma"],
+    tools: ["Affinity", "Photoshop", "Cavalry", "Figma"],
     open: "I'm open for internships and collaborations.",
     go: "go to my page",
     archives: "Archives",
@@ -281,14 +281,14 @@ const fr: typeof en = {
       "L'EXPÉRIMENTATION VISUELLE,",
       "ET LA TYPOGRAPHIE AUDACIEUSE."
     ],
-    tools: ["Affinity", "Figma", "Photoshop", "Cavalery"]
+    tools: ["Affinity", "Figma", "Photoshop", "Cavalry"]
   },
   projects: {
     blurb: "comment je construis mes projets, du premier croquis à la texture finale, et au-delà.",
     name: "Thomas Perruchot",
     role: ", graphiste et étudiant en MMI",
     focus: "Mon travail se concentre sur la direction artistique, l'identité texturale, l'expérimentation visuelle et la typographie affirmée.",
-    tools: ["Affinity", "Photoshop", "Cavalery", "Figma"],
+    tools: ["Affinity", "Photoshop", "Cavalry", "Figma"],
     open: "Je suis ouvert aux stages et aux collaborations.",
     go: "voir ma page",
     archives: "Archives",
@@ -406,7 +406,7 @@ const fr: typeof en = {
   },
   aboutPage: {
     title: "À propos",
-    words: ["(JE SUIS", "THOMAS", "PERRUCHOT", "(GRAPHISTE", "À PARIS)"],
+    words: ["(JE SUIS", "THOMAS", "PERRUCHOT", "(GRAPHISTE", "À MONTBÉLIARD)"],
     presents: ["Thomas Perruchot", "présente seize ans d’images, 2010—2026"],
     tools: "(outils)",
     role: ["Graphiste & étudiant en MMI", "Direction artistique, identité texturale,", "expérimentation visuelle & typographie affirmée"],

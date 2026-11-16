@@ -44,7 +44,7 @@ const networks = socials.filter((social) => social.id !== "email");
   </div>
 
   <form class="contact__form" data-form data-to={email?.label ?? ""} data-subject={copy.subject} data-opening={copy.opening} data-endpoint={contactForm.endpoint} data-key={contactForm.key} data-sending={copy.sending} data-sent={copy.sent} data-error={copy.error} novalidate>
-    <input class="contact__trap" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
+    <input class="contact__trap" type="checkbox" name="botcheck" tabindex="-1" aria-hidden="true" />
     <p class="contact__small contact__grey contact__status-line">{ui.showcase.status[1]}</p>
 
     <label class="contact__field" data-reveal>
@@ -184,6 +184,10 @@ const networks = socials.filter((social) => social.id !== "email");
     outline: none;
     resize: none;
     transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .contact__input:focus-visible {
+    box-shadow: 0 1px 0 0 var(--color-black);
   }
 
   .contact__input::placeholder {
