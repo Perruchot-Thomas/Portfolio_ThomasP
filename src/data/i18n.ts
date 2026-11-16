@@ -3,6 +3,14 @@ export type Lang = (typeof languages)[number];
 export const defaultLang: Lang = "en";
 
 const en = {
+  seo: {
+    home: "Portfolio of Thomas Perruchot (sidus), graphic designer and MMI student in Montbéliard: covers, posters, t-shirts and websites. Looking for an internship in graphic design and art direction.",
+    about: "Who is Thomas Perruchot: graphic designer and MMI student, from drawing to art direction. Path, tools and internship search.",
+    contact: "Contact Thomas Perruchot (sidus) for an internship or a collaboration in graphic design and art direction.",
+    gallery: "Art gallery of Thomas Perruchot: drawings, paintings, pastels and digital works.",
+    legal: "Legal notice of the sidus website: publisher, hosting, intellectual property and personal data.",
+    project: "project by Thomas Perruchot (sidus)"
+  },
   handle: "@sidus",
   menuLabel: "Menu",
   nav: {
@@ -234,6 +242,14 @@ const en = {
 };
 
 const fr: typeof en = {
+  seo: {
+    home: "Portfolio de Thomas Perruchot (sidus), graphiste et étudiant MMI à Montbéliard : covers, affiches, t-shirts et sites web. En recherche de stage en graphisme et direction artistique.",
+    about: "Qui est Thomas Perruchot : graphiste et étudiant MMI, du dessin à la direction artistique. Parcours, outils et recherche de stage.",
+    contact: "Contacter Thomas Perruchot (sidus) pour un stage ou une collaboration en graphisme et direction artistique.",
+    gallery: "Galerie artistique de Thomas Perruchot : dessins, peintures, pastels et œuvres digitales.",
+    legal: "Mentions légales du site sidus : éditeur, hébergement, propriété intellectuelle et données personnelles.",
+    project: "projet de Thomas Perruchot (sidus)"
+  },
   handle: "@sidus",
   menuLabel: "Menu",
   nav: {

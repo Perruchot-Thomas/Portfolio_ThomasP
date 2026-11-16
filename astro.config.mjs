@@ -3,6 +3,7 @@ import node from "@astrojs/node";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
+  site: "https://sidus.tperruchot.fr",
   output: "server",
   adapter: node({
     mode: "standalone"

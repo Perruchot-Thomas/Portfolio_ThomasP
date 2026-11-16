@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { languages, defaultLang, ui } from "../data/i18n";
 import type { Lang } from "../data/i18n";
 import Header from "../components/layout/Header.astro";
 import MenuOverlay from "../components/layout/MenuOverlay.astro";
@@ -14,9 +15,17 @@ interface Props {
   theme?: "white" | "blue" | "orange";
   cta?: boolean;
   footer?: boolean;
+  image?: string;
+  type?: "website" | "article";
+  noindex?: boolean;
 }
 
-const { lang, title = "sidus - Thomas Perruchot", description = "Portfolio de Thomas Perruchot, graphiste et étudiant MMI.", theme = "white", footer = true } = Astro.props;
+const { lang, title = "sidus - Thomas Perruchot", description = ui[lang].seo.home, theme = "white", footer = true, image = "/og.jpg", type = "website", noindex = false } = Astro.props;
+const site = Astro.site ?? new URL("https://sidus.tperruchot.fr");
+const rest = Astro.url.pathname.replace(/^\/(en|fr)(?=\/|$)/, "").replace(/\/+$/, "");
+const pageUrl = (code: Lang) => new URL(`/${code}${rest || "/"}`, site).href;
+const canonical = pageUrl(lang);
+const ogImage = new URL(image, site).href;
 const titleStyle =
   lang === "fr" ? "--title-fit:21.61vw;--title-cap:18.7svh;--about-length:4.748;--proj-length:4.1274" : "--title-fit:18.76vw;--title-cap:65svh;--about-length:3.2085;--proj-length:4.7544";
 ---
@@ -27,6 +36,18 @@ const titleStyle =
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {!noindex && languages.map((code) => <link rel="alternate" hreflang={code} href={pageUrl(code)} />)}
+    {!noindex && <link rel="alternate" hreflang="x-default" href={pageUrl(defaultLang)} />}
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="sidus" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={lang === "fr" ? "fr_FR" : "en_US"} />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.ico?v=2" sizes="48x48" />
     <link rel="icon" href="/favicon-32.png?v=2" type="image/png" sizes="32x32" />
     <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />

@@ -2,13 +2,14 @@
 export const prerender = true;
 import Layout from "../../layouts/Layout.astro";
 import ContactForm from "../../components/contact/ContactForm.astro";
-import { getLang, staticLangPaths } from "../../lib/i18n";
+import { getLang, staticLangPaths, useUi } from "../../lib/i18n";
 
 export const getStaticPaths = staticLangPaths;
 
 const lang = getLang(Astro.params.lang);
+const ui = useUi(lang);
 ---
 
-<Layout lang={lang} cta={false}>
+<Layout lang={lang} title={`${ui.nav.contact} - sidus`} description={ui.seo.contact} cta={false}>
   <ContactForm lang={lang} />
 </Layout>

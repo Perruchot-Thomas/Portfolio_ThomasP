@@ -4,7 +4,8 @@ import Layout from "../../../layouts/Layout.astro";
 import ProjectDetail from "../../../components/projects/ProjectDetail.astro";
 import { languages } from "../../../data/i18n";
 import { getProjects } from "../../../data/projects";
-import { getLang } from "../../../lib/i18n";
+import { getLang, useUi } from "../../../lib/i18n";
+import { getImage } from "astro:assets";
 
 export async function getStaticPaths() {
   const projects = (await getProjects()).filter((project) => project.home);
@@ -18,8 +19,11 @@ const project = projects.find((item) => item.slug === Astro.params.slug);
 if (!project) {
   return Astro.redirect(`/${lang}`);
 }
+const ui = useUi(lang);
+const share = await getImage({ src: project.cover, width: 1200, format: "jpg", quality: 80 });
+const description = `${project.name}, ${ui.seo.project} — ${project.vision[lang]}`;
 ---
 
-<Layout lang={lang} title={`${project.name} - sidus`} cta={false} footer={false}>
+<Layout lang={lang} title={`${project.name} - sidus`} description={description} image={share.src} type="article" cta={false} footer={false}>
   <ProjectDetail lang={lang} project={project} projects={projects} />
 </Layout>
