@@ -50,20 +50,20 @@ const frames = project.frames.map((frame, position) =>
       <div class="work__group">
         <p class="work__small work__grey">{contextLabel}</p>
         <ul class="work__small work__list">
-          {project.context[lang].split(" / ").map((item) => <li>× {item}</li>)}
+          {project.context[lang].split(" / ").map((item) => <li>• {item}</li>)}
         </ul>
       </div>
       <div class="work__group">
         <p class="work__small work__grey">{toolsLabel}</p>
-        <p class="work__small">× {project.tools}</p>
+        <p class="work__small">• {project.tools}</p>
       </div>
       <div class="work__group">
         <p class="work__small work__grey">{byLabel}</p>
-        <p class="work__small">× sidus</p>
+        <p class="work__small">• sidus</p>
       </div>
       <div class="work__group">
         <p class="work__small work__grey">{copy.year}</p>
-        <p class="work__small">× {project.year}</p>
+        <p class="work__small">• {project.year}</p>
       </div>
     </div>
 
