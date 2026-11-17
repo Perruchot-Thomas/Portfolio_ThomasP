@@ -5,21 +5,21 @@ home: true
 year: "2026"
 tools: "photoshop"
 context:
-  fr: "design textile / t-shirt"
-  en: "apparel design / t-shirt"
+  fr: "design textile / t-shirt / ma marque de vêtements"
+  en: "apparel design / t-shirt / my clothing brand"
 vision:
   fr: "une étoile découpée dans un drapeau américain usé, signée d’une écriture fine : la douceur posée sur quelque chose de brut."
   en: "a star cut out of a worn american flag, signed with a delicate script: softness placed on something raw."
 role:
   title:
-    fr: "design textile et communication"
-    en: "textile design and communication"
+    fr: "design textile, shooting et communication"
+    en: "textile design, photo shoot and communication"
   brief:
-    fr: "créer un t-shirt qui allie le brut et le délicat, puis le faire exister : visuels de présentation et affiche de lancement pour les réseaux."
-    en: "create a t-shirt that combines the raw and the delicate, then make it exist: presentation visuals and a launch poster for social media."
+    fr: "une pièce pour ma propre marque de vêtements : un t-shirt qui allie le brut et le délicat, à créer puis à promouvoir avec un shooting et une affiche de lancement pour les réseaux."
+    en: "a piece for my own clothing brand: a t-shirt that combines the raw and the delicate, to design then promote with a photo shoot and a launch poster for social media."
   done:
-    fr: "le motif (étoile taillée dans un drapeau délavé, vis, script « pretty human »), ses variantes de couleur et l’affiche « new drop » avec l’adresse de mon site, réalisée à partir du shooting."
-    en: "the graphic (a star cut from a faded flag, screws, the “pretty human” script), its colour variants and the “new drop” poster with my website address, made from the shoot."
+    fr: "le motif (étoile taillée dans un drapeau délavé, vis, script « pretty human ») et ses variantes de couleur, le shooting pour la promotion, puis l’affiche « new drop » avec l’adresse de mon site."
+    en: "the graphic (a star cut from a faded flag, screws, the “pretty human” script) and its colour variants, the photo shoot for the promotion, then the “new drop” poster with my website address."
 cover: ./cover.jpg
 frames:
   - image: ./cover.jpg
@@ -42,8 +42,8 @@ frames:
       fr: "(posté sur les réseaux)"
       en: "(posted on social media)"
     text:
-      fr: "pour annoncer la sortie, j’ai réalisé une affiche « new drop » à partir du shooting, avec l’adresse de mon site, pensée pour être postée sur les réseaux."
-      en: "to announce the release, i made a “new drop” poster from the shoot, with my website address, designed to be posted on social media."
+      fr: "pour annoncer la sortie, j’ai réalisé le shooting, puis une affiche « new drop » avec l’adresse de mon site, pensée pour être postée sur les réseaux."
+      en: "to announce the release, i did the photo shoot, then made a “new drop” poster with my website address, designed to be posted on social media."
   - image: ./reseaux-porte-01.jpg
   - label:
       fr: "(porté)"

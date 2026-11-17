@@ -6,8 +6,8 @@ year: "2026"
 tools: "figma, astro, three.js"
 site: "https://tiktak.tperruchot.fr"
 context:
-  fr: "site e-commerce / configurateur de montres en 3D"
-  en: "e-commerce website / 3D watch configurator"
+  fr: "projet de cours / site e-commerce / configurateur de montres en 3D"
+  en: "course project / e-commerce website / 3D watch configurator"
 vision:
   fr: "un site doux et tactile où l’on compose sa montre pièce par pièce, comme on la tiendrait dans la main."
   en: "a soft, tactile website where you build your watch piece by piece, as if you were holding it in your hand."
@@ -16,8 +16,8 @@ role:
     fr: "conception, direction artistique et développement"
     en: "design, art direction and development"
   brief:
-    fr: "inventer une marque de montres et son site : un configurateur 3d où l’on compose sa montre pièce par pièce, avec une identité douce et tactile."
-    en: "invent a watch brand and its website: a 3d configurator where you build your watch piece by piece, with a soft, tactile identity."
+    fr: "un projet de cours : inventer une marque de montres et son site, avec un configurateur 3d où l’on compose sa montre pièce par pièce, dans une identité douce et tactile."
+    en: "a course project: invent a watch brand and its website, with a 3d configurator where you build your watch piece by piece, in a soft, tactile identity."
   done:
     fr: "la marque (logo, couleurs, typographies, pictogrammes), les maquettes figma, puis le site en ligne : développement avec astro, rendu 3d de la montre avec three.js et composition par description grâce à l’ia."
     en: "the brand (logo, colours, typefaces, icons), the figma mockups, then the live website: development with astro, the 3d rendering of the watch with three.js and building a watch from a description with ai."
