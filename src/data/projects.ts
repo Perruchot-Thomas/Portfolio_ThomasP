@@ -17,6 +17,7 @@ export interface Project {
   site?: string;
   context: Localized;
   vision: Localized;
+  role?: { title: Localized; brief: Localized; done: Localized };
   cover: ImageMetadata;
   frames: Frame[];
 }
@@ -36,6 +37,7 @@ export const getProjects = async (): Promise<Project[]> => {
       site: data.site,
       context: data.context,
       vision: data.vision,
+      role: data.role,
       cover: data.cover,
       frames: data.frames.map((frame): Frame => ("image" in frame ? { kind: "image", image: frame.image, href: frame.href } : { kind: "note", label: frame.label, text: frame.text }))
     }));

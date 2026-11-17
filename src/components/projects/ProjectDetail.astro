@@ -27,6 +27,7 @@ const describe = (position: number) => {
   const note = after?.kind === "note" ? after : before;
   return note?.kind === "note" ? note.label[lang].replace(/[()]/g, "") : "";
 };
+const roleFrame = project.role ? { kind: "role" as const } : null;
 const frames = project.frames.map((frame, position) =>
   frame.kind === "image"
     ? { ...frame, number: pad(++figure), alt: [name, describe(position)].filter(Boolean).join(", "), sizes: `(max-width: 767px) 92vw, ${Math.round((64 * frame.image.width) / frame.image.height)}vh` }
@@ -57,6 +58,14 @@ const frames = project.frames.map((frame, position) =>
         <p class="work__small work__grey">{toolsLabel}</p>
         <p class="work__small">• {project.tools}</p>
       </div>
+      {
+        project.role && (
+          <div class="work__group work__group--wide">
+            <p class="work__small work__grey">{copy.role}</p>
+            <p class="work__small">• {project.role.title[lang]}</p>
+          </div>
+        )
+      }
       <div class="work__group">
         <p class="work__small work__grey">{byLabel}</p>
         <p class="work__small">• sidus</p>
@@ -90,8 +99,23 @@ const frames = project.frames.map((frame, position) =>
   <div class="work__view" data-view>
     <div class="work__track" data-track>
       {
-        frames.map((frame) =>
-          frame.kind === "image" ? (
+        (roleFrame ? [frames[0], roleFrame, ...frames.slice(1)] : frames).map((frame) =>
+          frame.kind === "role" ? (
+            <div class="work__note work__note--role">
+              <div class="work__group">
+                <p class="work__small work__grey">{copy.role}</p>
+                <p class="work__role-title">{project.role!.title[lang]}</p>
+              </div>
+              <div class="work__group">
+                <p class="work__small work__grey">{copy.brief}</p>
+                <p class="work__small work__text">{project.role!.brief[lang]}</p>
+              </div>
+              <div class="work__group">
+                <p class="work__small work__grey">{copy.done}</p>
+                <p class="work__small work__text">{project.role!.done[lang]}</p>
+              </div>
+            </div>
+          ) : frame.kind === "image" ? (
             <figure class="work__frame" data-frame>
               {frame.href ? (
                 <a class="work__link" href={frame.href} target="_blank" rel="noopener noreferrer" data-label={`[ ${copy.site} ↗ ]`}>
@@ -184,6 +208,26 @@ const frames = project.frames.map((frame, position) =>
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+  }
+
+  .work__group--wide {
+    grid-column: 1 / -1;
+  }
+
+  .work__role-title {
+    margin: 0;
+    font-size: var(--text-mid);
+    line-height: 1;
+    font-weight: var(--font-weight-regular);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .work__note--role {
+    width: 26em;
+    gap: 2.4svh;
   }
 
   .work__meta {
@@ -389,6 +433,16 @@ const frames = project.frames.map((frame, position) =>
     .work__frame figcaption {
       position: static;
       margin-top: 0.8em;
+    }
+
+    .work__role-title {
+      font-size: var(--text-order);
+      line-height: var(--text-order--line-height);
+    }
+
+    .work__note--role {
+      width: auto;
+      gap: 1.6rem;
     }
 
     .work__note {

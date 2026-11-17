@@ -10,6 +10,16 @@ context:
 vision:
   fr: "une identité texturale brute qui puise dans l’esthétique de la rue pour amplifier un message radical."
   en: "a raw textural identity using street aesthetics to amplify a radical message."
+role:
+  title:
+    fr: "direction artistique et réalisation graphique"
+    en: "art direction and graphic design"
+  brief:
+    fr: "une affiche sans commande, portée par un message de révolte populaire : brute, urbaine et lisible comme un appel à l’action."
+    en: "a self-initiated poster carrying a message of popular revolt: raw, urban and readable as a call to action."
+  done:
+    fr: "le moodboard, la direction artistique et toute la mise en page sur affinity : phrase inversée et floutée en arrière-plan, tags de rue, titre central volontairement peu lisible et fond granuleux."
+    en: "the moodboard, the art direction and the whole layout in affinity: the sentence flipped and blurred in the background, street tags, a deliberately hard-to-read central title and a grainy background."
 cover: ./cover.jpg
 frames:
   - image: ./cover.jpg

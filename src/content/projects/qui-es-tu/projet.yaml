@@ -10,6 +10,16 @@ context:
 vision:
   fr: "des visages découpés dans des formes noires qui posent une question simple : qui es-tu vraiment ?"
   en: "faces cut out of black shapes asking one simple question: who are you, really?"
+role:
+  title:
+    fr: "direction artistique et collage"
+    en: "art direction and collage"
+  brief:
+    fr: "une expérimentation autour de l’identité : briser l’image qu’on se fait des gens avec des visages low poly, dans l’esprit des jeux ps1."
+    en: "an experiment around identity: breaking the image we have of people with low poly faces, in the spirit of ps1 games."
+  done:
+    fr: "le moodboard et le collage sur photoshop : visages découpés en formes noires anguleuses, fond fissuré et question « who are you » éclatée en trois mots."
+    en: "the moodboard and the collage in photoshop: faces cut into angular black shapes, a cracked background and the question “who are you” split into three words."
 cover: ./cover.jpg
 frames:
   - image: ./cover.jpg

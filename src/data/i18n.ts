@@ -146,6 +146,9 @@ const en = {
     detail: "(detail",
     next: "next project",
     year: "(year)",
+    role: "(my role)",
+    brief: "(the brief)",
+    done: "(what i made)",
     figure: "fig."
   },
   projectsPage: {
@@ -385,6 +388,9 @@ const fr: typeof en = {
     detail: "(détail",
     next: "projet suivant",
     year: "(année)",
+    role: "(mon rôle)",
+    brief: "(l’attendu)",
+    done: "(ce que j’ai réalisé)",
     figure: "fig."
   },
   projectsPage: {

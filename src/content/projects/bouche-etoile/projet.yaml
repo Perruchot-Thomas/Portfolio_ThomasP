@@ -10,6 +10,16 @@ context:
 vision:
   fr: "une bouche grande ouverte qui avale une étoile, entre cri et chant."
   en: "a wide open mouth swallowing a star, somewhere between a scream and a song."
+role:
+  title:
+    fr: "direction artistique et création de la cover"
+    en: "art direction and cover design"
+  brief:
+    fr: "une cover musicale dans un univers gothique : une bouche grande ouverte, entre cri et chant, qui avale une étoile."
+    en: "a music cover in a gothic universe: a wide-open mouth, between a scream and a song, swallowing a star."
+  done:
+    fr: "le moodboard et la cover sur photoshop : bouche teintée de violet avec ses crocs, texture de dentelle en fond et étoile argentée en relief, mon signe."
+    en: "the moodboard and the cover in photoshop: a purple-tinted mouth with its fangs, a lace-like texture in the background and a silver relief star, my signature."
 cover: ./cover.jpg
 frames:
   - image: ./cover.jpg

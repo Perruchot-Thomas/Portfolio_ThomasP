@@ -18,6 +18,7 @@ const projects = defineCollection({
       site: z.string().optional(),
       context: localized,
       vision: localized,
+      role: z.object({ title: localized, brief: localized, done: localized }).optional(),
       cover: image(),
       frames: z.array(z.union([z.object({ image: image(), href: z.string().optional() }), z.object({ label: localized, text: localized })]))
     })

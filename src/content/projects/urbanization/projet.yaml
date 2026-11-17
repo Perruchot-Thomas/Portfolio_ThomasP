@@ -10,6 +10,16 @@ context:
 vision:
   fr: "une collision graphique entre une nature luxuriante et l’intrusion brutale de la signalétique urbaine."
   en: "a graphic collision between a lush natural environment and the brutal intrusion of urban signage."
+role:
+  title:
+    fr: "direction artistique et création de l’affiche"
+    en: "art direction and poster design"
+  brief:
+    fr: "une affiche sur l’urbanisation : la nature luxuriante face à l’intrusion brutale de la signalétique, avec l’influence du japon et de miyazaki."
+    en: "a poster about urbanisation: lush nature facing the brutal intrusion of road signs, influenced by japan and miyazaki."
+  done:
+    fr: "le moodboard et l’affiche sur affinity : texte vertical en clin d’œil à l’écriture japonaise, poteaux et feux rouges comme frontière, formes circulaires comme des bulles arrêtées dans le temps."
+    en: "the moodboard and the poster in affinity: vertical text nodding to japanese writing, poles and red lights as a border, circular shapes like bubbles frozen in time."
 cover: ./cover.jpg
 frames:
   - image: ./cover.jpg

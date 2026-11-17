@@ -10,6 +10,16 @@ context:
 vision:
   fr: "un cerf assis dans un bus, perdu entre la forêt et la ville : une anomalie qui interroge."
   en: "a deer sitting on a bus, lost between the forest and the city: an anomaly that raises questions."
+role:
+  title:
+    fr: "direction artistique et photomontage"
+    en: "art direction and photo editing"
+  brief:
+    fr: "une cover qui interroge : un animal sauvage dans un décor qui n’est pas le sien, avec une atmosphère froide et irréelle."
+    en: "a cover that raises questions: a wild animal in a setting that is not its own, with a cold, unreal atmosphere."
+  done:
+    fr: "le moodboard, puis le photomontage complet sur photoshop : décor de bus et de forêt en couches de gris, cerf en aplat blanc et silhouette qui se défait en caractères ascii."
+    en: "the moodboard, then the whole photo composite in photoshop: a bus and forest setting in layers of grey, the deer as a flat white shape and a silhouette breaking down into ascii characters."
 cover: ./cover.jpg
 frames:
   - image: ./cover.jpg

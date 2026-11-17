@@ -84,23 +84,23 @@ const items = await Promise.all(
   <div class="me__area me__area--path">
     <p class="me__small me__grey">{copy.path}</p>
     <ul class="me__small me__list">
-      {steps.map((step) => <li><span class="me__grey">{step.year}</span> {step.label}</li>)}
+      {steps.map((step) => <li>• <span class="me__grey">{step.year}</span> {step.label}</li>)}
     </ul>
   </div>
 
   <div class="me__area me__area--jobs">
     <p class="me__small me__grey">{ui.showcase.jobs[0]}</p>
-    <p class="me__small">{ui.showcase.jobs[1]}</p>
+    <p class="me__small">• {ui.showcase.jobs[1]}</p>
   </div>
 
   <div class="me__area me__area--tools">
     <p class="me__small me__grey">{copy.tools}</p>
-    <p class="me__small">{ui.intro.tools.join(", ")}</p>
+    <p class="me__small">• {ui.intro.tools.join(", ")}</p>
   </div>
 
   <div class="me__area me__area--status">
     <p class="me__small me__grey">{ui.showcase.status[0]}</p>
-    <p class="me__small">{ui.showcase.status[1]}</p>
+    <p class="me__small">• {ui.showcase.status[1]}</p>
     <a class="me__small me__cta" href={localePath(lang, "/contact")}>[ {ui.footer.internshipLink} ↗ ]</a>
     {email && <a class="me__small me__grey" href={email.href}>{email.label}</a>}
   </div>

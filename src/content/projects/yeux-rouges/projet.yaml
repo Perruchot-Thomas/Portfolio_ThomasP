@@ -10,6 +10,16 @@ context:
 vision:
   fr: "des bandes rouges qui recadrent un regard, comme un écran qui ne montre que l’essentiel."
   en: "red bands reframing a gaze, like a screen that only shows what matters."
+role:
+  title:
+    fr: "direction artistique et création de l’affiche"
+    en: "art direction and poster design"
+  brief:
+    fr: "une affiche monochrome : pousser une seule couleur, le rouge, jusqu’à saturer l’image, à partir de l’effet yeux rouges du flash."
+    en: "a monochrome poster: pushing a single colour, red, until it saturates the image, starting from the red-eye effect of a camera flash."
+  done:
+    fr: "le moodboard et l’affiche sur photoshop et affinity : yeux recadrés en bandeaux, fleur dessinée d’un trait rouge et aplats avec le titre écrit ton sur ton."
+    en: "the moodboard and the poster in photoshop and affinity: eyes cropped into strips, a flower drawn in a thin red line and flat colour blocks with the title written tone on tone."
 cover: ./cover.jpg
 frames:
   - image: ./cover.jpg
