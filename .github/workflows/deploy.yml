@@ -34,7 +34,8 @@ jobs:
             cd /var/www/portfolio/Portfolio_ThomasP
 
             echo "Mise à jour du code..."
-            git pull origin main
+            git fetch origin main
+            git reset --hard origin/main
 
             echo "Installation des dépendances..."
             /home/etudiant/.bun/bin/bun install --frozen-lockfile
