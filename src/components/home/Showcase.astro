@@ -42,7 +42,7 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
 ---
 
 <section class="show" data-show data-start={start}>
-  <h1 class="show__hidden">{ui.handle} — {ui.aboutPage.role.join(" ")}</h1>
+  <h1 class="show__hidden">Thomas Perruchot ({ui.handle}) — {ui.aboutPage.role.join(" ")}</h1>
 
   <div class="show__top">
     <p class="show__small"><span data-current>{pad(start + 1)}</span> / <span data-total>{pad(items.length)}</span> {copy.works}</p>

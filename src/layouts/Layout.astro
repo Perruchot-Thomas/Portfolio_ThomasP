@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { languages, defaultLang, ui } from "../data/i18n";
+import { socials } from "../data/site";
 import type { Lang } from "../data/i18n";
 import Header from "../components/layout/Header.astro";
 import MenuOverlay from "../components/layout/MenuOverlay.astro";
@@ -20,12 +21,42 @@ interface Props {
   noindex?: boolean;
 }
 
-const { lang, title = "sidus - Thomas Perruchot", description = ui[lang].seo.home, theme = "white", footer = true, image = "/og.jpg", type = "website", noindex = false } = Astro.props;
+const { lang, title = lang === "fr" ? "Thomas Perruchot — graphiste & directeur artistique | sidus" : "Thomas Perruchot — graphic designer & art director | sidus", description = ui[lang].seo.home, theme = "white", footer = true, image = "/og.jpg", type = "website", noindex = false } = Astro.props;
 const site = Astro.site ?? new URL("https://sidus.tperruchot.fr");
 const rest = Astro.url.pathname.replace(/^\/(en|fr)(?=\/|$)/, "").replace(/\/+$/, "");
 const pageUrl = (code: Lang) => new URL(`/${code}${rest || "/"}`, site).href;
 const canonical = pageUrl(lang);
 const ogImage = new URL(image, site).href;
+const home = new URL(`/${lang}/`, site).href;
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": new URL("/#thomas-perruchot", site).href,
+      name: "Thomas Perruchot",
+      alternateName: ["sidus", "@sidus"],
+      url: home,
+      image: new URL("/og.jpg", site).href,
+      jobTitle: lang === "fr" ? "Graphiste et directeur artistique" : "Graphic designer and art director",
+      description: ui[lang].seo.home,
+      email: "mailto:sidus.sidus@yahoo.com",
+      address: { "@type": "PostalAddress", addressLocality: "Montbéliard", addressCountry: "FR" },
+      affiliation: { "@type": "CollegeOrUniversity", name: "IUT Nord Franche-Comté" },
+      knowsAbout: ["graphisme", "direction artistique", "identité visuelle", "typographie", "design web"],
+      sameAs: socials.filter((social) => social.href.startsWith("http")).map((social) => social.href)
+    },
+    {
+      "@type": "WebSite",
+      "@id": new URL("/#site", site).href,
+      name: "Thomas Perruchot — sidus",
+      alternateName: "sidus",
+      url: home,
+      inLanguage: lang,
+      author: { "@id": new URL("/#thomas-perruchot", site).href }
+    }
+  ]
+};
 const titleStyle =
   lang === "fr" ? "--title-fit:21.61vw;--title-cap:18.7svh;--about-length:4.748;--proj-length:4.1274" : "--title-fit:18.76vw;--title-cap:65svh;--about-length:3.2085;--proj-length:4.7544";
 ---
@@ -41,7 +72,9 @@ const titleStyle =
     {!noindex && languages.map((code) => <link rel="alternate" hreflang={code} href={pageUrl(code)} />)}
     {!noindex && <link rel="alternate" hreflang="x-default" href={pageUrl(defaultLang)} />}
     <meta property="og:type" content={type} />
-    <meta property="og:site_name" content="sidus" />
+    <meta property="og:site_name" content="Thomas Perruchot — sidus" />
+    <meta name="author" content="Thomas Perruchot" />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
