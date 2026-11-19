@@ -39,16 +39,6 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
         <p class="menu__story-small menu__story-label" data-split>{about[2][0]}</p>
         <p class="menu__story-small menu__story-line" data-split>{about[2][1]}</p>
       </div>
-      <dl class="menu__about" data-about>
-        {
-          about.map(([label, text]) => (
-            <div class="menu__about-row">
-              <dt data-split>{label}</dt>
-              <dd data-split>{text}</dd>
-            </div>
-          ))
-        }
-      </dl>
       <nav class="menu__nav menu__nav--top" aria-label={ui.menuLabel}>
         <ul>
           {
@@ -61,9 +51,6 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
               </li>
             ))
           }
-          <li>
-            <button class="menu__info" type="button" data-about-toggle aria-expanded="false">[ {about[0][0]} ]</button>
-          </li>
         </ul>
       </nav>
       <div class="menu__bottom">
@@ -309,82 +296,10 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
     text-transform: uppercase;
   }
 
-  .menu__info {
-    padding: 0.15em 0.55em;
-    border: 0;
-    background: var(--color-white);
-    color: var(--color-black);
-    font: inherit;
-    font-size: var(--text-small);
-    line-height: var(--text-small--line-height);
-    cursor: pointer;
-    transition:
-      background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-      color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .menu__info[aria-expanded="true"] {
-    background: var(--color-black);
-    color: var(--color-white);
-  }
-
   @media (hover: hover) {
-    .menu__info:hover {
-      background: var(--color-black);
-      color: var(--color-white);
-    }
-
     .menu__handle:hover .menu__pull {
       opacity: 0.55;
     }
-  }
-
-  .menu__about {
-    position: absolute;
-    top: calc(4.5rem + 3em);
-    bottom: calc(2.5rem + 3em);
-    right: 2rem;
-    z-index: 3;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 0.9em;
-    width: min(26em, calc(100% - 4rem));
-    margin: 0;
-    color: var(--color-black);
-    font-size: var(--text-small);
-    line-height: var(--text-small--line-height);
-    visibility: hidden;
-    pointer-events: none;
-  }
-
-  .menu__about.is-open {
-    visibility: visible;
-    pointer-events: auto;
-  }
-
-  .menu__about-row {
-    display: grid;
-    grid-template-columns: 6.5em 1fr;
-    gap: 0.8em;
-  }
-
-  .menu__about-row dt {
-    color: var(--color-grey);
-  }
-
-  .menu__about-row dd {
-    margin: 0;
-  }
-
-  :global(.split-word) {
-    display: inline-block;
-    white-space: nowrap;
-  }
-
-  :global(.split-char) {
-    display: inline-block;
-    will-change: transform, opacity, filter;
   }
 
   .menu__nav--top {
@@ -400,9 +315,23 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
   }
 
   .menu__nav ul {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
     gap: 1.5rem;
+  }
+
+  .menu__nav li {
+    display: flex;
+    justify-content: center;
+  }
+
+  .menu__nav li:first-child {
+    justify-content: flex-start;
+  }
+
+  .menu__nav li:last-child {
+    justify-content: flex-end;
   }
 
   .menu__nav a {
@@ -507,28 +436,13 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
       inset-inline: var(--gutter);
     }
 
-    .menu__nav ul {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0 1.5rem;
-    }
-
     .menu__nav a {
       align-items: center;
       min-height: 44px;
     }
 
     .menu__nav li {
-      display: flex;
       align-items: center;
-    }
-
-    .menu__nav li:nth-child(even) {
-      justify-content: flex-end;
-    }
-
-    .menu__info {
-      min-height: 32px;
     }
 
     .menu__bottom {
@@ -561,19 +475,6 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
       width: min(calc(100vw - var(--gutter) * 2), calc((var(--sheet-h) - 22rem) * var(--ratio)));
     }
 
-    .menu__about {
-      top: auto;
-      right: var(--gutter);
-      bottom: calc(2rem + 88px + 1rem);
-      left: var(--gutter);
-      width: auto;
-      justify-content: flex-end;
-    }
-
-    .menu:has(.menu__about.is-open) .menu__giant {
-      opacity: 0;
-    }
-
     .menu__story {
       left: var(--gutter);
       right: var(--gutter);
@@ -590,6 +491,7 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
 
 <script>
   import { gsap } from "gsap";
+  import { erase, split, write } from "../../lib/write";
   const menu = document.getElementById("menu");
   const sheet = menu?.querySelector<HTMLElement>(".menu__sheet");
   const handle = document.querySelector<HTMLElement>("[data-menu-handle]");
@@ -787,71 +689,7 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
     window.addEventListener("resize", () => render(Math.min(height, maxHeight())));
     shape(height);
 
-    const aboutBox = menu.querySelector<HTMLElement>("[data-about]");
-    const aboutToggle = menu.querySelector<HTMLButtonElement>("[data-about-toggle]");
-    const story = menu.querySelector<HTMLElement>("[data-story]");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const ease = "expo.out";
-
-    const split = (root: Element) => {
-      root.querySelectorAll<HTMLElement>("[data-split]").forEach((block) => {
-        if (block.dataset.done) return;
-        block.dataset.done = "1";
-        const words = (block.textContent ?? "").trim().split(/\s+/);
-        block.textContent = "";
-        words.forEach((word, index) => {
-          const wrap = document.createElement("span");
-          wrap.className = "split-word";
-          Array.from(word).forEach((letter) => {
-            const char = document.createElement("span");
-            char.className = "split-char";
-            char.textContent = letter;
-            wrap.append(char);
-          });
-          block.append(wrap);
-          if (index < words.length - 1) block.append(" ");
-        });
-      });
-    };
-
-    const write = (root: Element, delay = 0) => {
-      split(root);
-      const blocks = Array.from(root.querySelectorAll<HTMLElement>("[data-split]"));
-      const timeline = gsap.timeline({ delay });
-      blocks.forEach((block, index) => {
-        const chars = block.querySelectorAll(".split-char");
-        timeline.fromTo(
-          chars,
-          { opacity: 0, yPercent: 60, filter: "blur(6px)" },
-          { opacity: 1, yPercent: 0, filter: "blur(0px)", duration: reduced ? 0 : 0.9, ease, stagger: reduced ? 0 : 0.014 },
-          index === 0 ? 0 : `<${reduced ? 0 : 0.18}`
-        );
-      });
-      return timeline;
-    };
-
-    const erase = (root: Element) =>
-      gsap.to(root.querySelectorAll(".split-char"), {
-        opacity: 0,
-        yPercent: -50,
-        filter: "blur(6px)",
-        duration: reduced ? 0 : 0.5,
-        ease: "power2.in",
-        stagger: { each: reduced ? 0 : 0.003, from: "start" }
-      });
-
-    if (aboutBox) split(aboutBox);
-    aboutToggle?.addEventListener("click", () => {
-      if (!aboutBox) return;
-      const open = !aboutBox.classList.contains("is-open");
-      aboutToggle.setAttribute("aria-expanded", String(open));
-      if (open) {
-        aboutBox.classList.add("is-open");
-        write(aboutBox);
-      } else {
-        erase(aboutBox).eventCallback("onComplete", () => aboutBox.classList.remove("is-open"));
-      }
-    });
 
     const html = document.documentElement;
     if (html.hasAttribute("data-intro") && story) {

@@ -90,17 +90,21 @@ const items = await Promise.all(
 
   <div class="me__area me__area--jobs">
     <p class="me__small me__grey">{ui.showcase.jobs[0]}</p>
-    <p class="me__small">• {ui.showcase.jobs[1]}</p>
+    <p class="me__small me__item">• {ui.showcase.jobs[1]}</p>
+    <p class="me__small me__grey me__gap">{copy.skillsLabel}</p>
+    <ul class="me__small me__list me__list--skills">
+      {copy.skillsList.map((skill) => <li class="me__item">• {skill}</li>)}
+    </ul>
   </div>
 
   <div class="me__area me__area--tools">
     <p class="me__small me__grey">{copy.tools}</p>
-    <p class="me__small">• {ui.intro.tools.join(", ")}</p>
+    <p class="me__small me__item">• {ui.intro.tools.join(", ")}</p>
   </div>
 
   <div class="me__area me__area--status">
     <p class="me__small me__grey">{ui.showcase.status[0]}</p>
-    <p class="me__small">• {ui.showcase.status[1]}</p>
+    <p class="me__small me__item">• {ui.showcase.status[1]}</p>
     <a class="me__small me__cta" href={localePath(lang, "/contact")}>[ {ui.footer.internshipLink} ↗ ]</a>
     {email && <a class="me__small me__grey" href={email.href}>{email.label}</a>}
   </div>
@@ -159,8 +163,8 @@ const items = await Promise.all(
   .me__area--identity {
     grid-area: identity;
     justify-self: end;
-    max-width: 22em;
-    text-align: right;
+    width: min(22em, 100%);
+    text-align: left;
   }
 
   .me__area--path {
@@ -171,8 +175,10 @@ const items = await Promise.all(
   .me__area--jobs {
     grid-area: jobs;
     align-self: center;
-    align-items: flex-end;
-    text-align: right;
+    justify-self: end;
+    width: min(22em, 100%);
+    align-items: flex-start;
+    text-align: left;
   }
 
   .me__area--tools {
@@ -189,8 +195,10 @@ const items = await Promise.all(
   .me__area--status {
     grid-area: status;
     align-self: end;
-    align-items: flex-end;
-    text-align: right;
+    justify-self: end;
+    width: min(22em, 100%);
+    align-items: flex-start;
+    text-align: left;
   }
 
   .me__name {
@@ -205,6 +213,22 @@ const items = await Promise.all(
   .me__list {
     padding: 0;
     list-style: none;
+  }
+
+  .me__item {
+    padding-left: 1em;
+    text-indent: -1em;
+  }
+
+  .me__gap {
+    margin-top: 1.1em;
+  }
+
+  .me__list--skills {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    margin: 0;
   }
 
   .me__pile {
@@ -254,7 +278,8 @@ const items = await Promise.all(
       grid-template-areas:
         "hero hero"
         "path path"
-        "jobs tools"
+        "jobs jobs"
+        "tools tools"
         "status status";
       grid-template-rows: none;
       gap: 2rem 1.25rem;

@@ -13,6 +13,7 @@ const { lang } = Astro.props;
 const ui = useUi(lang);
 const copy = ui.showcase;
 const pad = (value: number) => String(value).padStart(2, "0");
+const about = [copy.identity, copy.jobs, copy.status];
 
 const projects = (await getProjects()).filter((project) => project.home);
 const items = await Promise.all(
@@ -45,7 +46,7 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
   <h1 class="show__hidden">Thomas Perruchot ({ui.handle}) — {ui.aboutPage.role.join(" ")}</h1>
 
   <div class="show__top">
-    <p class="show__small"><span data-current>{pad(start + 1)}</span> / <span data-total>{pad(items.length)}</span> {copy.works}</p>
+    <p class="show__small show__count"><span data-current>{pad(start + 1)}</span> / <span data-total>{pad(items.length)}</span> {copy.works}</p>
     <div class="show__filters" role="group">
       {
         filters.map((filter, index) => (
@@ -55,7 +56,19 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
         ))
       }
     </div>
-    <span></span>
+    <div class="show__info-wrap">
+      <button class="show__small show__info" type="button" data-about-toggle aria-expanded="false" aria-controls="show-about">[ {about[0][0]} ]</button>
+    </div>
+    <dl class="show__about" id="show-about" data-about>
+      {
+        about.map(([label, text]) => (
+          <div class="show__about-row">
+            <dt data-split>{label}</dt>
+            <dd data-split>{text}</dd>
+          </div>
+        ))
+      }
+    </dl>
   </div>
 
   <div class="show__stage" data-stage>
@@ -137,6 +150,68 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
   .show__filters {
     display: flex;
     gap: 1.2vw;
+  }
+
+  .show__info-wrap {
+    justify-self: end;
+  }
+
+  .show__info {
+    padding: 0.15em 0.55em;
+    cursor: pointer;
+    transition:
+      background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .show__info[aria-expanded="true"] {
+    background: var(--color-black);
+    color: var(--color-white);
+  }
+
+  @media (hover: hover) {
+    .show__info:hover {
+      background: var(--color-black);
+      color: var(--color-white);
+    }
+  }
+
+  .show__about {
+    position: absolute;
+    top: calc(100% + 0.9rem);
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9em;
+    width: min(26em, 100%);
+    margin: 0;
+    padding: 1.1em 1.2em;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    background: color-mix(in srgb, var(--color-white) 90%, transparent);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .show__about.is-open {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .show__about-row {
+    display: grid;
+    grid-template-columns: 6.5em 1fr;
+    gap: 0.8em;
+  }
+
+  .show__about-row dt {
+    color: var(--color-grey);
+  }
+
+  .show__about-row dd {
+    margin: 0;
   }
 
   .show__filter {
@@ -273,11 +348,7 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
 
   @media (max-width: 1100px) {
     .show__top {
-      grid-template-columns: auto minmax(0, 1fr);
-    }
-
-    .show__top > span:last-child {
-      display: none;
+      grid-template-columns: auto minmax(0, 1fr) auto;
     }
 
     .show__filters {
@@ -295,8 +366,28 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
     }
 
     .show__top {
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        "count info"
+        "filters filters";
       gap: 0.4rem;
+    }
+
+    .show__count {
+      grid-area: count;
+      align-self: center;
+    }
+
+    .show__info-wrap {
+      grid-area: info;
+    }
+
+    .show__info {
+      min-height: 44px;
+    }
+
+    .show__filters {
+      grid-area: filters;
     }
 
     .show__filters {
@@ -378,6 +469,7 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
 <script>
   import { goFrom } from "../../lib/wipe";
   import { getScroll } from "../../lib/scroll";
+  import { erase, split, write } from "../../lib/write";
 
   const show = document.querySelector<HTMLElement>("[data-show]");
   const stage = show?.querySelector<HTMLElement>("[data-stage]");
@@ -645,6 +737,34 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
     });
 
     filters.forEach((filter) => filter.addEventListener("click", () => setFilter(filter.dataset.filter ?? "all")));
+
+    const aboutBox = show.querySelector<HTMLElement>("[data-about]");
+    const aboutToggle = show.querySelector<HTMLButtonElement>("[data-about-toggle]");
+    if (aboutBox && aboutToggle) {
+      split(aboutBox);
+      let playing: { kill(): unknown } | null = null;
+      const setAbout = (open: boolean) => {
+        if (open === aboutBox.classList.contains("is-open")) return;
+        playing?.kill();
+        aboutToggle.setAttribute("aria-expanded", String(open));
+        if (open) {
+          aboutBox.classList.add("is-open");
+          playing = write(aboutBox);
+        } else {
+          const leaving = erase(aboutBox);
+          playing = leaving;
+          leaving.eventCallback("onComplete", () => aboutBox.classList.remove("is-open"));
+        }
+      };
+      aboutToggle.addEventListener("click", () => setAbout(!aboutBox.classList.contains("is-open")));
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") setAbout(false);
+      });
+      document.addEventListener("click", (event) => {
+        const target = event.target as Node | null;
+        if (target && !aboutBox.contains(target) && !aboutToggle.contains(target)) setAbout(false);
+      });
+    }
     window.addEventListener("resize", measure);
 
     measure();

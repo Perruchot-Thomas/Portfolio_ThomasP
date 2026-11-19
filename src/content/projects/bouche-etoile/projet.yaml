@@ -51,3 +51,7 @@ frames:
     text:
       fr: "l’étoile argentée, en relief, est mon signe : sidus veut dire astre en latin. posée dans la bouche, elle devient la voix qu’on s’apprête à entendre."
       en: "the embossed silver star is my sign: sidus means star in latin. placed in the mouth, it becomes the voice you are about to hear."
+  - image: ./rendu-3d.jpg
+    alt:
+      fr: "rendu 3D de la pochette du disque"
+      en: "3D render of the record sleeve"

@@ -229,3 +229,13 @@
     transition: opacity 0s;
   }
 }
+
+.split-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.split-char {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}

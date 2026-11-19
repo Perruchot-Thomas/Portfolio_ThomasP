@@ -30,7 +30,7 @@ const describe = (position: number) => {
 const roleFrame = project.role ? { kind: "role" as const } : null;
 const frames = project.frames.map((frame, position) =>
   frame.kind === "image"
-    ? { ...frame, number: pad(++figure), alt: [name, describe(position)].filter(Boolean).join(", "), sizes: `(max-width: 767px) 92vw, ${Math.round((64 * frame.image.width) / frame.image.height)}vh` }
+    ? { ...frame, number: pad(++figure), alt: frame.alt ? `${name}, ${frame.alt[lang]}` : [name, describe(position)].filter(Boolean).join(", "), sizes: `(max-width: 767px) 92vw, ${Math.round((64 * frame.image.width) / frame.image.height)}vh` }
     : { ...frame, number: "", alt: "", sizes: "" }
 );
 ---

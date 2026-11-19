@@ -4,7 +4,7 @@ import type { Lang } from "./i18n";
 
 type Localized = Record<Lang, string>;
 
-export type Frame = { kind: "image"; image: ImageMetadata; href?: string } | { kind: "note"; label: Localized; text: Localized };
+export type Frame = { kind: "image"; image: ImageMetadata; href?: string; alt?: Localized } | { kind: "note"; label: Localized; text: Localized };
 
 export interface Project {
   slug: string;
@@ -39,6 +39,6 @@ export const getProjects = async (): Promise<Project[]> => {
       vision: data.vision,
       role: data.role,
       cover: data.cover,
-      frames: data.frames.map((frame): Frame => ("image" in frame ? { kind: "image", image: frame.image, href: frame.href } : { kind: "note", label: frame.label, text: frame.text }))
+      frames: data.frames.map((frame): Frame => ("image" in frame ? { kind: "image", image: frame.image, href: frame.href, alt: frame.alt } : { kind: "note", label: frame.label, text: frame.text }))
     }));
 };

@@ -52,3 +52,7 @@ frames:
     text:
       fr: "le fond est directement lié aux thèmes du morceau, qui parle beaucoup d’orage et de ciel. j’ai construit un environnement dense et lourd, mais j’ai placé volontairement une légère lueur qui perce les nuages exactement là où regardent le corbeau et gliz. cette lumière crée un point focal, une direction claire et une lueur d’espoir dans une atmosphère sinon oppressante."
       en: "the background is directly tied to the track’s themes, which speak heavily about storms and the sky. i built a dense, heavy environment, but i intentionally placed a subtle glow breaking through the clouds exactly where the raven and gliz are looking. this light creates a focal point, giving a clear direction and a glimmer of purpose within an otherwise oppressive atmosphere."
+  - image: ./rendu-3d.jpg
+    alt:
+      fr: "rendu 3D de la pochette du disque"
+      en: "3D render of the record sleeve"
