@@ -495,6 +495,7 @@ const about = [ui.showcase.identity, ui.showcase.jobs, ui.showcase.status];
   const menu = document.getElementById("menu");
   const sheet = menu?.querySelector<HTMLElement>(".menu__sheet");
   const handle = document.querySelector<HTMLElement>("[data-menu-handle]");
+  const story = menu?.querySelector<HTMLElement>("[data-story]");
 
   if (menu && sheet && handle) {
     const maxHeight = () => Math.min(window.innerHeight, window.innerWidth < 768 ? Math.max(window.innerHeight * 0.78, 480) : Math.max(window.innerHeight * 0.7, 384));

@@ -58,17 +58,17 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
     </div>
     <div class="show__info-wrap">
       <button class="show__small show__info" type="button" data-about-toggle aria-expanded="false" aria-controls="show-about">[ {about[0][0]} ]</button>
+      <dl class="show__about" id="show-about" data-about>
+        {
+          about.map(([label, text]) => (
+            <div class="show__about-row">
+              <dt data-split>{label}</dt>
+              <dd data-split>{text}</dd>
+            </div>
+          ))
+        }
+      </dl>
     </div>
-    <dl class="show__about" id="show-about" data-about>
-      {
-        about.map(([label, text]) => (
-          <div class="show__about-row">
-            <dt data-split>{label}</dt>
-            <dd data-split>{text}</dd>
-          </div>
-        ))
-      }
-    </dl>
   </div>
 
   <div class="show__stage" data-stage>
@@ -153,6 +153,7 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
   }
 
   .show__info-wrap {
+    position: relative;
     justify-self: end;
   }
 
@@ -183,7 +184,7 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
     display: flex;
     flex-direction: column;
     gap: 0.9em;
-    width: min(26em, 100%);
+    width: min(26em, calc(100vw - var(--gutter) * 2));
     margin: 0;
     padding: 1.1em 1.2em;
     font-size: var(--text-small);
