@@ -186,12 +186,9 @@ const filters = [{ key: "all", label: ui.projectsPage.all }, ...categories.map((
     gap: 0.9em;
     width: min(26em, calc(100vw - var(--gutter) * 2));
     margin: 0;
-    padding: 1.1em 1.2em;
+    padding: 0;
     font-size: var(--text-small);
     line-height: var(--text-small--line-height);
-    background: color-mix(in srgb, var(--color-white) 90%, transparent);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
     visibility: hidden;
     pointer-events: none;
   }
